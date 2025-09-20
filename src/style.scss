@@ -1,0 +1,234 @@
+@import "../src/animation.scss";
+@import "../src/colors.scss";
+// @import "../src/fonts.scss";
+@import url('https://fonts.cdnfonts.com/css/poppins');
+@import "../src/media.scss";
+@import "../src/mixins.scss";
+
+* {
+    padding: 0rem;
+    margin: 0rem;
+    box-sizing: border-box;
+    font-family: 'Poppins';
+}
+
+html {
+    body {
+        header {
+            // border: 0.1rem solid green; // practice
+
+            width: 89.583%;
+            // height: 80px;
+            height: 0;
+            padding: 40px 0;
+            margin: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            .left,
+            .right {
+                display: flex;
+                align-items: center;
+                img {
+                    // border: 0.1rem solid green; // practice
+                    
+                    user-select: none;
+                }
+                img:hover {
+                    cursor: pointer;
+                }
+                span {
+                    user-select: none;
+                }
+                span:hover {
+                    cursor: pointer;
+                }
+            }
+            .left {
+                img {
+                    padding: 1.5px 3.75px;
+                    margin-right: 4px;
+                }
+                span {
+                    font-size: 16px;
+                    font-weight: 600;
+                }
+            }
+            .right {
+                #before-log-in {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    border: none;
+                    outline: none;
+                    background: none;
+                    img {
+                        padding: 2px 0px;
+                        padding-left: 3.39px;
+                        padding-right: 3.38px;
+                        margin: 1px 0px;
+                        margin-right: 8px;
+                    }
+                    span {
+                        font-size: 12px;
+                        font-weight: 500;
+                    }
+                }
+                #before-log-in:hover {
+                    cursor: pointer;
+                }
+            }
+        }
+        main {
+            .indicators {
+                border: 0.1rem solid green; // practice
+
+                width: 89.583%;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin: auto;
+                .left,
+                .right {
+                    display: flex;
+                    align-items: center;
+                    img,
+                    span {
+                        user-select: none;
+                    }
+                    img:hover,
+                    span:hover {
+                        cursor: pointer;
+                    }
+                }
+                .left {
+                    span {
+                        font-size: 42px;
+                        font-weight: 600;
+                    }
+                }
+                .right {
+                    .product-number-indicator {
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        margin: 3px 0px;
+                        span {
+                            font-size: 12px;
+                            font-weight: 400;
+                            margin: 2px 0px;
+                        }
+                    }
+                    .grey-vertical-line {
+                        margin: 5px 32px;
+                    }
+                    .grey-vertical-line:hover {
+                        cursor: none;
+                    }
+                    .filter-icon {
+                        margin: 4.5px 3.75px;
+                    }
+                    .filter {
+                        margin-left: 8px;
+                        margin-right: 32px;
+                        font-size: 16px;
+                        font-weight: 400;
+                    }
+                    .sorting-indicator {
+                        margin: 2px 0px;
+                        margin-right: 4px;
+                        font-size: 16px;
+                        font-weight: 400;
+                    }
+                    .dropdown-icon {
+                        margin: 0px 5px;
+                        margin-top: 10px;
+                        margin-bottom: 8.25px;
+                    }
+                }
+            }
+            .authorization {
+                display: flex;
+                user-select: none;
+                .left {
+                    border: 0.1rem solid blue;
+                    width: 49.375%;
+                    padding: 500px 0px;
+                    background-image: url("../images/modelsWalking.svg");
+                    background-position: center;
+                    background-repeat: no-repeat;
+                    background-size: cover;
+                }
+                .right {
+                    width: 50.625%;
+                    display: flex;
+                    border: 0.1rem solid green;
+                    #log-in {
+                        border: 0.1rem solid green;
+
+                        width: 56.99588477366255%;
+                        // width: 570px;
+                        display: flex;
+                        flex-direction: column;
+                        margin: auto;
+                        // margin-top: 241px;
+                        // margin-left: 173px;
+                        // margin-right: 245px;
+                        // margin-bottom: 408px;
+                        .log-in-header {
+                            width: 100%;
+                            font-size: 42px;
+                            font-weight: 600;
+                            margin-bottom: 48px;
+                        }
+                        input {
+                            width: 100%;
+                            height: 42px;
+                            padding: 0px 12px;
+                            outline: none;
+                            border: 0.1rem solid $color_4;
+                            border-radius: 8px;
+                        }
+                        .password {
+                            margin-top: 24px;
+                            margin-bottom: 46px;
+                        }
+                        .log-in-button {
+                            width: 100%;
+                            height: 41px;
+                            padding: 10px 20px;
+                            margin-bottom: 24px;
+                            outline: none;
+                            border: none;
+                            border-radius: 10px;
+                            background-color: $color_7;
+                            .log-in-button-text {
+                                color: $color_1;
+                                font-size: 14px;
+                                font-weight: 400;
+                            }
+                        }
+                        .redirection {
+                            width: 100%;
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            span {
+                                font-size: 14px;
+                            }
+                            .not-member {
+                                margin-right: 4px;
+                                font-weight: 400;
+                            }
+                            .registration-url {
+                                margin-left: 4px;
+                                font-weight: 500;
+                                color: $color_7;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
