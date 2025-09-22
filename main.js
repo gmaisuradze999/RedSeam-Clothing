@@ -29,15 +29,88 @@ function router() {
   loadingPage(hash);
 }
 
-// --- hash ცვლილებაზე loadPage იძახება მხოლოდ router-ის გავლით ---
+// This is for the orange '*' that cannot be seperate color whilst also being part of the input's placeholder
 
-window.addEventListener("hashchange", router);
+function fakePlaceholderDisplay(element, event) {
+  const fakePlaceholder =
+    element.parentElement.querySelector(".fake-placeholder");
 
-// --- პირველი ჩატვირთვა ---
-document.addEventListener("DOMContentLoaded", () => {
-  router();
-  // Click listener მხოლოდ hash-ს ცვლის
-  const beforeLogIn = document.getElementById("before-log-in");
-  if (beforeLogIn)
-    beforeLogIn.addEventListener("click", () => (location.hash = "/auth"));
-});
+  // თუ კლავიატურიდან წაშლის ღილაკები (Backspace, Delete) ან value ცარიელია
+  if (
+    (event.key === "Backspace" || event.key === "Delete") &&
+    element.value.length == 1
+  ) {
+    fakePlaceholder.style.display = "block"; // აჩვენებს placeholder-ს
+  } else if (event.key != "Backspace" && event.key != "Delete") {
+    fakePlaceholder.style.display = "none"; // დამალვა, თუ არის ტექსტი
+  }
+}
+
+// This is for the customised eye symbol for the password type input tag
+
+function fakeEyeDisplay(element) {
+  const passwordInput = element.parentElement.querySelector(".password");
+
+  if (passwordInput.type == "password") {
+    passwordInput.type = "text";
+  } else {
+    passwordInput.type = "password";
+  }
+}
+
+function profilePictureSelector(element) {
+  const file = element.files[0]; // მხოლოდ პირველი (და ერთადერთი) ფაილი
+  const profilePicture = document.querySelector("#profile-picture");
+
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      console.log(e);
+
+      profilePicture.style.backgroundImage = `url(${e.target.result})`;
+    };
+    reader.readAsDataURL(file);
+  }
+}
+
+function profilePictureRemoval(element) {
+  const profilePicture = document.getElementById("profile-picture");
+  const fileInput = document.getElementById("file-input");
+  fileInput.value = ""; // input-ის გასუფთავება
+  profilePicture.style.backgroundImage = "url('./images/personSiluet.svg')";
+}
+
+function switchLogInRegistration(value) {
+  const logIn = document.querySelector("html body main .authorization .right #log-in")
+  const registration = document.querySelector("html body main .authorization .right #registration")
+  if (value == "Log in") {
+    registration.style.display = "none";
+    logIn.style.display = "flex";
+  }
+  else if (value == "Registration") {
+    registration.style.display = "flex";
+    logIn.style.display = "none";
+  }
+}
+
+async function main() {
+  // --- hash ცვლილებაზე loadPage იძახება მხოლოდ router-ის გავლით ---
+
+  window.addEventListener("hashchange", router);
+
+  // --- პირველი ჩატვირთვა ---
+  document.addEventListener("DOMContentLoaded", () => {
+    router();
+    // Click listener მხოლოდ hash-ს ცვლის
+    const beforeLogIn = document.getElementById("before-log-in");
+    if (beforeLogIn) {
+      beforeLogIn.addEventListener("click", () => (location.hash = "/auth"));
+    }
+    const mainLogo = document.getElementById("mainLogo");
+    if (mainLogo) {
+      mainLogo.addEventListener("click", () => (location.hash = "/products"));
+    }
+  });
+}
+
+main();

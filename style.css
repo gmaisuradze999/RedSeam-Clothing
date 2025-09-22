@@ -137,10 +137,9 @@ html body main .authorization {
   user-select: none;
 }
 html body main .authorization .left {
-  border: 0.1rem solid blue;
   width: 49.375%;
   padding: 500px 0px;
-  background-image: url("../images/modelsWalking.svg");
+  background-image: url("./images/modelsWalking.svg");
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -148,14 +147,16 @@ html body main .authorization .left {
 html body main .authorization .right {
   width: 50.625%;
   display: flex;
-  border: 0.1rem solid green;
 }
 html body main .authorization .right #log-in {
-  border: 0.1rem solid green;
   width: 56.9958847737%;
   display: flex;
   flex-direction: column;
   margin: auto;
+  margin-top: 241px;
+  margin-left: 173px;
+  margin-right: 245px;
+  margin-bottom: 408px;
 }
 html body main .authorization .right #log-in .log-in-header {
   width: 100%;
@@ -163,7 +164,18 @@ html body main .authorization .right #log-in .log-in-header {
   font-weight: 600;
   margin-bottom: 48px;
 }
-html body main .authorization .right #log-in input {
+html body main .authorization .right #log-in .input-container .email-username-container,
+html body main .authorization .right #log-in .input-container .password-container {
+  position: relative;
+}
+html body main .authorization .right #log-in .input-container .email-username-container .fake-placeholder,
+html body main .authorization .right #log-in .input-container .password-container .fake-placeholder {
+  position: absolute;
+  top: 6.5px;
+  color: #ff4000;
+}
+html body main .authorization .right #log-in .input-container .email-username-container input,
+html body main .authorization .right #log-in .input-container .password-container input {
   width: 100%;
   height: 42px;
   padding: 0px 12px;
@@ -171,9 +183,37 @@ html body main .authorization .right #log-in input {
   border: 0.1rem solid #e1dfe1;
   border-radius: 8px;
 }
-html body main .authorization .right #log-in .password {
+html body main .authorization .right #log-in .input-container .email-username-container input::placeholder,
+html body main .authorization .right #log-in .input-container .password-container input::placeholder {
+  color: #3e424a;
+  font-size: 14px;
+  font-weight: 400;
+}
+html body main .authorization .right #log-in .input-container .email-username-container .fake-placeholder {
+  left: 148px;
+}
+html body main .authorization .right #log-in .input-container .password-container {
   margin-top: 24px;
   margin-bottom: 46px;
+}
+html body main .authorization .right #log-in .input-container .password-container .fake-placeholder {
+  left: 83px;
+}
+html body main .authorization .right #log-in .input-container .password-container .password {
+  padding-right: 44px;
+}
+html body main .authorization .right #log-in .input-container .password-container .password::-ms-reveal,
+html body main .authorization .right #log-in .input-container .password-container .password::-ms-clear {
+  display: none;
+}
+html body main .authorization .right #log-in .input-container .password-container .eye-icon {
+  position: absolute;
+  padding: 3.75px 1.65px;
+  right: 12px;
+  top: 10px;
+}
+html body main .authorization .right #log-in .input-container .password-container .eye-icon:hover {
+  cursor: pointer;
 }
 html body main .authorization .right #log-in .log-in-button {
   width: 100%;
@@ -189,6 +229,9 @@ html body main .authorization .right #log-in .log-in-button .log-in-button-text 
   color: white;
   font-size: 14px;
   font-weight: 400;
+}
+html body main .authorization .right #log-in .log-in-button:hover {
+  cursor: pointer;
 }
 html body main .authorization .right #log-in .redirection {
   width: 100%;
@@ -207,6 +250,176 @@ html body main .authorization .right #log-in .redirection .registration-url {
   margin-left: 4px;
   font-weight: 500;
   color: #ff4000;
+}
+html body main .authorization .right #log-in .redirection .registration-url {
+  cursor: pointer;
+}
+html body main .authorization .right #registration {
+  width: 56.9958847737%;
+  display: none;
+  flex-direction: column;
+  margin-top: 152px;
+  margin-left: 173px;
+  margin-right: 245px;
+  margin-bottom: 219px;
+}
+html body main .authorization .right #registration .registration-header {
+  font-size: 42px;
+  font-weight: 600;
+}
+html body main .authorization .right #registration .picture-container {
+  margin-top: 48px;
+  margin-bottom: 46px;
+}
+html body main .authorization .right #registration .picture-container .file-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+html body main .authorization .right #registration .picture-container .file-input-wrapper #profile-picture {
+  border-radius: 50%;
+  padding: 50px;
+  background-image: url("./images/personSiluet.svg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+html body main .authorization .right #registration .picture-container .file-input-wrapper #file-input {
+  opacity: 0;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+html body main .authorization .right #registration .picture-container .file-input-wrapper .upload-new-image {
+  display: flex;
+  margin: 0px 15px;
+  font-size: 14px;
+}
+html body main .authorization .right #registration .picture-container .file-input-wrapper .remove-image {
+  font-size: 14px;
+}
+html body main .authorization .right #registration .picture-container .file-input-wrapper .upload-new-image,
+html body main .authorization .right #registration .picture-container .file-input-wrapper .remove-image {
+  cursor: pointer;
+}
+html body main .authorization .right #registration .input-container {
+  display: flex;
+  flex-direction: column;
+}
+html body main .authorization .right #registration .input-container .username-input-container,
+html body main .authorization .right #registration .input-container .email-input-container,
+html body main .authorization .right #registration .input-container .password-input-container,
+html body main .authorization .right #registration .input-container .confirm-password-input-container {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+html body main .authorization .right #registration .input-container .username-input-container .fake-placeholder,
+html body main .authorization .right #registration .input-container .email-input-container .fake-placeholder,
+html body main .authorization .right #registration .input-container .password-input-container .fake-placeholder,
+html body main .authorization .right #registration .input-container .confirm-password-input-container .fake-placeholder {
+  position: absolute;
+  top: 6.5px;
+  color: #ff4000;
+}
+html body main .authorization .right #registration .input-container .username-input-container input,
+html body main .authorization .right #registration .input-container .email-input-container input,
+html body main .authorization .right #registration .input-container .password-input-container input,
+html body main .authorization .right #registration .input-container .confirm-password-input-container input {
+  width: 100%;
+  height: 42px;
+  padding: 0px 12px;
+  margin-bottom: 24px;
+  outline: none;
+  border: 0.1rem solid #e1dfe1;
+  border-radius: 8px;
+}
+html body main .authorization .right #registration .input-container .username-input-container input::placeholder,
+html body main .authorization .right #registration .input-container .email-input-container input::placeholder,
+html body main .authorization .right #registration .input-container .password-input-container input::placeholder,
+html body main .authorization .right #registration .input-container .confirm-password-input-container input::placeholder {
+  color: #3e424a;
+  font-size: 14px;
+  font-weight: 400;
+}
+html body main .authorization .right #registration .input-container .username-input-container .fake-placeholder {
+  left: 86px;
+}
+html body main .authorization .right #registration .input-container .email-input-container .fake-placeholder {
+  left: 52px;
+}
+html body main .authorization .right #registration .input-container .password-input-container .password,
+html body main .authorization .right #registration .input-container .confirm-password-input-container .password {
+  padding-right: 44px;
+}
+html body main .authorization .right #registration .input-container .password-input-container .eye-icon,
+html body main .authorization .right #registration .input-container .confirm-password-input-container .eye-icon {
+  position: absolute;
+  padding: 3.75px 1.65px;
+  right: 12px;
+  top: 10px;
+}
+html body main .authorization .right #registration .input-container .password-input-container .eye-icon:hover,
+html body main .authorization .right #registration .input-container .confirm-password-input-container .eye-icon:hover {
+  cursor: pointer;
+}
+html body main .authorization .right #registration .input-container .password-input-container .password-input::-ms-reveal,
+html body main .authorization .right #registration .input-container .password-input-container .password-input::-ms-clear {
+  display: none;
+}
+html body main .authorization .right #registration .input-container .password-input-container .fake-placeholder {
+  left: 81px;
+}
+html body main .authorization .right #registration .input-container .confirm-password-input-container .confirm-password-input::-ms-reveal,
+html body main .authorization .right #registration .input-container .confirm-password-input-container .confirm-password-input::-ms-clear {
+  display: none;
+}
+html body main .authorization .right #registration .input-container .confirm-password-input-container .fake-placeholder {
+  left: 141px;
+}
+html body main .authorization .right #registration .input-container .confirm-password-input-container .confirm-password-input {
+  margin-bottom: 0rem;
+}
+html body main .authorization .right #registration .registration-button {
+  width: 100%;
+  height: 41px;
+  padding: 10px 20px;
+  margin-top: 46px;
+  margin-bottom: 24px;
+  outline: none;
+  border: none;
+  border-radius: 10px;
+  background-color: #ff4000;
+}
+html body main .authorization .right #registration .registration-button .registration-button-text {
+  color: white;
+  font-size: 14px;
+  font-weight: 400;
+}
+html body main .authorization .right #registration .registration-button:hover {
+  cursor: pointer;
+}
+html body main .authorization .right #registration .rerouting {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+html body main .authorization .right #registration .rerouting span {
+  font-size: 14px;
+}
+html body main .authorization .right #registration .rerouting .already-member {
+  margin-right: 4px;
+  font-weight: 400;
+}
+html body main .authorization .right #registration .rerouting .log-in-url {
+  margin-left: 4px;
+  font-weight: 500;
+  color: #ff4000;
+}
+html body main .authorization .right #registration .rerouting .log-in-url {
+  cursor: pointer;
 }
 
 /*# sourceMappingURL=style.css.map */

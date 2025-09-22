@@ -1,234 +1,462 @@
 @import "../src/animation.scss";
 @import "../src/colors.scss";
 // @import "../src/fonts.scss";
-@import url('https://fonts.cdnfonts.com/css/poppins');
+@import url("https://fonts.cdnfonts.com/css/poppins");
 @import "../src/media.scss";
 @import "../src/mixins.scss";
 
 * {
-    padding: 0rem;
-    margin: 0rem;
-    box-sizing: border-box;
-    font-family: 'Poppins';
+  padding: 0rem;
+  margin: 0rem;
+  box-sizing: border-box;
+  font-family: "Poppins";
 }
 
 html {
-    body {
-        header {
-            // border: 0.1rem solid green; // practice
+  body {
+    header {
+      // border: 0.1rem solid green; // practice
 
-            width: 89.583%;
-            // height: 80px;
-            height: 0;
-            padding: 40px 0;
-            margin: auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            .left,
-            .right {
-                display: flex;
-                align-items: center;
-                img {
-                    // border: 0.1rem solid green; // practice
-                    
-                    user-select: none;
-                }
-                img:hover {
-                    cursor: pointer;
-                }
-                span {
-                    user-select: none;
-                }
-                span:hover {
-                    cursor: pointer;
-                }
-            }
-            .left {
-                img {
-                    padding: 1.5px 3.75px;
-                    margin-right: 4px;
-                }
-                span {
-                    font-size: 16px;
-                    font-weight: 600;
-                }
-            }
-            .right {
-                #before-log-in {
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: center;
-                    border: none;
-                    outline: none;
-                    background: none;
-                    img {
-                        padding: 2px 0px;
-                        padding-left: 3.39px;
-                        padding-right: 3.38px;
-                        margin: 1px 0px;
-                        margin-right: 8px;
-                    }
-                    span {
-                        font-size: 12px;
-                        font-weight: 500;
-                    }
-                }
-                #before-log-in:hover {
-                    cursor: pointer;
-                }
-            }
+      width: 89.583%;
+      // height: 80px;
+      height: 0;
+      padding: 40px 0;
+      margin: auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      .left,
+      .right {
+        display: flex;
+        align-items: center;
+        img {
+          // border: 0.1rem solid green; // practice
+
+          user-select: none;
         }
-        main {
-            .indicators {
-                border: 0.1rem solid green; // practice
-
-                width: 89.583%;
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                margin: auto;
-                .left,
-                .right {
-                    display: flex;
-                    align-items: center;
-                    img,
-                    span {
-                        user-select: none;
-                    }
-                    img:hover,
-                    span:hover {
-                        cursor: pointer;
-                    }
-                }
-                .left {
-                    span {
-                        font-size: 42px;
-                        font-weight: 600;
-                    }
-                }
-                .right {
-                    .product-number-indicator {
-                        display: flex;
-                        justify-content: center;
-                        align-items: center;
-                        margin: 3px 0px;
-                        span {
-                            font-size: 12px;
-                            font-weight: 400;
-                            margin: 2px 0px;
-                        }
-                    }
-                    .grey-vertical-line {
-                        margin: 5px 32px;
-                    }
-                    .grey-vertical-line:hover {
-                        cursor: none;
-                    }
-                    .filter-icon {
-                        margin: 4.5px 3.75px;
-                    }
-                    .filter {
-                        margin-left: 8px;
-                        margin-right: 32px;
-                        font-size: 16px;
-                        font-weight: 400;
-                    }
-                    .sorting-indicator {
-                        margin: 2px 0px;
-                        margin-right: 4px;
-                        font-size: 16px;
-                        font-weight: 400;
-                    }
-                    .dropdown-icon {
-                        margin: 0px 5px;
-                        margin-top: 10px;
-                        margin-bottom: 8.25px;
-                    }
-                }
-            }
-            .authorization {
-                display: flex;
-                user-select: none;
-                .left {
-                    border: 0.1rem solid blue;
-                    width: 49.375%;
-                    padding: 500px 0px;
-                    background-image: url("../images/modelsWalking.svg");
-                    background-position: center;
-                    background-repeat: no-repeat;
-                    background-size: cover;
-                }
-                .right {
-                    width: 50.625%;
-                    display: flex;
-                    border: 0.1rem solid green;
-                    #log-in {
-                        border: 0.1rem solid green;
-
-                        width: 56.99588477366255%;
-                        // width: 570px;
-                        display: flex;
-                        flex-direction: column;
-                        margin: auto;
-                        // margin-top: 241px;
-                        // margin-left: 173px;
-                        // margin-right: 245px;
-                        // margin-bottom: 408px;
-                        .log-in-header {
-                            width: 100%;
-                            font-size: 42px;
-                            font-weight: 600;
-                            margin-bottom: 48px;
-                        }
-                        input {
-                            width: 100%;
-                            height: 42px;
-                            padding: 0px 12px;
-                            outline: none;
-                            border: 0.1rem solid $color_4;
-                            border-radius: 8px;
-                        }
-                        .password {
-                            margin-top: 24px;
-                            margin-bottom: 46px;
-                        }
-                        .log-in-button {
-                            width: 100%;
-                            height: 41px;
-                            padding: 10px 20px;
-                            margin-bottom: 24px;
-                            outline: none;
-                            border: none;
-                            border-radius: 10px;
-                            background-color: $color_7;
-                            .log-in-button-text {
-                                color: $color_1;
-                                font-size: 14px;
-                                font-weight: 400;
-                            }
-                        }
-                        .redirection {
-                            width: 100%;
-                            display: flex;
-                            justify-content: center;
-                            align-items: center;
-                            span {
-                                font-size: 14px;
-                            }
-                            .not-member {
-                                margin-right: 4px;
-                                font-weight: 400;
-                            }
-                            .registration-url {
-                                margin-left: 4px;
-                                font-weight: 500;
-                                color: $color_7;
-                            }
-                        }
-                    }
-                }
-            }
+        img:hover {
+          cursor: pointer;
         }
+        span {
+          user-select: none;
+        }
+        span:hover {
+          cursor: pointer;
+        }
+      }
+      .left {
+        img {
+          padding: 1.5px 3.75px;
+          margin-right: 4px;
+        }
+        span {
+          font-size: 16px;
+          font-weight: 600;
+        }
+      }
+      .right {
+        #before-log-in {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          border: none;
+          outline: none;
+          background: none;
+          img {
+            padding: 2px 0px;
+            padding-left: 3.39px;
+            padding-right: 3.38px;
+            margin: 1px 0px;
+            margin-right: 8px;
+          }
+          span {
+            font-size: 12px;
+            font-weight: 500;
+          }
+        }
+        #before-log-in:hover {
+          cursor: pointer;
+        }
+      }
     }
+    main {
+      .indicators {
+        border: 0.1rem solid green; // practice
+
+        width: 89.583%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: auto;
+        .left,
+        .right {
+          display: flex;
+          align-items: center;
+          img,
+          span {
+            user-select: none;
+          }
+          img:hover,
+          span:hover {
+            cursor: pointer;
+          }
+        }
+        .left {
+          span {
+            font-size: 42px;
+            font-weight: 600;
+          }
+        }
+        .right {
+          .product-number-indicator {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 3px 0px;
+            span {
+              font-size: 12px;
+              font-weight: 400;
+              margin: 2px 0px;
+            }
+          }
+          .grey-vertical-line {
+            margin: 5px 32px;
+          }
+          .grey-vertical-line:hover {
+            cursor: none;
+          }
+          .filter-icon {
+            margin: 4.5px 3.75px;
+          }
+          .filter {
+            margin-left: 8px;
+            margin-right: 32px;
+            font-size: 16px;
+            font-weight: 400;
+          }
+          .sorting-indicator {
+            margin: 2px 0px;
+            margin-right: 4px;
+            font-size: 16px;
+            font-weight: 400;
+          }
+          .dropdown-icon {
+            margin: 0px 5px;
+            margin-top: 10px;
+            margin-bottom: 8.25px;
+          }
+        }
+      }
+      .authorization {
+        display: flex;
+        user-select: none;
+        .left {
+          width: 49.375%;
+          padding: 500px 0px;
+          background-image: url("./images/modelsWalking.svg");
+          background-position: center;
+          background-repeat: no-repeat;
+          background-size: cover;
+        }
+        .right {
+          width: 50.625%;
+          display: flex;
+          #log-in {
+            // border: 0.1rem solid green;
+
+            width: 56.99588477366255%;
+            // width: 570px;
+            display: flex;
+            flex-direction: column;
+            margin: auto;
+            margin-top: 241px;
+            margin-left: 173px;
+            margin-right: 245px;
+            margin-bottom: 408px;
+            .log-in-header {
+              width: 100%;
+              font-size: 42px;
+              font-weight: 600;
+              margin-bottom: 48px;
+            }
+            .input-container {
+              .email-username-container,
+              .password-container {
+                // border: 0.1rem solid green;
+                position: relative;
+                .fake-placeholder {
+                  position: absolute;
+                  top: 6.5px;
+                  color: $color_7;
+                  // border: 0.1rem solid green;
+                }
+                input {
+                  width: 100%;
+                  height: 42px;
+                  padding: 0px 12px;
+                  outline: none;
+                  border: 0.1rem solid $color_4;
+                  border-radius: 8px;
+                  &::placeholder {
+                    color: $color_6;
+                    font-size: 14px;
+                    font-weight: 400;
+                    // border: 0.1rem solid blue;
+                  }
+                }
+              }
+              .email-username-container {
+                .fake-placeholder {
+                  left: 148px;
+                }
+              }
+              .password-container {
+                margin-top: 24px;
+                margin-bottom: 46px;
+                .fake-placeholder {
+                  left: 83px;
+                }
+                .password {
+                  padding-right: 44px;
+                }
+                .password::-ms-reveal,
+                .password::-ms-clear {
+                  display: none;
+                }
+                .eye-icon {
+                  position: absolute;
+                  padding: 3.75px 1.65px;
+                  right: 12px;
+                  top: 10px;
+                }
+                .eye-icon:hover {
+                  cursor: pointer;
+                }
+              }
+            }
+            .log-in-button {
+              width: 100%;
+              height: 41px;
+              padding: 10px 20px;
+              margin-bottom: 24px;
+              outline: none;
+              border: none;
+              border-radius: 10px;
+              background-color: $color_7;
+              .log-in-button-text {
+                color: $color_1;
+                font-size: 14px;
+                font-weight: 400;
+              }
+            }
+            .log-in-button:hover {
+              cursor: pointer;
+            }
+            .redirection {
+              width: 100%;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              span {
+                font-size: 14px;
+              }
+              .not-member {
+                margin-right: 4px;
+                font-weight: 400;
+              }
+              .registration-url {
+                margin-left: 4px;
+                font-weight: 500;
+                color: $color_7;
+              }
+              .registration-url {
+                cursor: pointer;
+              }
+            }
+          }
+          #registration {
+            width: 56.99588477366255%;
+            display: none;
+            flex-direction: column;
+            margin-top: 152px;
+            margin-left: 173px;
+            margin-right: 245px;
+            margin-bottom: 219px;
+            .registration-header {
+              font-size: 42px;
+              font-weight: 600;
+            }
+            .picture-container {
+              margin-top: 48px;
+              margin-bottom: 46px;
+              .file-input-wrapper {
+                position: relative;
+                display: flex;
+                align-items: center;
+                #profile-picture {
+                  border-radius: 50%;
+                  padding: 50px;
+                  background-image: url("./images/personSiluet.svg");
+                  background-position: center;
+                  background-repeat: no-repeat;
+                  background-size: cover;
+                }
+                #file-input {
+                  opacity: 0;
+                  position: absolute;
+                  left: 0;
+                  top: 0;
+                }
+                .upload-new-image {
+                  display: flex;
+                  margin: 0px 15px;
+                  font-size: 14px;
+                }
+                .remove-image {
+                  font-size: 14px;
+                }
+                .upload-new-image,
+                .remove-image {
+                  cursor: pointer;
+                }
+              }
+            }
+            .input-container {
+              display: flex;
+              flex-direction: column;
+              .username-input-container,
+              .email-input-container,
+              .password-input-container,
+              .confirm-password-input-container {
+                position: relative;
+                width: 100%;
+                display: flex;
+                align-items: center;
+                .fake-placeholder {
+                  position: absolute;
+                  top: 6.5px;
+                  color: $color_7;
+                  // border: 0.1rem solid green;
+                }
+                input {
+                  width: 100%;
+                  height: 42px;
+                  padding: 0px 12px;
+                  margin-bottom: 24px;
+                  outline: none;
+                  border: 0.1rem solid $color_4;
+                  border-radius: 8px;
+                  &::placeholder {
+                    color: $color_6;
+                    font-size: 14px;
+                    font-weight: 400;
+                    // border: 0.1rem solid blue;
+                  }
+                }
+              }
+              .username-input-container {
+                .fake-placeholder {
+                  left: 86px;
+                }
+              }
+              .email-input-container {
+                .fake-placeholder {
+                  left: 52px;
+                }
+              }
+              .password-input-container,
+              .confirm-password-input-container {
+                .password {
+                  padding-right: 44px;
+                }
+                .eye-icon {
+                  position: absolute;
+                  padding: 3.75px 1.65px;
+                  right: 12px;
+                  top: 10px;
+                }
+                .eye-icon:hover {
+                  cursor: pointer;
+                }
+              }
+              .password-input-container {
+                .password-input::-ms-reveal,
+                .password-input::-ms-clear {
+                  display: none;
+                }
+                .fake-placeholder {
+                  left: 81px;
+                }
+              }
+              .confirm-password-input-container {
+                .confirm-password-input::-ms-reveal,
+                .confirm-password-input::-ms-clear {
+                  display: none;
+                }
+                .fake-placeholder {
+                  left: 141px;
+                }
+                .confirm-password-input {
+                  margin-bottom: 0rem;
+                }
+              }
+            }
+            .registration-button {
+              width: 100%;
+              height: 41px;
+              padding: 10px 20px;
+              margin-top: 46px;
+              margin-bottom: 24px;
+              outline: none;
+              border: none;
+              border-radius: 10px;
+              background-color: $color_7;
+              .registration-button-text {
+                color: $color_1;
+                font-size: 14px;
+                font-weight: 400;
+              }
+            }
+            .registration-button:hover {
+                cursor: pointer;
+            }
+            .rerouting {
+              width: 100%;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              span {
+                font-size: 14px;
+              }
+              .already-member {
+                margin-right: 4px;
+                font-weight: 400;
+              }
+              .log-in-url {
+                margin-left: 4px;
+                font-weight: 500;
+                color: $color_7;
+              }
+              .log-in-url {
+                cursor: pointer;
+              }
+            }
+            // margin: auto;
+            // margin-top: 241px;
+            // margin-left: 173px;
+            // margin-right: 245px;
+            // margin-bottom: 408px;
+          }
+        }
+      }
+      // .products {
+      //     border: 0.1rem solid green;
+      //     padding: 500px 0px;
+      //     background-image: url("./images/apple.png");
+      //     background-position: center;
+      //     background-repeat: no-repeat;
+      //     background-size: cover;
+      // }
+    }
+  }
 }
