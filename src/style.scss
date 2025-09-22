@@ -401,6 +401,13 @@ html {
                 }
               }
             }
+            .error-message {
+              margin-top: 8px;
+              font-size: 14px;
+              p {
+                color: $color_7;
+              }
+            }
             .registration-button {
               width: 100%;
               height: 41px;

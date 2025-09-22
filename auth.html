@@ -10,6 +10,7 @@
             type="text"
             placeholder="Email or username"
             class="email-or-username"
+            required
             onkeydown="fakePlaceholderDisplay(this, event)"
           />
         </div>
@@ -19,6 +20,7 @@
             type="password"
             placeholder="Password"
             class="password"
+            required
             onkeydown="fakePlaceholderDisplay(this, event)"
           />
           <img
@@ -42,7 +44,7 @@
       <div class="picture-container">
         <div class="file-input-wrapper">
           <div id="profile-picture"></div>
-          <input type="file" id="file-input" onchange="profilePictureSelector(this)" hidden>
+          <input type="file" id="file-input" name="file-input" onchange="profilePictureSelector(this)" hidden>
           <label for="file-input" class="upload-new-image">Upload new</label>
           <span class="remove-image" id="file-name" onclick="profilePictureRemoval(this)">Remove</span>
         </div>
@@ -54,6 +56,8 @@
             type="text"
             placeholder="Username"
             class="username-input"
+            required
+            name="username"
             onkeydown="fakePlaceholderDisplay(this, event)"
           />
         </div>
@@ -63,6 +67,8 @@
             type="email"
             placeholder="Email"
             class="email-input"
+            name="email"
+            required
             onkeydown="fakePlaceholderDisplay(this, event)"
           />
         </div>
@@ -72,6 +78,8 @@
             type="password"
             placeholder="Password"
             class="password-input password"
+            name="password"
+            required
             onkeydown="fakePlaceholderDisplay(this, event)"
           />
           <img
@@ -87,6 +95,8 @@
             type="password"
             placeholder="Confirm Password"
             class="confirm-password-input password"
+            name="confirm-password"
+            required
             onkeydown="fakePlaceholderDisplay(this, event)"
           />
           <img
@@ -97,7 +107,8 @@
           />
         </div>
       </div>
-      <button class="registration-button">
+      <div class="error-message"></div>
+      <button type="button" class="registration-button" onclick="registration()">
         <span class="registration-button-text"> Register </span>
       </button>
       <div class="rerouting">

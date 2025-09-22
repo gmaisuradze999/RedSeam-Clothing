@@ -1,3 +1,5 @@
+const API_URL = "https://api.redseam.redberryinternship.ge/api";
+
 // Loading any page function
 
 function loadingPage(page) {
@@ -58,6 +60,8 @@ function fakeEyeDisplay(element) {
   }
 }
 
+// This function is used to upload the profile picture
+
 function profilePictureSelector(element) {
   const file = element.files[0]; // მხოლოდ პირველი (და ერთადერთი) ფაილი
   const profilePicture = document.querySelector("#profile-picture");
@@ -73,12 +77,16 @@ function profilePictureSelector(element) {
   }
 }
 
+// This function is used to remove the profile picture
+
 function profilePictureRemoval(element) {
   const profilePicture = document.getElementById("profile-picture");
   const fileInput = document.getElementById("file-input");
   fileInput.value = ""; // input-ის გასუფთავება
   profilePicture.style.backgroundImage = "url('./images/personSiluet.svg')";
 }
+
+// This function is used by the $color_7 text at the end of log in/registrtion page to switch to and from each other
 
 function switchLogInRegistration(value) {
   const logIn = document.querySelector("html body main .authorization .right #log-in")
@@ -90,6 +98,97 @@ function switchLogInRegistration(value) {
   else if (value == "Registration") {
     registration.style.display = "flex";
     logIn.style.display = "none";
+  }
+}
+
+async function Register(email, username, password, file) {
+  const formData = new FormData();
+  formData.append("username", username);
+  formData.append("email", email);
+  formData.append("password", password);
+  formData.append("password_confirmation", password);
+  
+  if (file) {
+    formData.append("avatar", file); // თუ ფაილი სერვერზე ამ key-თაა საჭირო
+  }
+
+  const response = await fetch(`${API_URL}/register`, {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      // Content-Type არ უნდა ჩავწეროთ ხელით, 
+      // FormData თვითონ აგენერირებს სწორ boundary-ს
+    },
+    body: formData
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.message || "Registration failed");
+  }
+
+  return data;
+}
+
+async function registration() {
+  const fileInput = document.getElementById("file-input");
+  const usernameInput = document.querySelector("html body main .authorization .right #registration .input-container .username-input-container .username-input");
+  const emailInput = document.querySelector("html body main .authorization .right #registration .input-container .email-input-container .email-input");
+  const passwordInput = document.querySelector("html body main .authorization .right #registration .input-container .password-input-container .password-input");
+  const confirmPasswordInput = document.querySelector("html body main .authorization .right #registration .input-container .confirm-password-input-container .confirm-password-input");
+  const errorMessageDiv = document.querySelector("html body main .authorization .right #registration .error-message");
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  errorMessageDiv.innerHTML = ``;
+
+  if (usernameInput.value.length < 3) {
+    errorMessageDiv.innerHTML += `
+      <p>
+        * The username length must be minimum 3 charachters long!
+      </p>
+    `;
+    
+  }
+  
+  if (!emailRegex.test(emailInput.value)) {
+    errorMessageDiv.innerHTML += `
+      <p>
+        * The email format is incorrect!
+      </p>
+    `;
+  }
+  
+  if (passwordInput.value.length < 8) {
+    errorMessageDiv.innerHTML += `
+      <p>
+        * The password must be minimum 8 charachters long!
+      </p>
+    `;
+  }
+  
+  if (passwordInput.value != confirmPasswordInput.value) {
+    errorMessageDiv.innerHTML += `
+      <p>
+        * The the password is not matching!
+      </p>
+    `;
+  }
+
+  if (errorMessageDiv.innerHTML == ``) {
+    try {
+      const data = await Register(emailInput.value, usernameInput.value, passwordInput.value, fileInput.files[0]);
+
+      switchLogInRegistration("Log in");
+      console.log(data);
+    }
+    catch (error) {
+      errorMessageDiv.innerHTML = `
+        <p>
+          * ${error.message}!
+        </p>
+      `;
+    }
   }
 }
 
