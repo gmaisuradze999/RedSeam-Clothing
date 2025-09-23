@@ -1,3 +1,4 @@
+let products = [];
 const API_URL = "https://api.redseam.redberryinternship.ge/api";
 let registrationLoading = false;
 let logInLoading = false;
@@ -308,7 +309,7 @@ async function auth() {
 
         // To change the header after logging in
 
-        init()
+        initUserInfo();
 
         logInLoading = false;
       } catch (error) {
@@ -326,10 +327,12 @@ async function auth() {
 
 // This function changes the header's right after logging in the website
 
-function init() {
+function initUserInfo() {
   const user = JSON.parse(localStorage.getItem("user"));
   const token = localStorage.getItem("token");
-  const profilePicture = document.querySelector("html body header .right #after-log-in .profile-picture-after-log-in");
+  const profilePicture = document.querySelector(
+    "html body header .right #after-log-in .profile-picture-after-log-in"
+  );
   const beforeLogIn = document.getElementById("before-log-in");
   const afterLogIn = document.getElementById("after-log-in");
 
@@ -343,13 +346,59 @@ function init() {
       profilePicture.style.backgroundImage = `url('${user.avatar}')`;
       profilePicture.style.backgroundSize = "cover";
       profilePicture.style.border = "none";
-    }
-    else {
+    } else {
       profilePicture.style.backgroundImage = 'url("./images/cameraIcon.svg")';
       profilePicture.style.backgroundSize = "none";
       profilePicture.style.border = "1px solid #e1dfe1";
     }
   }
+}
+
+async function getProducts({ page = 1, priceFrom, priceTo, sort } = {}) {
+  const queryParams = new URLSearchParams();
+
+  queryParams.append("page", page);
+  if (priceFrom !== undefined)
+    queryParams.append("filter[price_from]", priceFrom);
+  if (priceTo !== undefined) queryParams.append("filter[price_to]", priceTo);
+  if (sort) queryParams.append("sort", sort);
+
+  const response = await fetch(
+    `${API_URL}/products?${queryParams.toString()}`,
+    {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    }
+  );
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.message || "Failed to fetch products");
+  }
+
+  return data;
+}
+
+function initProductsList() {
+  const productsContainer = document.querySelector("html body main .products");
+  productsContainer.innerHTML = ``;
+
+  products.data.forEach(e => {
+    productsContainer.innerHTML += `
+      <div class="product">
+        <div class="top" style="background-image: url(${e.cover_image})"></div>
+        <div class="bottom">
+          <p class="product-name">${e.name}</p>
+          <p class="price">$ ${e.price}</p>
+        </div>
+      </div>
+    `
+    console.log(e.cover_image);
+  });
 }
 
 async function main() {
@@ -363,7 +412,7 @@ async function main() {
     const mainLogo = document.getElementById("mainLogo");
 
     router();
-    init()
+    initUserInfo();
 
     // Click listener მხოლოდ hash-ს ცვლის
 
@@ -375,6 +424,21 @@ async function main() {
       mainLogo.addEventListener("click", () => (location.hash = "/products"));
     }
   });
+
+  try {
+    products = await getProducts({
+      page: 1,
+      priceFrom: 10,
+      priceTo: 50,
+      sort: "price",
+    });
+  } catch (err) {
+    console.error("Error:", err.message);
+  }
+
+  initProductsList();
+
+  console.log(products);
 }
 
 main();

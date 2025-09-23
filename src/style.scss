@@ -226,8 +226,8 @@ html {
           display: flex;
           flex-direction: column;
           .top {
+            border-radius: 10px;
             padding: 274.5px 206px;
-            background-image: url("./images/productImg.svg");
             background-position: center;
             background-repeat: no-repeat;
             background-size: cover;
