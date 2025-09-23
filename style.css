@@ -66,13 +66,48 @@ html body header .right #before-log-in span {
 html body header .right #before-log-in:hover {
   cursor: pointer;
 }
+html body header .right #after-log-in {
+  display: none;
+  justify-content: space-between;
+  align-items: center;
+}
+html body header .right #after-log-in .cartSymbol {
+  padding: 2.25px 0px;
+  padding-left: 1.5px;
+  padding-right: 1.61px;
+  margin-right: 20px;
+}
+html body header .right #after-log-in .cartSymbol:hover {
+  cursor: pointer;
+}
+html body header .right #after-log-in .profile-picture-after-log-in {
+  padding: 16px;
+  border: 1px solid #e1dfe1;
+  border-radius: 50%;
+  background-image: url("./images/cameraIcon.svg");
+  background-position: center;
+  background-repeat: no-repeat;
+}
+html body header .right #after-log-in .profile-picture-after-log-in:hover {
+  cursor: pointer;
+}
+html body header .right #after-log-in .dropdownIcon {
+  padding: 0px 5px;
+  padding-top: 8px;
+  padding-bottom: 6.25px;
+  margin-left: 4px;
+}
+html body header .right #after-log-in .dropdownIcon:hover {
+  cursor: pointer;
+}
 html body main .indicators {
-  border: 0.1rem solid green;
   width: 89.583%;
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin: auto;
+  margin-top: 72px;
+  margin-bottom: 6px;
 }
 html body main .indicators .left,
 html body main .indicators .right {
@@ -131,6 +166,74 @@ html body main .indicators .right .dropdown-icon {
   margin: 0px 5px;
   margin-top: 10px;
   margin-bottom: 8.25px;
+}
+html body main .chosen-filters {
+  width: 89.583%;
+  display: flex;
+  align-items: center;
+  margin: auto;
+  margin-top: 13px;
+}
+html body main .chosen-filters .chosen-filter {
+  display: flex;
+  align-items: center;
+  padding: 8px 0px;
+  padding-left: 16px;
+  padding-right: 10px;
+  margin-left: 8px;
+  border: 1px solid #e1dfe1;
+  border-radius: 50px;
+}
+html body main .chosen-filters .chosen-filter .chosen-filter-text {
+  margin-right: 6px;
+  color: #3e424a;
+  font-weight: 400;
+  font-size: 14px;
+}
+html body main .chosen-filters .chosen-filter .delete-sign {
+  padding: 2.63px 2.62px;
+}
+html body main .chosen-filters .chosen-filter .delete-sign:hover {
+  cursor: pointer;
+}
+html body main .chosen-filters .chosen-filter:nth-child(1) {
+  margin-left: 0px;
+}
+html body main .products {
+  width: 89.583%;
+  display: grid;
+  flex-wrap: wrap;
+  align-items: center;
+  grid-template-columns: repeat(auto-fill, minmax(325px, 1fr));
+  gap: 48px 24px;
+  margin: auto;
+  margin-top: 26px;
+}
+html body main .products .product {
+  display: flex;
+  flex-direction: column;
+}
+html body main .products .product .top {
+  padding: 274.5px 206px;
+  background-image: url("./images/productImg.svg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+html body main .products .product .bottom p {
+  font-weight: 500;
+}
+html body main .products .product .bottom .product-name {
+  margin-top: 12px;
+  font-size: 18px;
+}
+html body main .products .product .bottom .price {
+  font-size: 16px;
+}
+html body main .pagination {
+  margin: auto;
+  margin-top: 90px;
+  margin-bottom: 216px;
 }
 html body main .authorization {
   display: flex;
@@ -194,7 +297,6 @@ html body main .authorization .right #log-in .input-container .email-username-co
 }
 html body main .authorization .right #log-in .input-container .password-container {
   margin-top: 24px;
-  margin-bottom: 46px;
 }
 html body main .authorization .right #log-in .input-container .password-container .fake-placeholder {
   left: 83px;
@@ -215,10 +317,18 @@ html body main .authorization .right #log-in .input-container .password-containe
 html body main .authorization .right #log-in .input-container .password-container .eye-icon:hover {
   cursor: pointer;
 }
+html body main .authorization .right #log-in .error-message {
+  margin-top: 8px;
+  font-size: 14px;
+}
+html body main .authorization .right #log-in .error-message p {
+  color: #ff4000;
+}
 html body main .authorization .right #log-in .log-in-button {
   width: 100%;
   height: 41px;
   padding: 10px 20px;
+  margin-top: 46px;
   margin-bottom: 24px;
   outline: none;
   border: none;
@@ -279,7 +389,7 @@ html body main .authorization .right #registration .picture-container .file-inpu
 html body main .authorization .right #registration .picture-container .file-input-wrapper #profile-picture {
   border-radius: 50%;
   padding: 50px;
-  background-image: url("./images/personSiluet.svg");
+  background-image: url("./images/camera.svg");
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;

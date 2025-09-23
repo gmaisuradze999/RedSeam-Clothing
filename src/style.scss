@@ -77,17 +77,51 @@ html {
         #before-log-in:hover {
           cursor: pointer;
         }
+        #after-log-in {
+          display: none;
+          justify-content: space-between;
+          align-items: center;
+          .cartSymbol {
+            padding: 2.25px 0px;
+            padding-left: 1.5px;
+            padding-right: 1.61px;
+            margin-right: 20px;
+          }
+          .cartSymbol:hover {
+            cursor: pointer;
+          }
+          .profile-picture-after-log-in {
+            padding: 16px;
+            border: 1px solid $color_4;
+            border-radius: 50%;
+            background-image: url("./images/cameraIcon.svg");
+            background-position: center;
+            background-repeat: no-repeat;
+          }
+          .profile-picture-after-log-in:hover {
+            cursor: pointer;
+          }
+          .dropdownIcon {
+            padding: 0px 5px;
+            padding-top: 8px;
+            padding-bottom: 6.25px;
+            margin-left: 4px;
+          }
+          .dropdownIcon:hover {
+            cursor: pointer;
+          }
+        }
       }
     }
     main {
       .indicators {
-        border: 0.1rem solid green; // practice
-
         width: 89.583%;
         display: flex;
         justify-content: space-between;
         align-items: center;
         margin: auto;
+        margin-top: 72px;
+        margin-bottom: 6px;
         .left,
         .right {
           display: flex;
@@ -146,6 +180,76 @@ html {
             margin-bottom: 8.25px;
           }
         }
+      }
+      .chosen-filters {
+        width: 89.583%;
+        display: flex;
+        align-items: center;
+        margin: auto;
+        margin-top: 13px;
+        .chosen-filter {
+          display: flex;
+          align-items: center;
+          padding: 8px 0px;
+          padding-left: 16px;
+          padding-right: 10px;
+          margin-left: 8px;
+          border: 1px solid #e1dfe1;
+          border-radius: 50px;
+          .chosen-filter-text {
+            margin-right: 6px;
+            color: #3e424a;
+            font-weight: 400;
+            font-size: 14px;
+          }
+          .delete-sign {
+            padding: 2.63px 2.62px;
+          }
+          .delete-sign:hover {
+            cursor: pointer;
+          }
+        }
+        .chosen-filter:nth-child(1) {
+          margin-left: 0px;
+        }
+      }
+      .products {
+        width: 89.583%;
+        display: grid;
+        flex-wrap: wrap;
+        align-items: center;
+        grid-template-columns: repeat(auto-fill, minmax(325px, 1fr)); 
+        gap: 48px 24px;
+        margin: auto;
+        margin-top: 26px;
+        .product {
+          display: flex;
+          flex-direction: column;
+          .top {
+            padding: 274.5px 206px;
+            background-image: url("./images/productImg.svg");
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+          }
+          .bottom {
+            p {
+              font-weight: 500;
+            }
+            .product-name {
+              margin-top: 12px;
+              font-size: 18px;
+            }
+            .price {
+              font-size: 16px;
+            }
+          }
+        }
+      }
+      .pagination {
+        margin: auto;
+        margin-top: 90px;
+        margin-bottom: 216px;
       }
       .authorization {
         display: flex;
@@ -212,7 +316,6 @@ html {
               }
               .password-container {
                 margin-top: 24px;
-                margin-bottom: 46px;
                 .fake-placeholder {
                   left: 83px;
                 }
@@ -234,10 +337,18 @@ html {
                 }
               }
             }
+            .error-message {
+              margin-top: 8px;
+              font-size: 14px;
+              p {
+                color: $color_7;
+              }
+            }
             .log-in-button {
               width: 100%;
               height: 41px;
               padding: 10px 20px;
+              margin-top: 46px;
               margin-bottom: 24px;
               outline: none;
               border: none;
@@ -296,7 +407,7 @@ html {
                 #profile-picture {
                   border-radius: 50%;
                   padding: 50px;
-                  background-image: url("./images/personSiluet.svg");
+                  background-image: url("./images/camera.svg");
                   background-position: center;
                   background-repeat: no-repeat;
                   background-size: cover;
