@@ -334,18 +334,21 @@ function init() {
   const afterLogIn = document.getElementById("after-log-in");
 
   if (user && token) {
+    console.log(user.avatar);
+
     beforeLogIn.style.display = "none";
     afterLogIn.style.display = "flex";
-    profilePicture.style.backgroundImage = `url('${user.avatar}')`;
-    profilePicture.style.backgroundSize = "cover";
-    profilePicture.style.border = "none";
-  }
-  else {
-    beforeLogIn.style.display = "flex";
-    afterLogIn.style.display = "none";
-    profilePicture.style.backgroundImage = `url('${user.avatar}')`;
-    profilePicture.style.backgroundSize = "none";
-    profilePicture.style.border = "1px solid #e1dfe1";
+
+    if (user.avatar) {
+      profilePicture.style.backgroundImage = `url('${user.avatar}')`;
+      profilePicture.style.backgroundSize = "cover";
+      profilePicture.style.border = "none";
+    }
+    else {
+      profilePicture.style.backgroundImage = 'url("./images/cameraIcon.svg")';
+      profilePicture.style.backgroundSize = "none";
+      profilePicture.style.border = "1px solid #e1dfe1";
+    }
   }
 }
 
