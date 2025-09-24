@@ -11,25 +11,65 @@
       alt="Grey Vertical Line"
       class="grey-vertical-line"
     />
-    <img src="./images/filterIcon.svg" alt="Filter Icon" class="filter-icon" />
-    <span class="filter"> Filter </span>
-    <span class="sorting-indicator"> Sort by </span>
-    <img
-      src="./images/dropdownIcon.svg"
-      alt="Dropdown Icon"
-      class="dropdown-icon"
-    />
+    <div id="filtering">
+      <img
+        src="./images/filterIcon.svg"
+        alt="Filter Icon"
+        class="filter-icon"
+      />
+      <span class="filter"> Filter </span>
+      <div id="price-filter">
+        <p>Select price</p>
+        <div class="inputs">
+          <div class="price-from-container">
+            <input
+              type="number"
+              placeholder="From"
+              id="price-from"
+              required
+              onkeydown="fakePlaceholderDisplay(this, event)"
+            />
+            <span class="fake-placeholder"> * </span>
+          </div>
+          <div class="price-to-container">
+            <input
+              type="number"
+              placeholder="To"
+              id="price-to"
+              required
+              onkeydown="fakePlaceholderDisplay(this, event)"
+            />
+            <span class="fake-placeholder"> * </span>
+          </div>
+        </div>
+        <div class="apply">
+          <button id="apply-button" onclick="priceFilter('add', this)">
+            <span class="apply-button-text"> Apply </span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div id="sorting">
+      <span class="sorting-indicator"> Sort by </span>
+      <img
+        src="./images/dropdownIcon.svg"
+        alt="Dropdown Icon"
+        class="dropdown-icon"
+      />
+      <div id="sorting-filter">
+        <p>Sort by</p>
+        <span> New products first </span>
+        <span> Price, low to high </span>
+        <span> Price, high to low </span>
+      </div>
+    </div>
   </div>
 </div>
-<div class="chosen-filters">
-  <div class="chosen-filter">
-    <span class="chosen-filter-text"> Price: 150-400 </span>
-    <img src="./images/deleteSign.svg" alt="Delete Sign" class="delete-sign" />
-  </div>
-  <div class="chosen-filter">
+<div id="chosen-filters">
+  <!-- <div class="chosen-filter">
     <span class="chosen-filter-text"> New products first </span>
     <img src="./images/deleteSign.svg" alt="Delete Sign" class="delete-sign" />
-  </div>
+  </div> -->
 </div>
 <div class="products"></div>
 <div class="pagination"></div>

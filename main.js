@@ -20,10 +20,10 @@ function loadingPage(page) {
     .catch((err) => {
       let app = document.getElementById("app");
       app.innerHTML = `
-            <h1>
-                Page not found
-            </h1>
-        `;
+        <h1>
+            Page not found
+        </h1>
+      `;
     });
 }
 
@@ -31,7 +31,14 @@ function loadingPage(page) {
 
 function router() {
   const hash = location.hash.replace("#/", "") || "products"; // Products მთავარი გვერდი
+
   loadingPage(hash);
+
+  if (hash === "products") {
+    setTimeout(() => {
+      initProductsList(); // ეს გამოიძახებს getProducts-ს და შემდეგ initProductsList-ს
+    }, 100);
+  }
 }
 
 // This is for the orange '*' that cannot be seperate color whilst also being part of the input's placeholder
@@ -107,6 +114,8 @@ function switchLogInRegistration(value) {
   }
 }
 
+// This function is a supplementary function to registration(), and is used to data to the registration()
+
 async function register(email, username, password, file) {
   const formData = new FormData();
   formData.append("username", username);
@@ -136,6 +145,8 @@ async function register(email, username, password, file) {
 
   return data;
 }
+
+// Function that allows a person to register
 
 async function registration() {
   const fileInput = document.getElementById("file-input");
@@ -234,6 +245,8 @@ async function registration() {
   }
 }
 
+// This function is a supplementary function to auth(), and is used to data to the auth()
+
 async function logIn(email, password) {
   const response = await fetch(`${API_URL}/login`, {
     method: "POST",
@@ -257,6 +270,8 @@ async function logIn(email, password) {
   // მაგ: data.token ან data.access_token
   return data;
 }
+
+// Function that allows a person to log in
 
 async function auth() {
   const emailUsernameInput = document.querySelector(
@@ -354,6 +369,8 @@ function initUserInfo() {
   }
 }
 
+// This function is used to get products
+
 async function getProducts({ page = 1, priceFrom, priceTo, sort } = {}) {
   const queryParams = new URLSearchParams();
 
@@ -383,27 +400,90 @@ async function getProducts({ page = 1, priceFrom, priceTo, sort } = {}) {
   return data;
 }
 
+// This functions formats the product's divs
+
 function initProductsList() {
   const productsContainer = document.querySelector("html body main .products");
   productsContainer.innerHTML = ``;
 
-  products.data.forEach(e => {
-    productsContainer.innerHTML += `
-      <div class="product">
-        <div class="top" style="background-image: url(${e.cover_image})"></div>
-        <div class="bottom">
-          <p class="product-name">${e.name}</p>
-          <p class="price">$ ${e.price}</p>
+  if (products && products.data) {
+    products.data.forEach((e) => {
+      productsContainer.innerHTML += `
+        <div class="product">
+          <div class="top" style="background-image: url(${e.cover_image})"></div>
+          <div class="bottom">
+            <p class="product-name">${e.name}</p>
+            <p class="price">$ ${e.price}</p>
+          </div>
         </div>
-      </div>
-    `
-    console.log(e.cover_image);
-  });
+      `;
+    });
+  }
 }
 
-async function main() {
-  // --- hash ცვლილებაზე loadPage იძახება მხოლოდ router-ის გავლით ---
+// Filters the products in terms of a price
 
+async function priceFilter(value, element) {
+  const priceFilter = document.getElementById("price-filter");
+  let priceFrom = document.getElementById("price-from");
+  let priceTo = document.getElementById("price-to");
+
+  priceFrom = parseInt(priceFrom.value);
+  priceTo = parseInt(priceTo.value);
+
+  if (priceFrom && priceTo) {
+    if (value == "add") {
+      await loadFilteredProducts(1, priceFrom, priceTo);
+
+      chosenFilters(`Price: ${priceFrom}-${priceTo}`);
+
+      priceFilter.style.display = "none";
+    } else if (value == "remove") {
+      await loadFilteredProducts();
+
+      element.parentElement.remove();
+    }
+  }
+}
+
+// This function inputs an elemnets inside a container to be seen as a chosen filter
+
+function chosenFilters(value) {
+  let chosenFiltersContainer = document.getElementById("chosen-filters");
+
+  chosenFiltersContainer.innerHTML += `
+    <div class="chosen-filter">
+      <span class="chosen-filter-text">${value}</span>
+      <img src="./images/deleteSign.svg" alt="Delete Sign" class="delete-sign" onclick="priceFilter('remove', this)"/>
+    </div>
+  `;
+}
+
+// Used to recieve products from API and to showcase them as well
+
+async function loadFilteredProducts(
+  page = 1,
+  from = 0,
+  to = 100000000,
+  sort = "price"
+) {
+  try {
+    products = await getProducts({
+      page: page,
+      priceFrom: from,
+      priceTo: to,
+      sort: sort,
+    });
+
+    initProductsList();
+  } catch (error) {
+    console.error("Error:", error.message);
+  }
+}
+
+// This is the main function of the website
+
+async function main() {
   window.addEventListener("hashchange", router);
 
   // --- პირველი ჩატვირთვა ---
@@ -425,20 +505,34 @@ async function main() {
     }
   });
 
-  try {
-    products = await getProducts({
-      page: 1,
-      priceFrom: 10,
-      priceTo: 50,
-      sort: "price",
-    });
-  } catch (err) {
-    console.error("Error:", err.message);
-  }
+  await loadFilteredProducts();
+  const filtering = document.getElementById("filtering");
+  const sorting = document.getElementById("sorting");
+  const priceFilter = document.getElementById("price-filter");
+  const sortingFilter = document.getElementById("sorting-filter");
 
-  initProductsList();
+  filtering.addEventListener("click", () => {
+    priceFilter.style.display = "flex";
+    sortingFilter.style.display = "none";
+  });
+  sorting.addEventListener("click", () => {
+    priceFilter.style.display = "none";
+    sortingFilter.style.display = "flex";
+  });
+  document.addEventListener("click", (e) => {
+    if (
+      e.target.closest("#filtering") ||
+      e.target.closest("#sorting") ||
+      e.target.closest("#priceFilter") ||
+      e.target.closest("#sortingFilter")
+    ) {
+      // თუ დაკლიკებულია #myElement ან მისი შიგნით, იგნორირება
+      return;
+    }
 
-  console.log(products);
+    priceFilter.style.display = "none";
+    sortingFilter.style.display = "none";
+  });
 }
 
 main();

@@ -130,10 +130,6 @@ html {
           span {
             user-select: none;
           }
-          img:hover,
-          span:hover {
-            cursor: pointer;
-          }
         }
         .left {
           span {
@@ -159,29 +155,162 @@ html {
           .grey-vertical-line:hover {
             cursor: none;
           }
-          .filter-icon {
-            margin: 4.5px 3.75px;
+          #filtering {
+            position: relative;
+            display: flex;
+            align-items: center;
+            .filter-icon {
+              margin: 4.5px 3.75px;
+            }
+            .filter {
+              margin-left: 8px;
+              margin-right: 32px;
+              font-size: 16px;
+              font-weight: 400;
+            }
+            #price-filter {
+              position: absolute;
+              top: 32px;
+              right: 16px;
+              display: none;
+              flex-direction: column;
+              padding: 16px;
+              border: 1px solid $color_4;
+              border-radius: 8px;
+              background-color: $color_1;
+              user-select: none;
+              p {
+                font-size: 16px;
+                font-weight: 600;
+              }
+              .inputs {
+                display: flex;
+                margin-top: 20px;
+                margin-bottom: 10px;
+                .price-from-container,
+                .price-to-container {
+                  position: relative;
+                  width: 50%;
+                  display: flex;
+                  input {
+                    outline: none;
+                    // height: 42px;
+                    padding: 10.5px 12px;
+                    border: 1px solid $color_4;
+                    border-radius: 8px;
+                  }
+                  /* Chrome, Safari, Edge, Opera */
+                  input::-webkit-outer-spin-button,
+                  input::-webkit-inner-spin-button {
+                    -webkit-appearance: none;
+                    margin: 0;
+                  }
+                  /* Firefox */
+                  input[type="number"] {
+                    -moz-appearance: textfield;
+                  }
+                  input::placeholder {
+                    color: $color_6;
+                    font-size: 14px;
+                    font-weight: 400;
+                  }
+                  .fake-placeholder {
+                    position: absolute;
+                    top: 10.5px;
+                    color: $color_7;
+                    font-size: 14px;
+                    font-weight: 400;
+                  }
+                }
+                .price-from-container {
+                  margin-right: 10px;
+                  .fake-placeholder {
+                    left: 52px;
+                  }
+                }
+                .price-to-container {
+                  .fake-placeholder {
+                    left: 33px;
+                  }
+                }
+              }
+              .apply {
+                display: flex;
+                justify-content: end;
+                align-items: center;
+                #apply-button {
+                  width: 34.4%;
+                  padding: 10px 20px;
+                  background-color: $color_7;
+                  border: none;
+                  border-radius: 10px;
+                  outline: none;
+                  .apply-button-text {
+                    color: $color_1;
+                    font-size: 14px;
+                    font-weight: 400;
+                  }
+                }
+                #apply-button:hover {
+                  cursor: pointer;
+                }
+              }
+            }
+            #price-filter:hover {
+              cursor: auto;
+            }
           }
-          .filter {
-            margin-left: 8px;
-            margin-right: 32px;
-            font-size: 16px;
-            font-weight: 400;
+          #sorting {
+            position: relative;
+            display: flex;
+            align-items: center;
+            .sorting-indicator {
+              margin: 2px 0px;
+              margin-right: 4px;
+              font-size: 16px;
+              font-weight: 400;
+            }
+            .dropdown-icon {
+              margin: 0px 5px;
+              margin-top: 10px;
+              margin-bottom: 8.25px;
+            }
+            #sorting-filter {
+              position: absolute;
+              top: 34px;
+              right: -5px;
+              width: 223px;
+              display: none;
+              flex-direction: column;
+              padding: 16px;
+              border: 1px solid $color_4;
+              border-radius: 8px;
+              background-color: $color_1;
+              user-select: none;
+              p {
+                font-size: 16px;
+                font-weight: 600;
+                margin-bottom: 8px;
+              }
+              span {
+                padding: 8px 0px;
+              }
+              p:hover,
+              span:hover {
+                cursor: pointer;
+              }
+            }
+            #sorting-filter:hover {
+              cursor: auto;
+            }
           }
-          .sorting-indicator {
-            margin: 2px 0px;
-            margin-right: 4px;
-            font-size: 16px;
-            font-weight: 400;
-          }
-          .dropdown-icon {
-            margin: 0px 5px;
-            margin-top: 10px;
-            margin-bottom: 8.25px;
+          #filtering:hover,
+          #sorting:hover {
+            cursor: pointer;
           }
         }
       }
-      .chosen-filters {
+      #chosen-filters {
         width: 89.583%;
         display: flex;
         align-items: center;
@@ -218,7 +347,7 @@ html {
         display: grid;
         flex-wrap: wrap;
         align-items: center;
-        grid-template-columns: repeat(auto-fill, minmax(325px, 1fr)); 
+        grid-template-columns: repeat(auto-fill, minmax(325px, 1fr));
         gap: 48px 24px;
         margin: auto;
         margin-top: 26px;
@@ -536,7 +665,7 @@ html {
               }
             }
             .registration-button:hover {
-                cursor: pointer;
+              cursor: pointer;
             }
             .rerouting {
               width: 100%;
@@ -567,14 +696,6 @@ html {
           }
         }
       }
-      // .products {
-      //     border: 0.1rem solid green;
-      //     padding: 500px 0px;
-      //     background-image: url("./images/apple.png");
-      //     background-position: center;
-      //     background-repeat: no-repeat;
-      //     background-size: cover;
-      // }
     }
   }
 }

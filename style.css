@@ -120,12 +120,6 @@ html body main .indicators .right img,
 html body main .indicators .right span {
   user-select: none;
 }
-html body main .indicators .left img:hover,
-html body main .indicators .left span:hover,
-html body main .indicators .right img:hover,
-html body main .indicators .right span:hover {
-  cursor: pointer;
-}
 html body main .indicators .left span {
   font-size: 42px;
   font-weight: 600;
@@ -147,34 +141,170 @@ html body main .indicators .right .grey-vertical-line {
 html body main .indicators .right .grey-vertical-line:hover {
   cursor: none;
 }
-html body main .indicators .right .filter-icon {
+html body main .indicators .right #filtering {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+html body main .indicators .right #filtering .filter-icon {
   margin: 4.5px 3.75px;
 }
-html body main .indicators .right .filter {
+html body main .indicators .right #filtering .filter {
   margin-left: 8px;
   margin-right: 32px;
   font-size: 16px;
   font-weight: 400;
 }
-html body main .indicators .right .sorting-indicator {
+html body main .indicators .right #filtering #price-filter {
+  position: absolute;
+  top: 32px;
+  right: 16px;
+  display: none;
+  flex-direction: column;
+  padding: 16px;
+  border: 1px solid #e1dfe1;
+  border-radius: 8px;
+  background-color: white;
+  user-select: none;
+}
+html body main .indicators .right #filtering #price-filter p {
+  font-size: 16px;
+  font-weight: 600;
+}
+html body main .indicators .right #filtering #price-filter .inputs {
+  display: flex;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+html body main .indicators .right #filtering #price-filter .inputs .price-from-container,
+html body main .indicators .right #filtering #price-filter .inputs .price-to-container {
+  position: relative;
+  width: 50%;
+  display: flex;
+  /* Chrome, Safari, Edge, Opera */
+  /* Firefox */
+}
+html body main .indicators .right #filtering #price-filter .inputs .price-from-container input,
+html body main .indicators .right #filtering #price-filter .inputs .price-to-container input {
+  outline: none;
+  padding: 10.5px 12px;
+  border: 1px solid #e1dfe1;
+  border-radius: 8px;
+}
+html body main .indicators .right #filtering #price-filter .inputs .price-from-container input::-webkit-outer-spin-button,
+html body main .indicators .right #filtering #price-filter .inputs .price-from-container input::-webkit-inner-spin-button,
+html body main .indicators .right #filtering #price-filter .inputs .price-to-container input::-webkit-outer-spin-button,
+html body main .indicators .right #filtering #price-filter .inputs .price-to-container input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+html body main .indicators .right #filtering #price-filter .inputs .price-from-container input[type=number],
+html body main .indicators .right #filtering #price-filter .inputs .price-to-container input[type=number] {
+  -moz-appearance: textfield;
+}
+html body main .indicators .right #filtering #price-filter .inputs .price-from-container input::placeholder,
+html body main .indicators .right #filtering #price-filter .inputs .price-to-container input::placeholder {
+  color: #3e424a;
+  font-size: 14px;
+  font-weight: 400;
+}
+html body main .indicators .right #filtering #price-filter .inputs .price-from-container .fake-placeholder,
+html body main .indicators .right #filtering #price-filter .inputs .price-to-container .fake-placeholder {
+  position: absolute;
+  top: 10.5px;
+  color: #ff4000;
+  font-size: 14px;
+  font-weight: 400;
+}
+html body main .indicators .right #filtering #price-filter .inputs .price-from-container {
+  margin-right: 10px;
+}
+html body main .indicators .right #filtering #price-filter .inputs .price-from-container .fake-placeholder {
+  left: 52px;
+}
+html body main .indicators .right #filtering #price-filter .inputs .price-to-container .fake-placeholder {
+  left: 33px;
+}
+html body main .indicators .right #filtering #price-filter .apply {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+}
+html body main .indicators .right #filtering #price-filter .apply #apply-button {
+  width: 34.4%;
+  padding: 10px 20px;
+  background-color: #ff4000;
+  border: none;
+  border-radius: 10px;
+  outline: none;
+}
+html body main .indicators .right #filtering #price-filter .apply #apply-button .apply-button-text {
+  color: white;
+  font-size: 14px;
+  font-weight: 400;
+}
+html body main .indicators .right #filtering #price-filter .apply #apply-button:hover {
+  cursor: pointer;
+}
+html body main .indicators .right #filtering #price-filter:hover {
+  cursor: auto;
+}
+html body main .indicators .right #sorting {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+html body main .indicators .right #sorting .sorting-indicator {
   margin: 2px 0px;
   margin-right: 4px;
   font-size: 16px;
   font-weight: 400;
 }
-html body main .indicators .right .dropdown-icon {
+html body main .indicators .right #sorting .dropdown-icon {
   margin: 0px 5px;
   margin-top: 10px;
   margin-bottom: 8.25px;
 }
-html body main .chosen-filters {
+html body main .indicators .right #sorting #sorting-filter {
+  position: absolute;
+  top: 34px;
+  right: -5px;
+  width: 223px;
+  display: none;
+  flex-direction: column;
+  padding: 16px;
+  border: 1px solid #e1dfe1;
+  border-radius: 8px;
+  background-color: white;
+  user-select: none;
+}
+html body main .indicators .right #sorting #sorting-filter p {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+html body main .indicators .right #sorting #sorting-filter span {
+  padding: 8px 0px;
+}
+html body main .indicators .right #sorting #sorting-filter p:hover,
+html body main .indicators .right #sorting #sorting-filter span:hover {
+  cursor: pointer;
+}
+html body main .indicators .right #sorting #sorting-filter:hover {
+  cursor: auto;
+}
+html body main .indicators .right #filtering:hover,
+html body main .indicators .right #sorting:hover {
+  cursor: pointer;
+}
+html body main #chosen-filters {
   width: 89.583%;
   display: flex;
   align-items: center;
   margin: auto;
   margin-top: 13px;
 }
-html body main .chosen-filters .chosen-filter {
+html body main #chosen-filters .chosen-filter {
   display: flex;
   align-items: center;
   padding: 8px 0px;
@@ -184,19 +314,19 @@ html body main .chosen-filters .chosen-filter {
   border: 1px solid #e1dfe1;
   border-radius: 50px;
 }
-html body main .chosen-filters .chosen-filter .chosen-filter-text {
+html body main #chosen-filters .chosen-filter .chosen-filter-text {
   margin-right: 6px;
   color: #3e424a;
   font-weight: 400;
   font-size: 14px;
 }
-html body main .chosen-filters .chosen-filter .delete-sign {
+html body main #chosen-filters .chosen-filter .delete-sign {
   padding: 2.63px 2.62px;
 }
-html body main .chosen-filters .chosen-filter .delete-sign:hover {
+html body main #chosen-filters .chosen-filter .delete-sign:hover {
   cursor: pointer;
 }
-html body main .chosen-filters .chosen-filter:nth-child(1) {
+html body main #chosen-filters .chosen-filter:nth-child(1) {
   margin-left: 0px;
 }
 html body main .products {
