@@ -596,6 +596,8 @@ async function main() {
       if (priceFrom && priceTo) {
         await loadFilteredProducts(1, Number(priceFrom), Number(priceTo), sort); // This is used to get the products
 
+        chosenFilters(sort, `sort`);
+
         chosenFilters(`Price: ${priceFrom}-${priceTo}`, `filter`);
         document.getElementById("price-filter").style.display = "none";
 
