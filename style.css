@@ -198,10 +198,6 @@ html body main .indicators .right #filtering #price-filter .inputs .price-to-con
   -webkit-appearance: none;
   margin: 0;
 }
-html body main .indicators .right #filtering #price-filter .inputs .price-from-container input[type=number],
-html body main .indicators .right #filtering #price-filter .inputs .price-to-container input[type=number] {
-  -moz-appearance: textfield;
-}
 html body main .indicators .right #filtering #price-filter .inputs .price-from-container input::placeholder,
 html body main .indicators .right #filtering #price-filter .inputs .price-to-container input::placeholder {
   color: #3e424a;

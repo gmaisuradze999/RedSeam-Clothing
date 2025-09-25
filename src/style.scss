@@ -206,9 +206,9 @@ html {
                     margin: 0;
                   }
                   /* Firefox */
-                  input[type="number"] {
-                    -moz-appearance: textfield;
-                  }
+                  // input[type="number"] {
+                  //   -moz-appearance: textfield;
+                  // }
                   input::placeholder {
                     color: $color_6;
                     font-size: 14px;

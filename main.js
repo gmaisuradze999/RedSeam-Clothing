@@ -5,7 +5,7 @@ let logInLoading = false;
 
 // Loading any page function
 
-function loadingPage(page) {
+async function loadingPage(page) {
   fetch(page + ".html")
     .then((res) => {
       if (!res.ok) {
@@ -29,10 +29,10 @@ function loadingPage(page) {
 
 // Indicating which page must be loaded first when a user enters the website
 
-function router() {
+async function router() {
   const hash = location.hash.replace("#/", "") || "products"; // Products მთავარი გვერდი
 
-  loadingPage(hash);
+  await loadingPage(hash);
 
   if (hash === "products") {
     setTimeout(() => {
@@ -79,8 +79,6 @@ function profilePictureSelector(element) {
   if (file) {
     const reader = new FileReader();
     reader.onload = (e) => {
-      console.log(e);
-
       profilePicture.style.backgroundImage = `url(${e.target.result})`;
     };
     reader.readAsDataURL(file);
@@ -352,8 +350,6 @@ function initUserInfo() {
   const afterLogIn = document.getElementById("after-log-in");
 
   if (user && token) {
-    console.log(user.avatar);
-
     beforeLogIn.style.display = "none";
     afterLogIn.style.display = "flex";
 
@@ -404,6 +400,8 @@ async function getProducts({ page = 1, priceFrom, priceTo, sort } = {}) {
 
 function initProductsList() {
   const productsContainer = document.querySelector("html body main .products");
+  if (!productsContainer) return; // stop if container is missing
+
   productsContainer.innerHTML = ``;
 
   if (products && products.data) {
@@ -423,40 +421,136 @@ function initProductsList() {
 
 // Filters the products in terms of a price
 
-async function priceFilter(value, element) {
+async function priceFilter(action, element) {
   const priceFilter = document.getElementById("price-filter");
-  let priceFrom = document.getElementById("price-from");
-  let priceTo = document.getElementById("price-to");
+  const priceFromEl = document.getElementById("price-from");
+  const priceToEl = document.getElementById("price-to");
 
-  priceFrom = parseInt(priceFrom.value);
-  priceTo = parseInt(priceTo.value);
+  const priceFrom = Number(priceFromEl.value);
+  const priceTo = Number(priceToEl.value);
 
-  if (priceFrom && priceTo) {
-    if (value == "add") {
-      await loadFilteredProducts(1, priceFrom, priceTo);
+  // ამოვიღოთ ლინკიდან არსებული sort
+  const params = new URLSearchParams(window.location.search);
+  const currentSort = params.get("sort") || "price"; // default "price"
 
-      chosenFilters(`Price: ${priceFrom}-${priceTo}`);
+  if (!isNaN(priceFrom) && !isNaN(priceTo)) {
+    if (action === "add") {
+      // sort-იც გადაეცემა
+      await loadFilteredProducts(1, priceFrom, priceTo, currentSort);
 
+      chosenFilters(`Price: ${priceFrom}-${priceTo}`, `filter`);
       priceFilter.style.display = "none";
-    } else if (value == "remove") {
-      await loadFilteredProducts();
 
-      element.parentElement.remove();
+      // ლინკში filter-ის შენახვა
+      params.set("price_from", priceFrom);
+      params.set("price_to", priceTo);
+      // sort უცვლელი რჩება თუ უკვე იყო
+      window.history.replaceState({}, "", `?${params.toString()}`);
+    } else if (action === "remove") {
+      // sort-იც გადაეცემა
+      await loadFilteredProducts(1, undefined, undefined, currentSort);
+
+      if (element) {
+        element.parentElement.remove();
+      }
+
+      // URL-დან წავშალოთ ფასის ფილტრი, მაგრამ sort არ შევეხოთ
+      params.delete("price_from");
+      params.delete("price_to");
+      window.history.replaceState({}, "", `?${params.toString()}`);
     }
   }
 }
 
-// This function inputs an elemnets inside a container to be seen as a chosen filter
+async function priceSort(value, action, element) {
+  const params = new URLSearchParams(window.location.search);
+  const sortingFilter = document.getElementById("sorting-filter");
 
-function chosenFilters(value) {
+  if (action === "add") {
+    if (value) {
+      // თუ ლინკში არსებობს price_from და price_to → ამოვიღოთ
+      const priceFrom = params.get("price_from")
+        ? Number(params.get("price_from"))
+        : undefined;
+      const priceTo = params.get("price_to")
+        ? Number(params.get("price_to"))
+        : undefined;
+
+      // მოვუხმოთ loadFilteredProducts
+      await loadFilteredProducts(
+        undefined, // page default
+        priceFrom, // თუ არაა, default გამოიყენება
+        priceTo,
+        value // sort
+      );
+
+      // ლინკში ჩავწეროთ sort
+      params.set("sort", value);
+      window.history.replaceState({}, "", `?${params.toString()}`);
+
+      chosenFilters(element.innerHTML, `sort`);
+
+      sortingFilter.style.display = "none";
+    }
+  } else if (action === "remove") {
+    if (element) {
+      element.parentElement.remove();
+    }
+
+    // ლინკიდან წავშალოთ sort
+    params.delete("sort");
+    window.history.replaceState({}, "", `?${params.toString()}`);
+
+    // თავიდან გავუშვათ default sort-ით
+    await loadFilteredProducts();
+  }
+}
+
+// This function inputs an elemnets inside a container to be seen as a chosen filter and also removes them
+
+function chosenFilters(value, action) {
   let chosenFiltersContainer = document.getElementById("chosen-filters");
+  if (!chosenFiltersContainer) return; // prevent error
+  let chosenFilterDivs =
+    chosenFiltersContainer.querySelectorAll(".chosen-filter");
 
-  chosenFiltersContainer.innerHTML += `
-    <div class="chosen-filter">
-      <span class="chosen-filter-text">${value}</span>
-      <img src="./images/deleteSign.svg" alt="Delete Sign" class="delete-sign" onclick="priceFilter('remove', this)"/>
-    </div>
-  `;
+  if (action == "filter") {
+    chosenFilterDivs.forEach((e) => {
+      if (/\d/.test(e.innerHTML)) {
+        e.parentElement.removeChild(e);
+      }
+    });
+
+    chosenFiltersContainer.innerHTML += `
+      <div class="chosen-filter">
+        <span class="chosen-filter-text">${value}</span>
+        <img src="./images/deleteSign.svg" alt="Delete Sign" class="delete-sign" onclick="priceFilter('remove', this)"/>
+      </div>
+    `;
+  } else if (action.trim() == "sort") {
+    chosenFilterDivs.forEach((e) => {
+      if (!/\d/.test(e.innerHTML)) {
+        e.parentElement.removeChild(e);
+      }
+    });
+
+    if (value == "price") {
+      value = "Price, low to high";
+    }
+    else if (value == "-price") {
+      value = "Price, high to low";
+    }
+    else if (value == "created_at") {
+      value = "New products first";
+    }
+
+    chosenFiltersContainer.innerHTML += `
+      <div class="chosen-filter">
+        <span class="chosen-filter-text">${value}</span>
+        <img src="./images/deleteSign.svg" alt="Delete Sign" class="delete-sign" onclick="priceSort('value', 'remove', this)"/>
+      </div>
+    `;
+  }
 }
 
 // Used to recieve products from API and to showcase them as well
@@ -488,21 +582,45 @@ async function main() {
 
   // --- პირველი ჩატვირთვა ---
   document.addEventListener("DOMContentLoaded", () => {
-    const beforeLogIn = document.getElementById("before-log-in");
-    const mainLogo = document.getElementById("mainLogo");
+    const init = async () => {
+      await router();
+      initUserInfo();
 
-    router();
-    initUserInfo();
+      // We are reseicing data from the URL address
 
-    // Click listener მხოლოდ hash-ს ცვლის
+      const params = new URLSearchParams(window.location.search);
+      const priceFrom = params.get("price_from");
+      const priceTo = params.get("price_to");
+      const sort = params.get("sort") || "price"; // default sort
 
-    if (beforeLogIn) {
-      beforeLogIn.addEventListener("click", () => (location.hash = "/auth"));
-    }
+      if (priceFrom && priceTo) {
+        await loadFilteredProducts(1, Number(priceFrom), Number(priceTo), sort); // This is used to get the products
 
-    if (mainLogo) {
-      mainLogo.addEventListener("click", () => (location.hash = "/products"));
-    }
+        chosenFilters(`Price: ${priceFrom}-${priceTo}`, `filter`);
+        document.getElementById("price-filter").style.display = "none";
+
+        // ინპუტებში ჩასმა
+        document.getElementById("price-from").value = priceFrom;
+        document.getElementById("price-to").value = priceTo;
+      } else {
+        await loadFilteredProducts(1, undefined, undefined, sort);
+
+        chosenFilters(sort, `sort`);
+      }
+
+      const beforeLogIn = document.getElementById("before-log-in");
+      const mainLogo = document.getElementById("mainLogo");
+
+      if (beforeLogIn) {
+        beforeLogIn.addEventListener("click", () => (location.hash = "/auth"));
+      }
+
+      if (mainLogo) {
+        mainLogo.addEventListener("click", () => (location.hash = "/products"));
+      }
+    };
+
+    init(); // აქ უკვე რეალურად გაეშვება ყველაფერი
   });
 
   await loadFilteredProducts();
@@ -511,14 +629,28 @@ async function main() {
   const priceFilter = document.getElementById("price-filter");
   const sortingFilter = document.getElementById("sorting-filter");
 
-  filtering.addEventListener("click", () => {
-    priceFilter.style.display = "flex";
-    sortingFilter.style.display = "none";
-  });
-  sorting.addEventListener("click", () => {
-    priceFilter.style.display = "none";
-    sortingFilter.style.display = "flex";
-  });
+  if (filtering) {
+    filtering.addEventListener("click", () => {
+      if (priceFilter) {
+        priceFilter.style.display = "flex";
+      }
+
+      if (sortingFilter) {
+        sortingFilter.style.display = "none";
+      }
+    });
+  }
+
+  if (sorting) {
+    sorting.addEventListener("click", () => {
+      if (priceFilter) {
+        priceFilter.style.display = "none";
+      }
+      if (priceFilter) {
+        sortingFilter.style.display = "flex";
+      }
+    });
+  }
   document.addEventListener("click", (e) => {
     if (
       e.target.closest("#filtering") ||
