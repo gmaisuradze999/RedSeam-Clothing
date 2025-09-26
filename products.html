@@ -4,7 +4,7 @@
   </div>
   <div class="right">
     <div class="product-number-indicator">
-      <span> Showing 1–10 of 100 results </span>
+      <span id="productsIndicator"> Showing 1–10 of 100 results </span>
     </div>
     <img
       src="./images/greyVerticalLine.svg"
@@ -58,18 +58,21 @@
       />
       <div id="sorting-filter">
         <p>Sort by</p>
-        <span onclick="priceSort('created_at', 'add', this)"> New products first </span>
-        <span onclick="priceSort('price', 'add', this)"> Price, low to high </span>
-        <span onclick="priceSort('-price', 'add', this)"> Price, high to low </span>
+        <span onclick="priceSort('created_at', 'add', this)">
+          New products first
+        </span>
+        <span onclick="priceSort('price', 'add', this)">
+          Price, low to high
+        </span>
+        <span onclick="priceSort('-price', 'add', this)">
+          Price, high to low
+        </span>
       </div>
     </div>
   </div>
 </div>
-<div id="chosen-filters">
-  <!-- <div class="chosen-filter">
-    <span class="chosen-filter-text"> New products first </span>
-    <img src="./images/deleteSign.svg" alt="Delete Sign" class="delete-sign" />
-  </div> -->
-</div>
+<div id="chosen-filters"></div>
 <div class="products"></div>
-<div class="pagination"></div>
+<div class="pagination-container">
+  <div class="pagination"></div>
+</div>

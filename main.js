@@ -438,7 +438,7 @@ async function priceFilter(action, element) {
       // sort-იც გადაეცემა
       await loadFilteredProducts(1, priceFrom, priceTo, currentSort);
 
-      chosenFilters(`Price: ${priceFrom}-${priceTo}`, `filter`);
+      await chosenFilters(`Price: ${priceFrom}-${priceTo}`, `filter`);
       priceFilter.style.display = "none";
 
       // ლინკში filter-ის შენახვა
@@ -459,7 +459,11 @@ async function priceFilter(action, element) {
       params.delete("price_to");
       window.history.replaceState({}, "", `?${params.toString()}`);
     }
+
+    renderPagination();
   }
+
+  // changePage(1)
 }
 
 async function priceSort(value, action, element) {
@@ -488,7 +492,7 @@ async function priceSort(value, action, element) {
       params.set("sort", value);
       window.history.replaceState({}, "", `?${params.toString()}`);
 
-      chosenFilters(element.innerHTML, `sort`);
+      await chosenFilters(element.innerHTML, `sort`);
 
       sortingFilter.style.display = "none";
     }
@@ -508,7 +512,7 @@ async function priceSort(value, action, element) {
 
 // This function inputs an elemnets inside a container to be seen as a chosen filter and also removes them
 
-function chosenFilters(value, action) {
+async function chosenFilters(value, action) {
   let chosenFiltersContainer = document.getElementById("chosen-filters");
   if (!chosenFiltersContainer) return; // prevent error
   let chosenFilterDivs =
@@ -536,11 +540,9 @@ function chosenFilters(value, action) {
 
     if (value == "price") {
       value = "Price, low to high";
-    }
-    else if (value == "-price") {
+    } else if (value == "-price") {
       value = "Price, high to low";
-    }
-    else if (value == "created_at") {
+    } else if (value == "created_at") {
       value = "New products first";
     }
 
@@ -570,9 +572,193 @@ async function loadFilteredProducts(
     });
 
     initProductsList();
+    // changePage(1);
+    // renderPagination();
   } catch (error) {
     console.error("Error:", error.message);
   }
+}
+
+function arrowPagination(value) {
+  let activePage = document.querySelector(
+    "html body main .pagination-container .pagination .active-page"
+  );
+
+  if (value == "next" && Number(activePage.nextElementSibling.innerHTML)) {
+    pagination(activePage.nextElementSibling);
+  } else if (value == "previous") {
+    if (Number(activePage.previousElementSibling.innerHTML)) {
+      pagination(activePage.previousElementSibling);
+    } else {
+      const page_1 = document.querySelector(
+        "html body main .pagination-container .pagination .page:nth-child(2)"
+      );
+      const page_2 = document.querySelector(
+        "html body main .pagination-container .pagination .page:nth-child(3)"
+      );
+      const threeDots = document.querySelector(
+        "html body main .pagination-container .pagination .three-dots"
+      );
+      const page_4 = document.querySelector(
+        "html body main .pagination-container .pagination .page:nth-child(5)"
+      );
+      const page_5 = document.querySelector(
+        "html body main .pagination-container .pagination .page:nth-child(6)"
+      );
+
+      changePage(parseInt(page_1.innerHTML) - 1);
+
+      if (parseInt(page_1.innerHTML) == 1) {
+        return 0;
+      }
+
+      if (parseInt(page_1.innerHTML) + 3 == parseInt(page_4.innerHTML)) {
+        threeDots.innerHTML = `...`;
+      }
+      if (parseInt(page_1.innerHTML) > 1) {
+        page_2.innerHTML = page_1.innerHTML;
+        page_1.innerHTML = parseInt(page_1.innerHTML) - 1;
+      }
+    }
+  }
+}
+
+function changePage(page) {
+  const pages = document.querySelectorAll(
+    "html body main .pagination-container .pagination span"
+  );
+  const page_4 = document.querySelector(
+    "html body main .pagination-container .pagination .page:nth-child(5)"
+  );
+  const page_5 = document.querySelector(
+    "html body main .pagination-container .pagination .page:nth-child(6)"
+  );
+  const url = new URL(window.location); // ამჟამინდელი მისამართი
+  const params = url.searchParams;
+  const priceFrom = params.get("price_from");
+  const priceTo = params.get("price_to");
+  const sort = params.get("sort") || "price"; // default sort
+
+  // pages.forEach(e => {
+  //   if (parseInt(e.innerHTML) == page) {
+
+  //   }
+  // });
+
+  params.set("page", page); // page query-ს ჩასმა/შეცვლა
+
+  // მისამართის განახლება (reload-ის გარეშე)
+  window.history.pushState({}, "", url);
+
+  if (priceFrom && priceTo) {
+    loadFilteredProducts(page, Number(priceFrom), Number(priceTo), sort);
+  } else {
+    loadFilteredProducts(page, undefined, undefined, sort);
+  }
+}
+
+function renderPagination() {
+  let productIndicator = document.getElementById("productsIndicator");
+  let paginationContainer = document.querySelector(
+    "html body main .pagination-container .pagination"
+  );
+
+  if (!productIndicator || !paginationContainer) return;
+
+  productIndicator.innerHTML = `
+  Showing 1–${products.meta.per_page} of ${products.meta.total} results
+  `;
+  if (products.meta.last_page >= 6) {
+    paginationContainer.innerHTML = `
+      <img src="./images/arrowLeft.svg" alt="" id="arrow-left" onclick="arrowPagination('previous')"/>
+      <span class="page active-page" onclick="pagination(this)"> 1 </span>
+      <span class="page" onclick="pagination(this)"> 2 </span>
+      <span class="page three-dots" onclick="pagination(this)"> ... </span>
+      <span class="page" onclick="pagination(this)"> ${
+        parseInt(products.meta.last_page) - 1
+      }  </span>
+      <span class="page" onclick="pagination(this)"> ${
+        products.meta.last_page
+      } </span>
+      <img src="./images/arrowRight.svg" alt="" id="arrow-right" onclick="arrowPagination('next')"/>
+    `;
+  } else {
+    paginationContainer.innerHTML = ``;
+    let img_1 = document.createElement("img");
+    let img_2 = document.createElement("img");
+    img_1.src = `./images/arrowLeft.svg`;
+    img_2.src = `./images/arrowRight.svg`;
+    img_1.onclick = () => {
+      arrowPagination("previous");
+    };
+    img_2.onclick = () => {
+      arrowPagination("next");
+    };
+    paginationContainer.appendChild(img_1); // პირველი მიმთითებელი
+    for (let i = 0; i < products.meta.last_page; i++) {
+      let span = document.createElement("span");
+
+      if (i == 0) {
+        span.classList.add("active-page");
+      }
+
+      span.classList.add("page");
+      span.onclick = () => {
+        pagination(span);
+      };
+      span.innerHTML = `${i + 1}`;
+
+      paginationContainer.appendChild(span);
+    }
+    paginationContainer.appendChild(img_2); // მეორე მიმთითებელი
+  }
+}
+
+function pagination(element) {
+  const pages = document.querySelectorAll(
+    "html body main .pagination-container .pagination span"
+  );
+
+  const activePage = document.querySelector(
+    "html body main .pagination-container .pagination .active-page"
+  );
+
+  if (activePage == element) {
+    return 0;
+  }
+
+  pages.forEach((e) => {
+    e.classList.remove("active-page");
+  });
+
+  if (
+    pages.length > 4 &&
+    parseInt(element.innerHTML) < parseInt(pages[pages.length - 2].innerHTML)
+  ) {
+    if (parseInt(pages[4].innerHTML) - 3 <= parseInt(pages[1].innerHTML)) {
+      element.classList.add("active-page");
+    } else {
+      if (element == pages[1]) {
+        pages[0].innerHTML = pages[1].innerHTML;
+        pages[1].innerHTML = parseInt(pages[1].innerHTML) + 1;
+        pages[0].classList.add("active-page");
+      }
+
+      if (parseInt(pages[0].innerHTML) + 3 == parseInt(pages[3].innerHTML)) {
+        pages[2].innerHTML = parseInt(pages[0].innerHTML) + 2;
+      }
+    }
+  } else {
+    element.classList.add("active-page");
+
+    if (pages.length >= 4) {
+      pages[2].innerHTML = parseInt(pages[3].innerHTML) - 1;
+      pages[1].innerHTML = parseInt(pages[3].innerHTML) - 2;
+      pages[0].innerHTML = parseInt(pages[3].innerHTML) - 3;
+    }
+  }
+
+  changePage(parseInt(element.innerHTML));
 }
 
 // This is the main function of the website
@@ -581,6 +767,7 @@ async function main() {
   window.addEventListener("hashchange", router);
 
   // --- პირველი ჩატვირთვა ---
+
   document.addEventListener("DOMContentLoaded", () => {
     const init = async () => {
       await router();
@@ -588,27 +775,7 @@ async function main() {
 
       // We are reseicing data from the URL address
 
-      const params = new URLSearchParams(window.location.search);
-      const priceFrom = params.get("price_from");
-      const priceTo = params.get("price_to");
-      const sort = params.get("sort") || "price"; // default sort
-
-      if (priceFrom && priceTo) {
-        await loadFilteredProducts(1, Number(priceFrom), Number(priceTo), sort); // This is used to get the products
-
-        chosenFilters(sort, `sort`);
-
-        chosenFilters(`Price: ${priceFrom}-${priceTo}`, `filter`);
-        document.getElementById("price-filter").style.display = "none";
-
-        // ინპუტებში ჩასმა
-        document.getElementById("price-from").value = priceFrom;
-        document.getElementById("price-to").value = priceTo;
-      } else {
-        await loadFilteredProducts(1, undefined, undefined, sort);
-
-        chosenFilters(sort, `sort`);
-      }
+      renderPagination();
 
       const beforeLogIn = document.getElementById("before-log-in");
       const mainLogo = document.getElementById("mainLogo");
@@ -618,14 +785,44 @@ async function main() {
       }
 
       if (mainLogo) {
-        mainLogo.addEventListener("click", () => (location.hash = "/products"));
+        mainLogo.addEventListener("click", () => {
+          window.location.href = "index.html";
+        });
       }
     };
 
     init(); // აქ უკვე რეალურად გაეშვება ყველაფერი
   });
 
-  await loadFilteredProducts();
+  const params = new URLSearchParams(window.location.search);
+
+  const priceFrom = params.get("price_from");
+  const priceTo = params.get("price_to");
+  const sort = params.get("sort") || "price"; // default sort
+
+  // აქ ვიღებთ გვერდს სწორად
+  let page = parseInt(params.get("page")) || 1;
+  if (page < 1) page = 1;
+
+  if (priceFrom !== null && priceTo !== null) {
+    await loadFilteredProducts(page, Number(priceFrom), Number(priceTo), sort);
+
+    chosenFilters(sort, "sort");
+    chosenFilters(`Price: ${priceFrom}-${priceTo}`, "filter");
+
+    const pf = document.getElementById("price-filter");
+    if (pf) pf.style.display = "none";
+
+    // ინპუტებში ჩასმა
+    const pfInput = document.getElementById("price-from");
+    const ptInput = document.getElementById("price-to");
+    if (pfInput) pfInput.value = priceFrom;
+    if (ptInput) ptInput.value = priceTo;
+  } else {
+    await loadFilteredProducts(page, undefined, undefined, sort);
+    chosenFilters(sort, "sort");
+  }
+
   const filtering = document.getElementById("filtering");
   const sorting = document.getElementById("sorting");
   const priceFilter = document.getElementById("price-filter");
@@ -667,6 +864,7 @@ async function main() {
     priceFilter.style.display = "none";
     sortingFilter.style.display = "none";
   });
+  renderPagination();
 }
 
 main();

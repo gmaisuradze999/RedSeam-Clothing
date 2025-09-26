@@ -356,10 +356,53 @@ html body main .products .product .bottom .product-name {
 html body main .products .product .bottom .price {
   font-size: 16px;
 }
-html body main .pagination {
+html body main .pagination-container {
+  width: 89.583%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   margin: auto;
   margin-top: 90px;
   margin-bottom: 216px;
+}
+html body main .pagination-container .pagination {
+  display: flex;
+  align-items: center;
+}
+html body main .pagination-container .pagination img {
+  padding: 10px;
+}
+html body main .pagination-container .pagination #arrow-left {
+  margin-right: 8px;
+}
+html body main .pagination-container .pagination #arrow-right {
+  margin-left: 8px;
+}
+html body main .pagination-container .pagination span {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #f8f6f7;
+  color: #7a8086;
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: 4px;
+}
+html body main .pagination-container .pagination .page:nth-child(3) {
+  margin: 0px 8px;
+}
+html body main .pagination-container .pagination .page:nth-child(5) {
+  margin: 0px 8px;
+}
+html body main .pagination-container .pagination .active-page {
+  border: 1px solid #ff4000;
+  color: #ff4000;
+}
+html body main .pagination-container .pagination img:hover,
+html body main .pagination-container .pagination span:hover {
+  cursor: pointer;
 }
 html body main .authorization {
   display: flex;
