@@ -30,14 +30,20 @@ async function loadingPage(page) {
 // Indicating which page must be loaded first when a user enters the website
 
 async function router() {
-  const hash = location.hash.replace("#/", "") || "products"; // Products მთავარი გვერდი
+  const hash = location.hash.replace("#/", "") || "products";
 
-  await loadingPage(hash);
+  let page = hash.split("/")[0];
+
+  // mapping: product → productPage.html
+  if (page === "product") page = "productPage";
+
+  await loadingPage(page);
 
   if (hash === "products") {
-    setTimeout(() => {
-      initProductsList(); // ეს გამოიძახებს getProducts-ს და შემდეგ initProductsList-ს
-    }, 100);
+    await loadFilteredProducts();
+    renderPagination();
+  } else if (hash.startsWith("product/")) {
+    const productId = hash.split("/")[1];
   }
 }
 
@@ -396,6 +402,245 @@ async function getProducts({ page = 1, priceFrom, priceTo, sort } = {}) {
   return data;
 }
 
+async function getProduct(id) {
+  try {
+    const response = await fetch(`${API_URL}/products/${id}`, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message || "Failed to fetch product");
+    }
+
+    return data; // აქ გაქვს კონკრეტული პროდუქტის ინფორმაცია
+  } catch (error) {
+    console.error("Error fetching product:", error.message);
+    throw error;
+  }
+}
+
+// ამ ფუნქციაში არის ლოგიკა, როცა ფოტო იცვლება ფერიც შესაბამისი დგება, როცა ფერი იცვლება ფოტო შესაბამისი დგება.
+function pictureChanger(element, type) {
+  const displayedPicture = document.getElementById("displayed-picture");
+
+  if (type === "img") {
+    // img → მისი მშობელი .pickable-picture
+    const pictureDiv = element.parentElement;
+    const parent = pictureDiv.parentElement;
+    const children = Array.from(parent.querySelectorAll(".pickable-picture"));
+    const index = children.indexOf(pictureDiv);
+
+    // სურათის დაყენება
+    if (displayedPicture) {
+      displayedPicture.style.backgroundImage = element.style.backgroundImage;
+    }
+
+    // შესაბამისი ფერის border-ის დაყენება
+    const colorBorders = document.querySelectorAll(
+      "#information-box .pickable-colors > div"
+    );
+    if (colorBorders[index]) {
+      colorBorders.forEach((c) => c.classList.remove("border"));
+      colorBorders[index].classList.add("border");
+    }
+  } else if (type === "color") {
+    const borderDiv = element.parentElement; // border wrapper
+    const parent = borderDiv.parentElement; // .pickable-colors
+    const children = Array.from(parent.children);
+    const index = children.indexOf(borderDiv);
+
+    // ფერის border-ის დაყენება
+    children.forEach((c) => c.classList.remove("border"));
+    borderDiv.classList.add("border");
+
+    // შესაბამისი სურათის დაყენება
+    const pictures = document.querySelectorAll(
+      "#pickable-pictures .pickable-picture .img"
+    );
+    if (pictures[index] && displayedPicture) {
+      displayedPicture.style.backgroundImage =
+        pictures[index].style.backgroundImage;
+    }
+  }
+}
+
+async function forwardToProductPage(id) {
+  if (!id) return;
+
+  location.hash = `/product/${id}`;
+
+  // const productPage = document.querySelector("html body main .product-page");
+  // productPage.style.display = "none";
+
+  setTimeout(async () => {
+    const displayedPicture = document.getElementById("displayed-picture");
+    const productName = document.querySelector(
+      "#information-box .product-name span"
+    );
+    const productPrice = document.querySelector(
+      "#information-box .product-price span"
+    );
+    const colorIndicator = document.querySelector(
+      "#information-box .color-indicator span"
+    );
+    const pickableColors = document.querySelector(
+      "#information-box .pickable-colors"
+    );
+    const sizeIndicator = document.querySelector(
+      "#information-box .size-indicator"
+    );
+    const pickableSizes = document.querySelector(
+      "#information-box .pickable-sizes"
+    );
+    const numberOfProduct = document.getElementById("number-of-product");
+    const brandImg = document.getElementById("brand-img");
+    const brandName = document.getElementById("brand-name");
+    const brandDescription = document.getElementById("brand-description");
+    const pickablePictures = document.querySelector("#pickable-pictures");
+    const productInfo = await getProduct(id);
+
+    if (productInfo.cover_image) {
+      displayedPicture.style.backgroundImage = `url("${productInfo.cover_image}")`;
+    }
+
+    console.log(productInfo);
+
+    // This forEach is used to inlude the small pictures on the left
+
+    if (productInfo.images) {
+      productInfo.images.forEach((img) => {
+        pickablePictures.innerHTML += `
+        <div class="pickable-picture">
+            <div class="img" 
+                style="background-image: url('${img}')"
+                onclick="pictureChanger(this,'img')">
+            </div>
+          </div>
+        `;
+      });
+    }
+
+    // This is to indicate the name of the product
+
+    if (productInfo.name) {
+      productName.innerHTML = productInfo.name;
+    }
+
+    // This is to indicate the price of the product
+
+    if (productPrice) {
+      productPrice.innerHTML = `$ ${productInfo.price}`;
+    }
+
+    // This is used to get the colors
+
+    if (productInfo.available_colors) {
+      productInfo.available_colors.forEach((color) => {
+        let border = document.createElement("div");
+        let pickableColor = document.createElement("div");
+        pickableColor.classList.add("pickable-color");
+
+        border.setAttribute("name", color);
+
+        pickableColor.style.backgroundColor = color;
+        pickableColor.onclick = () => {
+          const borders = pickableColors.querySelectorAll(".border");
+
+          borders.forEach((e) => {
+            e.classList.remove("border");
+          });
+
+          border.classList.add("border");
+          colorIndicator.innerHTML = `Color: ${border.getAttribute("name")}`;
+          pictureChanger(pickableColor, "color");
+        };
+
+        border.appendChild(pickableColor);
+        pickableColors.appendChild(border);
+      });
+
+      // if (productInfo.color) {
+      //   const el = pickableColors.querySelector(
+      //     `[name="${productInfo.color}"]`
+      //   );
+
+      // თავიდან როცა საიტი ჩაიტვირთება, ფერი იქნება მონიშნული სულ პირველი.
+      const first = pickableColors.querySelector("div:first-child");
+      first.classList.add("border");
+      colorIndicator.innerHTML = `Color: ${productInfo.available_colors[0]}`;
+    }
+
+    // This is used to get the sizes
+
+    if (productInfo.available_sizes) {
+      productInfo.available_sizes.forEach((size) => {
+        let pickableSize = document.createElement("div");
+        pickableSize.classList.add("pickable-size");
+        let button = document.createElement("button");
+        let span = document.createElement("span");
+
+        span.innerHTML = size;
+        button.appendChild(span);
+        button.onclick = () => {
+          let activeButtons = pickableSizes.querySelectorAll(
+            ".button-active-class"
+          );
+
+          if (activeButtons) {
+            activeButtons.forEach((e) => {
+              e.classList.remove("button-active-class");
+            });
+          }
+
+          sizeIndicator.innerHTML = `Size: ${size}`;
+          button.classList.add("button-active-class");
+        };
+        if (size == productInfo.size) {
+          button.classList.add("button-active-class");
+          sizeIndicator.innerHTML = `Size: ${size}`;
+        }
+        pickableSize.appendChild(button);
+        pickableSizes.appendChild(pickableSize);
+      });
+    }
+
+    // This is used to get the quantity
+
+    if (productInfo.quantity) {
+      for (let i = 0; i < productInfo.quantity; i++) {
+        let option = document.createElement("option");
+        option.value = i + 1;
+        option.innerHTML = i + 1;
+
+        numberOfProduct.appendChild(option);
+      }
+    }
+
+    // These indicate brand information
+
+    if (productInfo.brand.image) {
+      let brandPicture = document.createElement("img");
+
+      brandPicture.src = productInfo.brand.image;
+      brandImg.appendChild(brandPicture);
+    }
+
+    if (productInfo.brand.name) {
+      brandName.innerHTML = `Brand: ${productInfo.brand.name}`;
+    }
+
+    if (productInfo.description) {
+      brandDescription.innerHTML = productInfo.description;
+    }
+  }, 100);
+}
+
 // This functions formats the product's divs
 
 function initProductsList() {
@@ -407,7 +652,7 @@ function initProductsList() {
   if (products && products.data) {
     products.data.forEach((e) => {
       productsContainer.innerHTML += `
-        <div class="product">
+        <div class="product" onclick="forwardToProductPage(${e.id})">
           <div class="top" style="background-image: url(${e.cover_image})"></div>
           <div class="bottom">
             <p class="product-name">${e.name}</p>
@@ -579,6 +824,8 @@ async function loadFilteredProducts(
   }
 }
 
+// This function is a supplementary function to pagination() and is used to change pages visa arrow right and left symbols
+
 function arrowPagination(value) {
   let activePage = document.querySelector(
     "html body main .pagination-container .pagination .active-page"
@@ -623,6 +870,8 @@ function arrowPagination(value) {
   }
 }
 
+// This function is used to determine what kind of page we are in
+
 function changePage(page) {
   const pages = document.querySelectorAll(
     "html body main .pagination-container .pagination span"
@@ -639,12 +888,6 @@ function changePage(page) {
   const priceTo = params.get("price_to");
   const sort = params.get("sort") || "price"; // default sort
 
-  // pages.forEach(e => {
-  //   if (parseInt(e.innerHTML) == page) {
-
-  //   }
-  // });
-
   params.set("page", page); // page query-ს ჩასმა/შეცვლა
 
   // მისამართის განახლება (reload-ის გარეშე)
@@ -656,6 +899,8 @@ function changePage(page) {
     loadFilteredProducts(page, undefined, undefined, sort);
   }
 }
+
+// This is a secondary function to the pagination() used alongside it to render the pages icons at the bottom of the website
 
 function renderPagination() {
   let productIndicator = document.getElementById("productsIndicator");
@@ -714,6 +959,8 @@ function renderPagination() {
   }
 }
 
+// Main pagaination function
+
 function pagination(element) {
   const pages = document.querySelectorAll(
     "html body main .pagination-container .pagination span"
@@ -761,6 +1008,12 @@ function pagination(element) {
   changePage(parseInt(element.innerHTML));
 }
 
+// This function's sole purpose is to redirect the webuser into the main page
+
+function listingRedirection() {
+  window.location.href = "index.html";
+}
+
 // This is the main function of the website
 
 async function main() {
@@ -786,7 +1039,7 @@ async function main() {
 
       if (mainLogo) {
         mainLogo.addEventListener("click", () => {
-          window.location.href = "index.html";
+          listingRedirection();
         });
       }
     };
@@ -821,6 +1074,20 @@ async function main() {
   } else {
     await loadFilteredProducts(page, undefined, undefined, sort);
     chosenFilters(sort, "sort");
+  }
+
+  const hash = window.location.hash; // "#/product/12"
+  const path = hash.replace("#", ""); // "/product/12"
+  const parts = path.split("/"); // ["", "product", "12"]
+
+  // სტრინგის ამოღება
+  const idString = parts[2]; // "12"
+
+  // რიცხვად გადაყვანა
+  const productId = parseInt(idString, 10); // 12 (number)
+
+  if (productId) {
+    await forwardToProductPage(productId);
   }
 
   const filtering = document.getElementById("filtering");
@@ -861,8 +1128,12 @@ async function main() {
       return;
     }
 
-    priceFilter.style.display = "none";
-    sortingFilter.style.display = "none";
+    if (priceFilter) {
+      priceFilter.style.display = "none";
+    }
+    if (sortingFilter) {
+      sortingFilter.style.display = "none";
+    }
   });
   renderPagination();
 }

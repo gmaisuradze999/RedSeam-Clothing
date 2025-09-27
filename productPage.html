@@ -1,89 +1,52 @@
 <div class="product-page">
   <div class="top">
-    <span> Listing / Product </span>
+    <span id="listing" onclick="listingRedirection()"> Listing</span>
+    <span> /</span>
+    <span>Product</span>
   </div>
   <div class="bottom">
     <div class="left">
-      <div class="pickable-pictures">
-        <div class="pickable-picture">
-          <img src="./images/p2.svg" alt="" />
-        </div>
-        <div class="pickable-picture">
-          <img src="./images/p3.svg" alt="" />
-        </div>
-        <div class="pickable-picture">
-          <img src="./images/p4.svg" alt="" />
-        </div>
-        <div class="pickable-picture">
-          <img src="./images/p5.svg" alt="" />
-        </div>
-        <div class="pickable-picture">
-          <img src="./images/p6.svg" alt="" />
-        </div>
-      </div>
-      <div class="displayed-picture">
-        <img src="./images/p1.svg" alt="" />
-      </div>
+      <div id="pickable-pictures"></div>
+      <div id="displayed-picture"></div>
     </div>
     <div class="right">
-      <div class="product-name"></div>
-      <div class="product-price"></div>
-      <div class="color-indicator"></div>
-      <div class="pickable-colors">
-        <div class="pickable-color"></div>
-        <div class="pickable-color"></div>
-        <div class="pickable-color"></div>
-      </div>
-      <div class="size-indicator"></div>
-      <div class="pickable-sizes">
-        <div class="pickable-size">
-          <span>XS</span>
+      <div id="information-box">
+        <div class="product-name">
+          <span></span>
         </div>
-        <div class="pickable-size">
-          <span>S</span>
+        <div class="product-price">
+          <span></span>
         </div>
-        <div class="pickable-size">
-          <span>M</span>
+        <div class="color-indicator">
+          <span></span>
         </div>
-        <div class="pickable-size">
-          <span>L</span>
+
+        <div class="pickable-colors"></div>
+
+        <div class="size-indicator"></div>
+        <div class="pickable-sizes"></div>
+        <span id="quantity-indicator"> Quantity </span>
+        <div class="number-of-product-container">
+          <select name="number-of-product" id="number-of-product"></select>
         </div>
-        <div class="pickable-size">
-          <span>XL</span>
+        <button id="add-to-cart">
+          <img src="./images/cartWhite.svg" alt="" id="white-cart" />
+          <span id="add-to-cart-text"> Add to cart </span>
+        </button>
+        <img
+          src="./images/greyHorizontalLine.svg"
+          alt="Grey Horizontal Line"
+          id="grey-horizontal-line"
+        />
+        <div class="details-container">
+          <div class="detail">
+            <span> Details </span>
+          </div>
+          <div id="brand-img"></div>
         </div>
-      </div>
-      <span id="quantity-indicator"> Quantity </span>
-      <span> 3 </span>
-      <button id="add-to-cart">
-        <span id="add-to-cart-text"> Add to cart </span>
-      </button>
-      <img
-        src="./images/greyHorizontalLine.svg"
-        alt="Grey Horizontal Line"
-        id="grey-horizontal-line"
-      />
-      <div class="details-container">
-        <div class="left-detail">
-          <span> Details </span>
-        </div>
-        <div class="right-detail">
-          <img
-            src="./images/tommyHilfiger.svg"
-            alt="Tommy Hilfiger"
-            class="tommy-hilfiger"
-          />
-        </div>
-      </div>
-      <div class="brand-container">
-        <div class="top-brand">
-          <span> Brand: Tommy Hilfiger </span>
-        </div>
-        <div class="bottom-brand">
-          <span>
-            This product contains regenerative cotton, which is grown using
-            farming methods that seek to improve soil health, watersheds and
-            biodiversity.
-          </span>
+        <div class="brand-container">
+          <span id="brand-name"></span>
+          <span id="brand-description"></span>
         </div>
       </div>
     </div>
