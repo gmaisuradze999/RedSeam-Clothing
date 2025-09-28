@@ -913,10 +913,6 @@ async function forwardToProductPage(id) {
     brandName.innerHTML = "";
     brandDescription.innerHTML = "";
 
-    if (brandImg) brandImg.src = "";          // reset image instead of innerHTML
-if (brandName) brandName.innerHTML = "";
-if (brandDescription) brandDescription.innerHTML = "";
-
     if (productInfo.cover_image) {
       displayedPicture.style.backgroundImage = `url("${productInfo.cover_image}")`;
     }
