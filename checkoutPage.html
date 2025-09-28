@@ -1,63 +1,137 @@
 <div class="checkout-container">
-    <div class="top">
-        <span>Checkout</span>
+  <div class="top">
+    <span>Checkout</span>
+  </div>
+  <div class="bottom">
+    <div class="left">
+      <div class="form-top">
+        <span>Order details</span>
+      </div>
+      <div class="form-bottom">
+        <form action="">
+          <div class="fullname">
+            <input type="text" placeholder="Name" id="name-input" required />
+            <input
+              type="text"
+              placeholder="Surname"
+              id="surname-input"
+              required
+            />
+          </div>
+          <div class="email">
+            <img src="./images/mailIcon.svg" alt="Mail Icon" id="mail-icon" />
+            <input type="email" placeholder="Email" id="email-input" required />
+          </div>
+          <div class="address">
+            <input
+              type="text"
+              placeholder="Address"
+              id="address-input"
+              required
+            />
+            <input
+              type="number"
+              placeholder="Zip code"
+              id="zip-code-input"
+              required
+            />
+          </div>
+        </form>
+      </div>
     </div>
-    <div class="bottom">
-        <div class="left">
-            <div class="form-top">
-                <span>Order details</span>
-            </div>
-            <div class="form-bottom">
-                <form action="">
-                    <div class="fullname">
-                        <input type="text" required>
-                        <input type="text" required>
-                    </div>
-                    <div class="email">
-                        <input type="email">
-                    </div>
-                    <div class="address">
-                        <input type="text">
-                        <input type="number">
-                    </div>
-                </form>
-            </div>
-        </div>
-        <div class="right">
-            <div class="shopping-cart-container">
-                <div class="chosen-product">
-                    <div class="left-c"></div>
-                    <div class="middle-c">
-                        <span>Kids' Curved Hilfiger Graphic T-Shirt</span>
-                        <span>Baby pink</span>
-                        <span>L</span>
-                        <div class="flactuation">
-                            <img src="./images/minusSign.svg" alt="Minus Sign" class="minus-sign">
-                            <span>1</span>
-                            <img src="./images/plusSign.svg" alt="Plus Sign" class="plus-sign">
-                        </div>
-                    </div>
-                    <div class="right-c">
-                        <span class="price">$ 25</span>
-                        <span class="removal">Removal</span>
-                    </div>
+    <div class="right">
+      <div class="info-container">
+        <div class="shopping-cart-container">
+          <div class="chosen-products">
+            <div class="chosen-product">
+              <div class="left-c"></div>
+              <div class="right-c">
+                <div class="name-price">
+                  <span id="name-of-chosen-product">Kids' Curved Hilfiger Graphic T-Shirt</span>
+                  <span id="price-of-chosen-product">$ 25</span>
                 </div>
-                <div class="totals">
-                    <div class="suptotal">
-                        <span>Iteams subtotal</span>
-                        <span class="iteams-subtotal-number">$ 50</span>
-                    </div>
-                    <div class="delivery">
-                        <span>Delivery</span>
-                        <span class="delivery-total">$ 5</span>
-                    </div>
-                    <div class="total">
-                        <span>Delivery</span>
-                        <span class="total-number">$ 55</span>
-                    </div>
+                <p id="color-of-chosen-product">Baby pink</p>
+                <p id="size-of-chosen-product">L</p>
+                <div class="increase-remove">
+                  <div class="flactuation">
+                    <img
+                      src="./images/minusSign.svg"
+                      alt="Minus Sign"
+                      id="minus-sign"
+                    />
+                    <input type="number" min="1" value="1" id="number-of-chosen-products">
+                    <img
+                      src="./images/plusSign.svg"
+                      alt="Plus Sign"
+                      id="plus-sign"
+                    />
+                  </div>
+                  <span id="removal">Removal</span>
                 </div>
+              </div>
             </div>
-            <button class="checkout-button"></button>
+            <div class="chosen-product">
+              <div class="left-c"></div>
+              <div class="right-c">
+                <div class="name-price">
+                  <span id="name-of-chosen-product">Kids' Curved Hilfiger Graphic T-Shirt</span>
+                  <span id="price-of-chosen-product">$ 25</span>
+                </div>
+                <p id="color-of-chosen-product">Baby pink</p>
+                <p id="size-of-chosen-product">L</p>
+                <div class="increase-remove">
+                  <div class="flactuation">
+                    <img
+                      src="./images/minusSign.svg"
+                      alt="Minus Sign"
+                      id="minus-sign"
+                    />
+                    <input type="number" min="1" value="1" id="number-of-chosen-products">
+                    <img
+                      src="./images/plusSign.svg"
+                      alt="Plus Sign"
+                      id="plus-sign"
+                    />
+                  </div>
+                  <span id="removal">Removal</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="totals">
+            <div class="suptotal">
+              <span>Iteams subtotal</span>
+              <span class="iteams-subtotal-number">$ 50</span>
+            </div>
+            <div class="delivery">
+              <span>Delivery</span>
+              <span class="delivery-total">$ 5</span>
+            </div>
+            <div class="total">
+              <span>Delivery</span>
+              <span class="total-number">$ 55</span>
+            </div>
+          </div>
         </div>
+        <button class="checkout-button">
+            <span>Pay</span>
+        </button>
+      </div>
     </div>
+  </div>
+</div>
+<div class="congratulations-container">
+  <div class="congratulations-box">
+    <img src="./images/xSign.svg" alt="">
+    <img src="./images/greenCheckMark.svg" alt="Green Check Mark" id="green-check-mark">
+    <p id="congrats-text">
+      Congrats!
+    </p>
+    <p id="placed-order">
+      Your order is placed successfully!
+    </p>
+    <button id="continue-shopping">
+      <span>Continue shopping</span>
+    </button>
+  </div>
 </div>

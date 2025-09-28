@@ -18,18 +18,20 @@
           <span></span>
         </div>
         <div class="color-indicator">
+          <span>Color: </span>
           <span></span>
         </div>
-
         <div class="pickable-colors"></div>
-
-        <div class="size-indicator"></div>
+        <div class="size-indicator">
+          <span>Size: </span>
+          <span></span>
+        </div>
         <div class="pickable-sizes"></div>
         <span id="quantity-indicator"> Quantity </span>
         <div class="number-of-product-container">
           <select name="number-of-product" id="number-of-product"></select>
         </div>
-        <button id="add-to-cart">
+        <button id="add-to-cart" onclick="addProductToCartInfoRedirection()">
           <img src="./images/cartWhite.svg" alt="" id="white-cart" />
           <span id="add-to-cart-text"> Add to cart </span>
         </button>

@@ -1,4 +1,5 @@
 let products = [];
+let cart = [];
 const API_URL = "https://api.redseam.redberryinternship.ge/api";
 let registrationLoading = false;
 let logInLoading = false;
@@ -16,6 +17,45 @@ async function loadingPage(page) {
     .then((html) => {
       let app = document.getElementById("app");
       app.innerHTML = html;
+
+      const cardContainer = `
+        <div class="card-container">
+          <div class="vertical-shopping-container">
+            <div class="top">
+              <span>Shopping cart (0)</span>
+              <img src="./images/xSign.svg" alt="" onclick="controlCardContainer()"/>
+            </div>
+            <div class="bottom">
+              <div class="shopping-cart-container">
+                <div class="chosen-products">
+                </div>
+                <div class="totals">
+                  
+                </div>
+              </div>
+              <button id="checkout-redirection-button">
+                <span>Go to checkout</span>
+              </button>
+              <div class="empty-cart-container">
+                <div class="ooops-container">
+                  <img
+                    src="./images/cartArtyClickWarmRed.svg"
+                    alt="Arty Click Warm Red Cart Icon"
+                    id="cart-arty-click-warm-red-icon"
+                  />
+                  <p class="ooops-text">Ooops!</p>
+                  <p class="nothing-yet-box">You've got nothing in your cart just yet...</p>
+                </div>
+                <button class="start-shopping-button" onclick="listingRedirection()">
+                  <span> Start shopping </span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+
+      app.innerHTML += cardContainer;
     })
     .catch((err) => {
       let app = document.getElementById("app");
@@ -25,6 +65,291 @@ async function loadingPage(page) {
         </h1>
       `;
     });
+}
+
+async function getCart() {
+  try {
+    // ავიღოთ ტოკენი localStorage-იდან
+    const token = localStorage.getItem("token");
+
+    const response = await fetch(`${API_URL}/cart`, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to fetch cart");
+    }
+
+    const data = await response.json();
+    console.log("Cart:", data);
+    return data;
+  } catch (error) {
+    console.error("Error fetching cart:", error.message);
+    return [];
+  }
+}
+
+async function updateCartProductQuantity(productId, quantity) {
+  try {
+    const token = localStorage.getItem("token");
+
+    const response = await fetch(`${API_URL}/cart/products/${productId}`, {
+      method: "PATCH",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        quantity: quantity,
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to update product quantity");
+    }
+
+    const data = await response.json();
+    console.log("Quantity updated:", data);
+    await renderCardProductTotals();
+    return data;
+  } catch (error) {
+    console.error("Error updating quantity:", error.message);
+    return null;
+  }
+}
+
+async function productDelete(productId, color, size) {
+  try {
+    const token = localStorage.getItem("token");
+
+    // query params შექმნა
+    const queryParams = new URLSearchParams();
+    if (color) queryParams.append("color", color);
+    if (size) queryParams.append("size", size);
+
+    const url = `${API_URL}/cart/products/${productId}${
+      queryParams.toString() ? "?" + queryParams.toString() : ""
+    }`;
+
+    const response = await fetch(url, {
+      method: "DELETE",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to delete product from cart");
+    }
+
+    console.log(`Product ${productId} deleted successfully`);
+
+    await renderCardProductTotals();
+    return true;
+  } catch (error) {
+    console.error("Error deleting product:", error.message);
+    return false;
+  }
+}
+
+// ეს ფუნქცია გამოიყენება ელემენტის წაშლისთვის კალათიდან
+async function removingProductFromShoppingCart(
+  element,
+  productId,
+  color,
+  size
+) {
+  const deletedProduct = await productDelete(productId, color, size); // ვაგზავნით api - სთან წაშლის მოთხოვნას
+  if (deletedProduct) {
+    const numberOfProductIndicator = document.querySelector(
+      "#app .card-container .vertical-shopping-container .top span .number"
+    ); // აქ მოგვაქვს კალათაში საერთო პროდუქტების რაოდენობის რიცხვი
+
+    numberOfProductIndicator.innerHTML =
+      parseInt(numberOfProductIndicator.innerHTML) - 1; // სანამ ელემენტი წაიშლება საერთო რაოდენობას ვიზუალურად ვაკლებთ 1
+
+    console.log(numberOfProductIndicator);
+
+    if (numberOfProductIndicator.innerHTML == 0) {
+      // თუ პროდუქტები განულდა, ვხურავთ ქართის ბარათს.
+      controlCardContainer();
+    }
+
+    element.remove(); // ვიზუალურად იშლება ელემენტი კალათიდან
+  }
+}
+
+async function reduceOrAdd(element, value, productId) {
+  let quantityChanger = element.querySelector("input");
+
+  let quantity = parseInt(quantityChanger.value);
+
+  if (value === "minus" && quantity > 1) {
+    quantity -= 1;
+  } else if (value === "plus") {
+    quantity += 1;
+  }
+
+  let updatedProductInfo = await updateCartProductQuantity(productId, quantity);
+
+  if (updatedProductInfo) {
+    await renderCardProductTotals();
+    quantityChanger.value = quantity;
+
+    // ვიპოვოთ პროდუქტის wrapper
+    const productWrapper = element.closest(".chosen-product");
+
+    // ავიღოთ ერთეულის ფასი data-price-დან
+    const unitPrice = parseFloat(productWrapper.dataset.price);
+
+    // განვაახლოთ ფასის span
+    const priceElement = productWrapper.querySelector(
+      "#price-of-chosen-product"
+    );
+    priceElement.textContent = `$ ${unitPrice * quantity}`;
+
+    return quantity;
+  }
+}
+
+async function renderCardProductTotals() {
+  const subTotal = document.querySelector(
+    "#app .card-container .vertical-shopping-container .bottom .shopping-cart-container .totals"
+  );
+
+  cart = await getCart();
+
+  let total = 0;
+  let delivery = 5;
+  cart.forEach((e) => {
+    total += e.total_price;
+  });
+
+  subTotal.innerHTML = `
+    <div class="suptotal">
+      <span>Iteams subtotal</span>
+      <span class="iteams-subtotal-number">$ ${total}</span>
+    </div>
+    <div class="delivery">
+      <span>Delivery</span>
+      <span class="delivery-total">$ ${delivery}</span>
+    </div>
+    <div class="total">
+      <span>Delivery</span>
+      <span class="total-number">$ ${total + delivery}</span>
+    </div>
+    `;
+}
+
+function renderCardProducts(element, cart) {
+  element.innerHTML = ``;
+  cart.forEach((e) => {
+    console.log(e);
+    element.innerHTML += `
+      <div class="chosen-product" data-price="${e.price}">
+        <div class="left-c" style="background-image: url('${
+          e.cover_image
+        }')"></div>
+        <div class="right-c">
+          <div class="name-price">
+            <span id="name-of-chosen-product">${e.name}</span>
+            <span id="price-of-chosen-product">$ ${e.price * e.quantity}</span>
+          </div>
+          <p id="color-of-chosen-product">${e.color}</p>
+          <p id="size-of-chosen-product">${e.size}</p>
+          <div class="increase-remove">
+            <div class="flactuation">
+              <img
+                src="./images/minusSign.svg"
+                alt="Minus Sign"
+                id="minus-sign"
+                onclick="reduceOrAdd(this.parentElement, 'minus', ${e.id})"
+              />
+              <input
+                type="number"
+                min="0"
+                value="${e.quantity}"
+                readonly
+                id="number-of-chosen-products"
+              />
+              <img
+                src="./images/plusSign.svg"
+                alt="Plus Sign"
+                id="plus-sign"
+                onclick="reduceOrAdd(this.parentElement, 'plus', ${e.id})"
+              />
+            </div>
+            <span id="removal" onclick="removingProductFromShoppingCart(this.parentElement.parentElement.parentElement, ${
+              e.id
+            }, '${e.color}','${e.size}')">Removal</span>
+          </div>
+        </div>
+      </div>
+    `;
+  });
+}
+
+// let subtotalPrice = 0;
+// const deliveryPrice = 5;
+
+async function controlCardContainer() {
+  let cardContainer = document.querySelector("#app .card-container");
+
+  if (!cardContainer.style.display) {
+    const numberOfProductIndicator = document.querySelector(
+      "#app .card-container .vertical-shopping-container .top span"
+    );
+    const shoppingCartContainer = document.querySelector(
+      "#app .card-container .vertical-shopping-container .bottom .shopping-cart-container"
+    );
+    const checkoutRedirectionButton = document.querySelector(
+      "#app .card-container .vertical-shopping-container .bottom #checkout-redirection-button"
+    );
+    const emptyCartContainer = document.querySelector(
+      "#app .card-container .vertical-shopping-container .bottom .empty-cart-container"
+    );
+    const startShoppingButton = document.querySelector(
+      "#app .card-container .vertical-shopping-container .bottom .start-shopping-button"
+    );
+    cart = await getCart();
+
+    console.log(cart);
+
+    if (cart.length > 0) {
+      console.log(cart);
+      const chosenProducts =
+        shoppingCartContainer.querySelector(".chosen-products");
+
+      numberOfProductIndicator.innerHTML = `Shopping cart(<span class='number'>${cart.length}</span>)`;
+
+      shoppingCartContainer.style.display = "flex";
+      checkoutRedirectionButton.style.display = "block";
+      emptyCartContainer.style.display = "none";
+      startShoppingButton.style.display = "none";
+
+      renderCardProducts(chosenProducts, cart);
+      await renderCardProductTotals();
+    } else {
+      numberOfProductIndicator.innerHTML = `Shopping cart(<span class='number'>0</span>)`;
+      shoppingCartContainer.style.display = "none";
+      checkoutRedirectionButton.style.display = "none";
+      emptyCartContainer.style.display = "flex";
+      startShoppingButton.style.display = "block";
+
+      console.log("Hello");
+    }
+    cardContainer.style.display = "flex";
+  } else {
+    cardContainer.style.display = "";
+  }
 }
 
 // Indicating which page must be loaded first when a user enters the website
@@ -487,13 +812,13 @@ async function forwardToProductPage(id) {
       "#information-box .product-price span"
     );
     const colorIndicator = document.querySelector(
-      "#information-box .color-indicator span"
+      "#information-box .color-indicator span:nth-child(2)"
     );
     const pickableColors = document.querySelector(
       "#information-box .pickable-colors"
     );
     const sizeIndicator = document.querySelector(
-      "#information-box .size-indicator"
+      "#information-box .size-indicator span:nth-child(2)"
     );
     const pickableSizes = document.querySelector(
       "#information-box .pickable-sizes"
@@ -508,8 +833,6 @@ async function forwardToProductPage(id) {
     if (productInfo.cover_image) {
       displayedPicture.style.backgroundImage = `url("${productInfo.cover_image}")`;
     }
-
-    console.log(productInfo);
 
     // This forEach is used to inlude the small pictures on the left
 
@@ -557,7 +880,7 @@ async function forwardToProductPage(id) {
           });
 
           border.classList.add("border");
-          colorIndicator.innerHTML = `Color: ${border.getAttribute("name")}`;
+          colorIndicator.innerHTML = border.getAttribute("name");
           pictureChanger(pickableColor, "color");
         };
 
@@ -573,7 +896,7 @@ async function forwardToProductPage(id) {
       // თავიდან როცა საიტი ჩაიტვირთება, ფერი იქნება მონიშნული სულ პირველი.
       const first = pickableColors.querySelector("div:first-child");
       first.classList.add("border");
-      colorIndicator.innerHTML = `Color: ${productInfo.available_colors[0]}`;
+      colorIndicator.innerHTML = productInfo.available_colors[0];
     }
 
     // This is used to get the sizes
@@ -598,12 +921,12 @@ async function forwardToProductPage(id) {
             });
           }
 
-          sizeIndicator.innerHTML = `Size: ${size}`;
+          sizeIndicator.innerHTML = size;
           button.classList.add("button-active-class");
         };
         if (size == productInfo.size) {
           button.classList.add("button-active-class");
-          sizeIndicator.innerHTML = `Size: ${size}`;
+          sizeIndicator.innerHTML = size;
         }
         pickableSize.appendChild(button);
         pickableSizes.appendChild(pickableSize);
@@ -1014,6 +1337,74 @@ function listingRedirection() {
   window.location.href = "index.html";
 }
 
+async function addProductToCart(productId, quantity = 1, color, size) {
+  try {
+    // ავიღოთ ტოკენი localStorage-იდან
+    const token = localStorage.getItem("token");
+
+    const response = await fetch(`${API_URL}/cart/products/${productId}`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`, // აქ ემატება ტოკენი
+      },
+      body: JSON.stringify({
+        quantity: quantity,
+        color: color,
+        size: size,
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to add product to cart");
+    }
+
+    const data = await response.json();
+
+    controlCardContainer();
+
+    return data;
+  } catch (error) {
+    console.error("Error adding product to cart:", error.message);
+    return null;
+  }
+}
+
+function getProductIdFromQueryParams() {
+  const hash = window.location.hash; // "#/product/12"
+  const path = hash.replace("#", ""); // "/product/12"
+  const parts = path.split("/"); // ["", "product", "12"]
+
+  // სტრინგის ამოღება
+  const idString = parts[2]; // "12"
+
+  // რიცხვად გადაყვანა
+  const productId = parseInt(idString, 10); // 12 (number)
+
+  return productId;
+}
+
+async function addProductToCartInfoRedirection() {
+  const colorIndicator = document.querySelector(
+    "#information-box .color-indicator span:nth-child(2)"
+  ).innerHTML;
+  const sizeIndicator = document.querySelector(
+    "#information-box .size-indicator span:nth-child(2)"
+  ).innerHTML;
+  const numberOfProduct = document.getElementById("number-of-product").value;
+  const productId = getProductIdFromQueryParams();
+
+  if (colorIndicator && sizeIndicator && numberOfProduct && productId) {
+    let product = await addProductToCart(
+      productId,
+      numberOfProduct,
+      colorIndicator,
+      sizeIndicator
+    );
+  }
+}
+
 // This is the main function of the website
 
 async function main() {
@@ -1032,6 +1423,7 @@ async function main() {
 
       const beforeLogIn = document.getElementById("before-log-in");
       const mainLogo = document.getElementById("mainLogo");
+      const checkout = document.getElementById("checkout-redirection-button");
 
       if (beforeLogIn) {
         beforeLogIn.addEventListener("click", () => (location.hash = "/auth"));
@@ -1042,6 +1434,12 @@ async function main() {
           listingRedirection();
         });
       }
+
+      document.addEventListener("click", (e) => {
+        if (e.target.closest("#checkout-redirection-button")) {
+          location.hash = "/checkoutPage";
+        }
+      });
     };
 
     init(); // აქ უკვე რეალურად გაეშვება ყველაფერი
@@ -1076,15 +1474,7 @@ async function main() {
     chosenFilters(sort, "sort");
   }
 
-  const hash = window.location.hash; // "#/product/12"
-  const path = hash.replace("#", ""); // "/product/12"
-  const parts = path.split("/"); // ["", "product", "12"]
-
-  // სტრინგის ამოღება
-  const idString = parts[2]; // "12"
-
-  // რიცხვად გადაყვანა
-  const productId = parseInt(idString, 10); // 12 (number)
+  const productId = getProductIdFromQueryParams();
 
   if (productId) {
     await forwardToProductPage(productId);
