@@ -435,7 +435,7 @@ async function router() {
 
     renderPagination();
 
-  // --- Product detail გვერდი ---
+    // --- Product detail გვერდი ---
   } else if (hash.startsWith("product/")) {
     const productId = hash.split("/")[1];
     if (productId) {
@@ -443,7 +443,6 @@ async function router() {
     }
   }
 }
-
 
 // This is for the orange '*' that cannot be seperate color whilst also being part of the input's placeholder
 
@@ -549,10 +548,6 @@ async function register(email, username, password, file) {
 }
 
 // Function that allows a person to register
-
-
-
-
 
 async function registration() {
   const fileInput = document.getElementById("file-input");
@@ -877,9 +872,6 @@ async function forwardToProductPage(id) {
 
   location.hash = `/product/${id}`;
 
-  // const productPage = document.querySelector("html body main .product-page");
-  // productPage.style.display = "none";
-
   setTimeout(async () => {
     const displayedPicture = document.getElementById("displayed-picture");
     const productName = document.querySelector(
@@ -905,41 +897,47 @@ async function forwardToProductPage(id) {
     const brandName = document.getElementById("brand-name");
     const brandDescription = document.getElementById("brand-description");
     const pickablePictures = document.querySelector("#pickable-pictures");
+
     const productInfo = await getProduct(id);
+
+    // --- აქ არის გამოსავალი: ჯერ ვასუფთავებთ ---
+    pickablePictures.innerHTML = "";
+    pickableColors.innerHTML = "";
+    pickableSizes.innerHTML = "";
+    numberOfProduct.innerHTML = "";
+    brandImg.innerHTML = "";
+    brandName.innerHTML = "";
+    brandDescription.innerHTML = "";
 
     if (productInfo.cover_image) {
       displayedPicture.style.backgroundImage = `url("${productInfo.cover_image}")`;
     }
 
-    // This forEach is used to inlude the small pictures on the left
-
+    // Images
     if (productInfo.images) {
       productInfo.images.forEach((img) => {
         pickablePictures.innerHTML += `
-        <div class="pickable-picture">
-            <div class="img" 
-                style="background-image: url('${img}')"
-                onclick="pictureChanger(this,'img')">
-            </div>
+          <div class="pickable-picture">
+              <div class="img" 
+                  style="background-image: url('${img}')"
+                  onclick="pictureChanger(this,'img')">
+              </div>
           </div>
         `;
       });
     }
 
-    // This is to indicate the name of the product
-
+    // Name
     if (productInfo.name) {
       productName.innerHTML = productInfo.name;
     }
 
-    // This is to indicate the price of the product
-
+    // Price
     if (productPrice) {
       productPrice.innerHTML = `$ ${productInfo.price}`;
     }
 
-    // This is used to get the colors
-
+    // Colors
     if (productInfo.available_colors) {
       productInfo.available_colors.forEach((color) => {
         let border = document.createElement("div");
@@ -947,15 +945,10 @@ async function forwardToProductPage(id) {
         pickableColor.classList.add("pickable-color");
 
         border.setAttribute("name", color);
-
         pickableColor.style.backgroundColor = color;
         pickableColor.onclick = () => {
           const borders = pickableColors.querySelectorAll(".border");
-
-          borders.forEach((e) => {
-            e.classList.remove("border");
-          });
-
+          borders.forEach((e) => e.classList.remove("border"));
           border.classList.add("border");
           colorIndicator.innerHTML = border.getAttribute("name");
           pictureChanger(pickableColor, "color");
@@ -965,19 +958,14 @@ async function forwardToProductPage(id) {
         pickableColors.appendChild(border);
       });
 
-      // if (productInfo.color) {
-      //   const el = pickableColors.querySelector(
-      //     `[name="${productInfo.color}"]`
-      //   );
-
-      // თავიდან როცა საიტი ჩაიტვირთება, ფერი იქნება მონიშნული სულ პირველი.
       const first = pickableColors.querySelector("div:first-child");
-      first.classList.add("border");
-      colorIndicator.innerHTML = productInfo.available_colors[0];
+      if (first) {
+        first.classList.add("border");
+        colorIndicator.innerHTML = productInfo.available_colors[0];
+      }
     }
 
-    // This is used to get the sizes
-
+    // Sizes
     if (productInfo.available_sizes) {
       productInfo.available_sizes.forEach((size) => {
         let pickableSize = document.createElement("div");
@@ -991,42 +979,31 @@ async function forwardToProductPage(id) {
           let activeButtons = pickableSizes.querySelectorAll(
             ".button-active-class"
           );
-
-          if (activeButtons) {
-            activeButtons.forEach((e) => {
-              e.classList.remove("button-active-class");
-            });
-          }
-
+          activeButtons.forEach((e) =>
+            e.classList.remove("button-active-class")
+          );
           sizeIndicator.innerHTML = size;
           button.classList.add("button-active-class");
         };
-        if (size == productInfo.size) {
-          button.classList.add("button-active-class");
-          sizeIndicator.innerHTML = size;
-        }
+
         pickableSize.appendChild(button);
         pickableSizes.appendChild(pickableSize);
       });
     }
 
-    // This is used to get the quantity
-
+    // Quantity
     if (productInfo.quantity) {
       for (let i = 0; i < productInfo.quantity; i++) {
         let option = document.createElement("option");
         option.value = i + 1;
         option.innerHTML = i + 1;
-
         numberOfProduct.appendChild(option);
       }
     }
 
-    // These indicate brand information
-
+    // Brand
     if (productInfo.brand.image) {
       let brandPicture = document.createElement("img");
-
       brandPicture.src = productInfo.brand.image;
       brandImg.appendChild(brandPicture);
     }
@@ -1318,8 +1295,6 @@ function renderPagination() {
     Showing 1–${products.meta.per_page} of ${products.meta.total} results
   `;
 
-
-
   if (products.meta.last_page >= 6) {
     paginationContainer.innerHTML = `
       <img src="./images/arrowLeft.svg" alt="" id="arrow-left" onclick="arrowPagination('previous')"/>
@@ -1369,7 +1344,6 @@ function renderPagination() {
     paginationContainer.appendChild(img_2); // მეორე მიმთითებელი
   }
 }
-
 
 // Main pagaination function
 
@@ -1514,7 +1488,7 @@ async function checkoutCart(userData) {
     const errorData = await response.json(); // ნახე რატომ დააბრუნა 422
     errorText.innerHTML = `
     * Error: ${errorData.message}
-    `
+    `;
     console.error("Checkout error details:", errorData);
     throw new Error("Checkout failed");
   }
@@ -1641,7 +1615,12 @@ async function main() {
   if (page < 1) page = 1;
 
   if (priceFrom !== null && priceTo !== null) {
-    products = await loadFilteredProducts(page, Number(priceFrom), Number(priceTo), sort);
+    products = await loadFilteredProducts(
+      page,
+      Number(priceFrom),
+      Number(priceTo),
+      sort
+    );
 
     chosenFilters(sort, "sort");
     chosenFilters(`Price: ${priceFrom}-${priceTo}`, "filter");
