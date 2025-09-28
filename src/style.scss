@@ -16,23 +16,14 @@ html {
   body {
     position: relative;
     header {
-      // border: 0.1rem solid green; // practice
-
+      @include dF-jcSB-aiC-mA;
       width: 89.583%;
-      // height: 80px;
       height: 0;
       padding: 40px 0;
-      margin: auto;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
       .left,
       .right {
-        display: flex;
-        align-items: center;
+        @include dF-aiC;
         img {
-          // border: 0.1rem solid green; // practice
-
           user-select: none;
         }
         img:hover {
@@ -1149,10 +1140,6 @@ html {
                             -webkit-appearance: none;
                             margin: 0;
                           }
-                          /* Firefox */
-                          #number-of-chosen-products {
-                            -moz-appearance: textfield;
-                          }
                           #plus-sign {
                             width: 22.85714285714286%;
                           }
@@ -1410,10 +1397,6 @@ html {
                         #number-of-chosen-products::-webkit-outer-spin-button {
                           -webkit-appearance: none;
                           margin: 0;
-                        }
-                        /* Firefox */
-                        #number-of-chosen-products {
-                          -moz-appearance: textfield;
                         }
                         #plus-sign {
                           width: 22.85714285714286%;

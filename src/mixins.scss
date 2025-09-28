@@ -1,0 +1,84 @@
+@mixin dF-fdF-jcSB-aiC-mA {
+  display: flex;
+  flex-direction: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: auto;
+}
+
+@mixin dF-fdF-jcC-aiC-mA {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+}
+
+@mixin dF-jcSB-aiC-mA {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: auto;
+}
+
+@mixin dF-jcC-aiC-mA {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+}
+
+@mixin dF-jcSB-aiC {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+@mixin dF-jcC-aiC {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin dN-jcC-aiC {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin dF-jcE-aiC {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+}
+
+@mixin dF-aiC-mA {
+  display: flex;
+  align-items: center;
+  margin: auto;
+}
+
+@mixin dF-aiC {
+  display: flex;
+  align-items: center;
+}
+
+@mixin dF-jcSB {
+  display: flex;
+  justify-content: space-between;
+}
+
+@mixin dF-fdC {
+  display: flex;
+  flex-direction: column;
+}
+
+@mixin dN-fdC {
+  display: none;
+  flex-direction: column;
+}
+
+@mixin bN-oN {
+  border: none;
+  outline: none;
+}

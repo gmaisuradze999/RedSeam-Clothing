@@ -403,7 +403,6 @@ async function controlCardContainer() {
 
 async function router() {
   const hash = location.hash.replace("#/", "") || "products";
-
   let page = hash.split("/")[0];
 
   // mapping: product → productPage.html
@@ -411,13 +410,40 @@ async function router() {
 
   await loadingPage(page);
 
+  // --- Products გვერდი ---
   if (hash === "products") {
-    await loadFilteredProducts();
+    const params = new URLSearchParams(window.location.search);
+    const priceFrom = params.get("price_from");
+    const priceTo = params.get("price_to");
+    const sort = params.get("sort") || "price";
+    let currentPage = parseInt(params.get("page")) || 1;
+    if (currentPage < 1) currentPage = 1;
+
+    if (priceFrom !== null && priceTo !== null) {
+      await loadFilteredProducts(
+        currentPage,
+        Number(priceFrom),
+        Number(priceTo),
+        sort
+      );
+      chosenFilters(sort, "sort");
+      chosenFilters(`Price: ${priceFrom}-${priceTo}`, "filter");
+    } else {
+      await loadFilteredProducts(currentPage, undefined, undefined, sort);
+      chosenFilters(sort, "sort");
+    }
+
     renderPagination();
+
+  // --- Product detail გვერდი ---
   } else if (hash.startsWith("product/")) {
     const productId = hash.split("/")[1];
+    if (productId) {
+      await forwardToProductPage(productId);
+    }
   }
 }
+
 
 // This is for the orange '*' that cannot be seperate color whilst also being part of the input's placeholder
 
@@ -523,6 +549,10 @@ async function register(email, username, password, file) {
 }
 
 // Function that allows a person to register
+
+
+
+
 
 async function registration() {
   const fileInput = document.getElementById("file-input");
@@ -1280,21 +1310,32 @@ function renderPagination() {
 
   if (!productIndicator || !paginationContainer) return;
 
+  // ამოვიღოთ page query param
+  const params = new URLSearchParams(window.location.search);
+  let currentPage = parseInt(params.get("page")) || 1;
+
   productIndicator.innerHTML = `
-  Showing 1–${products.meta.per_page} of ${products.meta.total} results
+    Showing 1–${products.meta.per_page} of ${products.meta.total} results
   `;
+
+
+
   if (products.meta.last_page >= 6) {
     paginationContainer.innerHTML = `
       <img src="./images/arrowLeft.svg" alt="" id="arrow-left" onclick="arrowPagination('previous')"/>
-      <span class="page active-page" onclick="pagination(this)"> 1 </span>
-      <span class="page" onclick="pagination(this)"> 2 </span>
-      <span class="page three-dots" onclick="pagination(this)"> ... </span>
-      <span class="page" onclick="pagination(this)"> ${
-        parseInt(products.meta.last_page) - 1
-      }  </span>
-      <span class="page" onclick="pagination(this)"> ${
-        products.meta.last_page
-      } </span>
+      <span class="page ${
+        currentPage === 1 ? "active-page" : ""
+      }" onclick="pagination(this)">1</span>
+      <span class="page ${
+        currentPage === 2 ? "active-page" : ""
+      }" onclick="pagination(this)">2</span>
+      <span class="page three-dots"> ... </span>
+      <span class="page ${
+        currentPage === products.meta.last_page - 1 ? "active-page" : ""
+      }" onclick="pagination(this)">${products.meta.last_page - 1}</span>
+      <span class="page ${
+        currentPage === products.meta.last_page ? "active-page" : ""
+      }" onclick="pagination(this)">${products.meta.last_page}</span>
       <img src="./images/arrowRight.svg" alt="" id="arrow-right" onclick="arrowPagination('next')"/>
     `;
   } else {
@@ -1312,22 +1353,23 @@ function renderPagination() {
     paginationContainer.appendChild(img_1); // პირველი მიმთითებელი
     for (let i = 0; i < products.meta.last_page; i++) {
       let span = document.createElement("span");
+      span.classList.add("page");
+      span.innerHTML = `${i + 1}`;
 
-      if (i == 0) {
+      // თუ ეს გვერდი ემთხვევა URL-ში არსებულ page-ს → active-page
+      if (i + 1 === currentPage) {
         span.classList.add("active-page");
       }
 
-      span.classList.add("page");
       span.onclick = () => {
         pagination(span);
       };
-      span.innerHTML = `${i + 1}`;
-
       paginationContainer.appendChild(span);
     }
     paginationContainer.appendChild(img_2); // მეორე მიმთითებელი
   }
 }
+
 
 // Main pagaination function
 
@@ -1599,7 +1641,7 @@ async function main() {
   if (page < 1) page = 1;
 
   if (priceFrom !== null && priceTo !== null) {
-    await loadFilteredProducts(page, Number(priceFrom), Number(priceTo), sort);
+    products = await loadFilteredProducts(page, Number(priceFrom), Number(priceTo), sort);
 
     chosenFilters(sort, "sort");
     chosenFilters(`Price: ${priceFrom}-${priceTo}`, "filter");
@@ -1613,14 +1655,8 @@ async function main() {
     if (pfInput) pfInput.value = priceFrom;
     if (ptInput) ptInput.value = priceTo;
   } else {
-    await loadFilteredProducts(page, undefined, undefined, sort);
+    products = await loadFilteredProducts(page, undefined, undefined, sort);
     chosenFilters(sort, "sort");
-  }
-
-  const productId = getProductIdFromQueryParams();
-
-  if (productId) {
-    await forwardToProductPage(productId);
   }
 
   const filtering = document.getElementById("filtering");

@@ -10,13 +10,13 @@ html body {
   position: relative;
 }
 html body header {
-  width: 89.583%;
-  height: 0;
-  padding: 40px 0;
-  margin: auto;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin: auto;
+  width: 89.583%;
+  height: 0;
+  padding: 40px 0;
 }
 html body header .left,
 html body header .right {
@@ -1091,7 +1091,6 @@ html body main .checkout-container .bottom .right .info-container .shopping-cart
   border: 1px solid #e1dfe1;
   border-radius: 22px;
   /* Chrome, Safari, Edge, Opera */
-  /* Firefox */
 }
 html body main .checkout-container .bottom .right .info-container .shopping-cart-container .chosen-products .chosen-product .right-c .increase-remove .flactuation #minus-sign {
   width: 22.8571428571%;
@@ -1109,9 +1108,6 @@ html body main .checkout-container .bottom .right .info-container .shopping-cart
 html body main .checkout-container .bottom .right .info-container .shopping-cart-container .chosen-products .chosen-product .right-c .increase-remove .flactuation #number-of-chosen-products::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
-}
-html body main .checkout-container .bottom .right .info-container .shopping-cart-container .chosen-products .chosen-product .right-c .increase-remove .flactuation #number-of-chosen-products {
-  -moz-appearance: textfield;
 }
 html body main .checkout-container .bottom .right .info-container .shopping-cart-container .chosen-products .chosen-product .right-c .increase-remove .flactuation #plus-sign {
   width: 22.8571428571%;
@@ -1337,7 +1333,6 @@ html body main .card-container .vertical-shopping-container .bottom .shopping-ca
   border: 1px solid #e1dfe1;
   border-radius: 22px;
   /* Chrome, Safari, Edge, Opera */
-  /* Firefox */
 }
 html body main .card-container .vertical-shopping-container .bottom .shopping-cart-container .chosen-products .chosen-product .right-c .increase-remove .flactuation #minus-sign {
   width: 22.8571428571%;
@@ -1355,9 +1350,6 @@ html body main .card-container .vertical-shopping-container .bottom .shopping-ca
 html body main .card-container .vertical-shopping-container .bottom .shopping-cart-container .chosen-products .chosen-product .right-c .increase-remove .flactuation #number-of-chosen-products::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
-}
-html body main .card-container .vertical-shopping-container .bottom .shopping-cart-container .chosen-products .chosen-product .right-c .increase-remove .flactuation #number-of-chosen-products {
-  -moz-appearance: textfield;
 }
 html body main .card-container .vertical-shopping-container .bottom .shopping-cart-container .chosen-products .chosen-product .right-c .increase-remove .flactuation #plus-sign {
   width: 22.8571428571%;
