@@ -617,7 +617,7 @@ html body main .authorization .right #registration .input-container .confirm-pas
   padding: 0px 12px;
   margin-bottom: 24px;
   outline: none;
-  border: 0.1rem solid #e1dfe1;
+  border: 1px solid #e1dfe1;
   border-radius: 8px;
 }
 html body main .authorization .right #registration .input-container .username-input-container input::placeholder,
@@ -1029,6 +1029,10 @@ html body main .checkout-container .bottom .right .info-container {
 html body main .checkout-container .bottom .right .info-container .shopping-cart-container {
   width: 100%;
 }
+html body main .checkout-container .bottom .right .info-container .shopping-cart-container .chosen-products {
+  height: 340px;
+  overflow-y: auto;
+}
 html body main .checkout-container .bottom .right .info-container .shopping-cart-container .chosen-products .chosen-product {
   display: flex;
   justify-content: space-between;
@@ -1144,7 +1148,11 @@ html body main .checkout-container .bottom .right .info-container .shopping-cart
   font-size: 20px;
   font-weight: 500;
 }
-html body main .checkout-container .bottom .right .info-container .checkout-button {
+html body main .checkout-container .bottom .right .info-container #error-text {
+  color: #ff4000;
+  margin-bottom: 8px;
+}
+html body main .checkout-container .bottom .right .info-container #checkout-button {
   width: 100%;
   padding: 16px 0px;
   border: none;
@@ -1152,24 +1160,82 @@ html body main .checkout-container .bottom .right .info-container .checkout-butt
   outline: none;
   background-color: #ff4000;
 }
-html body main .checkout-container .bottom .right .info-container .checkout-button span {
+html body main .checkout-container .bottom .right .info-container #checkout-button span {
   color: white;
   font-size: 18px;
   font-weight: 500;
 }
-html body main .congratulations-container {
+html body main .checkout-container .bottom .right .info-container #checkout-button:hover {
+  cursor: pointer;
+}
+html body main #congratulations-container {
   position: fixed;
   top: 0;
   width: 100%;
   min-height: 100vh;
+  display: none;
   justify-content: center;
   align-items: center;
   background-color: rgba(16, 21, 31, 0.3);
+  user-select: none;
 }
-html body main .congratulations-container .congratulations-box {
-  border: 0.1rem solid white;
+html body main #congratulations-container .congratulations-box {
+  position: relative;
   width: 45.625%;
-  margin: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+}
+html body main #congratulations-container .congratulations-box #deleteXSign {
+  position: absolute;
+  top: 30px;
+  right: 30px;
+  padding: 10px;
+}
+html body main #congratulations-container .congratulations-box #deleteXSign:hover {
+  cursor: pointer;
+}
+html body main #congratulations-container .congratulations-box .c-container {
+  width: 30%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  margin: 0px 322px;
+  margin-top: 114px;
+  margin-bottom: 74px;
+}
+html body main #congratulations-container .congratulations-box .c-container #congrats-text {
+  margin-top: 40px;
+  margin-bottom: 16px;
+  color: #10151f;
+  font-size: 42px;
+  font-weight: 600;
+}
+html body main #congratulations-container .congratulations-box .c-container #placed-order {
+  color: #3e424a;
+  font-size: 14px;
+  font-weight: 400;
+}
+html body main #congratulations-container .congratulations-box #continue-shopping {
+  width: 24.42922374%;
+  height: 41px;
+  outline: none;
+  border: none;
+  background-color: #ff4000;
+  border-radius: 10px;
+  margin-bottom: 145px;
+}
+html body main #congratulations-container .congratulations-box #continue-shopping span {
+  color: white;
+  font-size: 14px;
+  font-weight: 400;
+}
+html body main #congratulations-container .congratulations-box #continue-shopping:hover {
+  cursor: pointer;
 }
 html body main .card-container {
   position: fixed;

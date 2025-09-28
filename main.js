@@ -27,7 +27,7 @@ async function loadingPage(page) {
             </div>
             <div class="bottom">
               <div class="shopping-cart-container">
-                <div class="chosen-products">
+                <div class="chosen-products" id="chosen-products-cart">
                 </div>
                 <div class="totals">
                   
@@ -56,6 +56,14 @@ async function loadingPage(page) {
       `;
 
       app.innerHTML += cardContainer;
+
+      if (page == "checkoutPage") {
+        renderCheckoutCartProducts();
+        const subTotal_2 = document.querySelector(
+          "#app .checkout-container .bottom .right .info-container .shopping-cart-container .totals"
+        );
+        renderCardProductTotals(subTotal_2);
+      }
     })
     .catch((err) => {
       let app = document.getElementById("app");
@@ -86,7 +94,6 @@ async function getCart() {
     }
 
     const data = await response.json();
-    console.log("Cart:", data);
     return data;
   } catch (error) {
     console.error("Error fetching cart:", error.message);
@@ -115,8 +122,19 @@ async function updateCartProductQuantity(productId, quantity) {
     }
 
     const data = await response.json();
-    console.log("Quantity updated:", data);
-    await renderCardProductTotals();
+
+    if (location.hash === "#/checkoutPage") {
+      const subTotal_2 = document.querySelector(
+        "#app .checkout-container .bottom .right .info-container .shopping-cart-container .totals"
+      );
+      await renderCardProductTotals(subTotal_2);
+    } else {
+      const subTotal_1 = document.querySelector(
+        "#app .card-container .vertical-shopping-container .bottom .shopping-cart-container .totals"
+      );
+      await renderCardProductTotals(subTotal_1);
+    }
+
     return data;
   } catch (error) {
     console.error("Error updating quantity:", error.message);
@@ -150,9 +168,18 @@ async function productDelete(productId, color, size) {
       throw new Error("Failed to delete product from cart");
     }
 
-    console.log(`Product ${productId} deleted successfully`);
+    if (location.hash === "#/checkoutPage") {
+      const subTotal_2 = document.querySelector(
+        "#app .checkout-container .bottom .right .info-container .shopping-cart-container .totals"
+      );
+      await renderCardProductTotals(subTotal_2);
+    } else {
+      const subTotal_1 = document.querySelector(
+        "#app .card-container .vertical-shopping-container .bottom .shopping-cart-container .totals"
+      );
+      await renderCardProductTotals(subTotal_1);
+    }
 
-    await renderCardProductTotals();
     return true;
   } catch (error) {
     console.error("Error deleting product:", error.message);
@@ -173,14 +200,13 @@ async function removingProductFromShoppingCart(
       "#app .card-container .vertical-shopping-container .top span .number"
     ); // აქ მოგვაქვს კალათაში საერთო პროდუქტების რაოდენობის რიცხვი
 
-    numberOfProductIndicator.innerHTML =
-      parseInt(numberOfProductIndicator.innerHTML) - 1; // სანამ ელემენტი წაიშლება საერთო რაოდენობას ვიზუალურად ვაკლებთ 1
-
-    console.log(numberOfProductIndicator);
-
-    if (numberOfProductIndicator.innerHTML == 0) {
-      // თუ პროდუქტები განულდა, ვხურავთ ქართის ბარათს.
-      controlCardContainer();
+    if (numberOfProductIndicator) {
+      numberOfProductIndicator.innerHTML =
+        parseInt(numberOfProductIndicator.innerHTML) - 1; // სანამ ელემენტი წაიშლება საერთო რაოდენობას ვიზუალურად ვაკლებთ 1
+      if (numberOfProductIndicator.innerHTML == 0) {
+        // თუ პროდუქტები განულდა, ვხურავთ ქართის ბარათს.
+        controlCardContainer();
+      }
     }
 
     element.remove(); // ვიზუალურად იშლება ელემენტი კალათიდან
@@ -201,7 +227,18 @@ async function reduceOrAdd(element, value, productId) {
   let updatedProductInfo = await updateCartProductQuantity(productId, quantity);
 
   if (updatedProductInfo) {
-    await renderCardProductTotals();
+    if (location.hash === "#/checkoutPage") {
+      const subTotal_2 = document.querySelector(
+        "#app .checkout-container .bottom .right .info-container .shopping-cart-container .totals"
+      );
+      await renderCardProductTotals(subTotal_2);
+    } else {
+      const subTotal_1 = document.querySelector(
+        "#app .card-container .vertical-shopping-container .bottom .shopping-cart-container .totals"
+      );
+      await renderCardProductTotals(subTotal_1);
+    }
+
     quantityChanger.value = quantity;
 
     // ვიპოვოთ პროდუქტის wrapper
@@ -220,11 +257,7 @@ async function reduceOrAdd(element, value, productId) {
   }
 }
 
-async function renderCardProductTotals() {
-  const subTotal = document.querySelector(
-    "#app .card-container .vertical-shopping-container .bottom .shopping-cart-container .totals"
-  );
-
+async function renderCardProductTotals(subTotal) {
   cart = await getCart();
 
   let total = 0;
@@ -252,7 +285,6 @@ async function renderCardProductTotals() {
 function renderCardProducts(element, cart) {
   element.innerHTML = ``;
   cart.forEach((e) => {
-    console.log(e);
     element.innerHTML += `
       <div class="chosen-product" data-price="${e.price}">
         <div class="left-c" style="background-image: url('${
@@ -297,8 +329,18 @@ function renderCardProducts(element, cart) {
   });
 }
 
-// let subtotalPrice = 0;
-// const deliveryPrice = 5;
+async function renderCheckoutCartProducts() {
+  cart = await getCart();
+
+  if (cart) {
+    const checkoutChosenProducts = document.querySelector(
+      "#app .checkout-container .bottom .right .info-container .shopping-cart-container .chosen-products"
+    );
+    if (checkoutChosenProducts) {
+      renderCardProducts(checkoutChosenProducts, cart);
+    }
+  }
+}
 
 async function controlCardContainer() {
   let cardContainer = document.querySelector("#app .card-container");
@@ -321,10 +363,7 @@ async function controlCardContainer() {
     );
     cart = await getCart();
 
-    console.log(cart);
-
     if (cart.length > 0) {
-      console.log(cart);
       const chosenProducts =
         shoppingCartContainer.querySelector(".chosen-products");
 
@@ -336,15 +375,23 @@ async function controlCardContainer() {
       startShoppingButton.style.display = "none";
 
       renderCardProducts(chosenProducts, cart);
-      await renderCardProductTotals();
+      if (location.hash === "#/checkoutPage") {
+        const subTotal_2 = document.querySelector(
+          "#app .checkout-container .bottom .right .info-container .shopping-cart-container .totals"
+        );
+        await renderCardProductTotals(subTotal_2);
+      } else {
+        const subTotal_1 = document.querySelector(
+          "#app .card-container .vertical-shopping-container .bottom .shopping-cart-container .totals"
+        );
+        await renderCardProductTotals(subTotal_1);
+      }
     } else {
       numberOfProductIndicator.innerHTML = `Shopping cart(<span class='number'>0</span>)`;
       shoppingCartContainer.style.display = "none";
       checkoutRedirectionButton.style.display = "none";
       emptyCartContainer.style.display = "flex";
       startShoppingButton.style.display = "block";
-
-      console.log("Hello");
     }
     cardContainer.style.display = "flex";
   } else {
@@ -1403,6 +1450,102 @@ async function addProductToCartInfoRedirection() {
       sizeIndicator
     );
   }
+}
+
+async function checkoutCart(userData) {
+  const errorText = document.getElementById("error-text");
+  const token = localStorage.getItem("token");
+
+  errorText.innerHTML = ``;
+
+  const response = await fetch(`${API_URL}/cart/checkout`, {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(userData), // 👈 აქ ვაგზავნით მონაცემებს
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json(); // ნახე რატომ დააბრუნა 422
+    errorText.innerHTML = `
+    * Error: ${errorData.message}
+    `
+    console.error("Checkout error details:", errorData);
+    throw new Error("Checkout failed");
+  }
+
+  const data = await response.json();
+  console.log("Checkout success:", data);
+
+  const congratulationsContainer = document.getElementById(
+    "congratulations-container"
+  );
+  congratulationsContainer.style.display = "flex";
+
+  return data;
+}
+
+async function pay() {
+  const nameInput = document.getElementById("name-input");
+  const surnameInput = document.getElementById("surname-input");
+  const emailInput = document.getElementById("email-input");
+  const addressInput = document.getElementById("address-input");
+  const zipCodeInput = document.getElementById("zip-code-input");
+
+  if (!nameInput.value) {
+    nameInput.style.border = "1px solid #ff4000";
+
+    return;
+  } else {
+    nameInput.style.border = "1px solid #e1dfe1";
+  }
+
+  if (!surnameInput.value) {
+    surnameInput.style.border = "1px solid #ff4000";
+
+    return;
+  } else {
+    surnameInput.style.border = "1px solid #e1dfe1";
+  }
+
+  if (!emailInput.value) {
+    emailInput.style.border = "1px solid #ff4000";
+
+    return;
+  } else {
+    emailInput.style.border = "1px solid #e1dfe1";
+  }
+
+  if (!addressInput.value) {
+    addressInput.style.border = "1px solid #ff4000";
+
+    return;
+  } else {
+    addressInput.style.border = "1px solid #e1dfe1";
+  }
+
+  if (!zipCodeInput.value) {
+    zipCodeInput.style.border = "1px solid #ff4000";
+
+    return;
+  } else {
+    zipCodeInput.style.border = "1px solid #e1dfe1";
+  }
+
+  // ... შენი ვალიდაციები რჩება იგივე ...
+
+  const userData = {
+    name: nameInput.value,
+    surname: surnameInput.value,
+    email: emailInput.value,
+    address: addressInput.value,
+    zip_code: zipCodeInput.value,
+  };
+
+  await checkoutCart(userData);
 }
 
 // This is the main function of the website
