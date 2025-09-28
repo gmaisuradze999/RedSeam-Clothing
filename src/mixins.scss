@@ -1,6 +1,6 @@
 @mixin dF-fdF-jcSB-aiC-mA {
   display: flex;
-  flex-direction: flex;
+  flex-direction: column;
   justify-content: space-between;
   align-items: center;
   margin: auto;
@@ -41,7 +41,7 @@
 }
 
 @mixin dN-jcC-aiC {
-  display: flex;
+  display: none;
   justify-content: center;
   align-items: center;
 }
@@ -68,6 +68,16 @@
   justify-content: space-between;
 }
 
+@mixin dF-jcE {
+  display: flex;
+  justify-content: end;
+}
+
+@mixin dN-jcE {
+  display: none;
+  justify-content: end;
+}
+
 @mixin dF-fdC {
   display: flex;
   flex-direction: column;
@@ -76,6 +86,17 @@
 @mixin dN-fdC {
   display: none;
   flex-direction: column;
+}
+
+@mixin bpC-brNR-bsC {
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+@mixin bpC-brNR {
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 @mixin bN-oN {

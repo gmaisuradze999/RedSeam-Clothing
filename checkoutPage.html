@@ -1,8 +1,10 @@
+<!-- Checkout page container -->
 <div class="checkout-container">
   <div class="top">
     <span>Checkout</span>
   </div>
   <div class="bottom">
+    <!-- Left side: Customer information form -->
     <div class="left">
       <div class="form-top">
         <span>Order details</span>
@@ -39,10 +41,14 @@
         </form>
       </div>
     </div>
+    <!-- Right side: Order summary and payment -->
     <div class="right">
       <div class="info-container">
+        <!-- Shopping cart container displaying selected products -->
         <div class="shopping-cart-container">
+          <!-- Container where cart products are dynamically rendered by renderCheckoutCartProducts() -->
           <div class="chosen-products" id="chosen-products-checkout"></div>
+          <!-- Totals section updated by renderCardProductTotals() -->
           <div class="totals">
             <div class="suptotal">
               <span>Iteams subtotal</span>
@@ -58,7 +64,9 @@
             </div>
           </div>
         </div>
+        <!-- Error display area for checkout validation messages -->
         <div id="error-text"></div>
+        <!-- Payment button that triggers the checkout process -->
         <button id="checkout-button" onclick="pay()">
           <span>Pay</span>
         </button>
@@ -66,8 +74,10 @@
     </div>
   </div>
 </div>
+<!-- Success modal shown after successful checkout -->
 <div id="congratulations-container">
   <div class="congratulations-box">
+    <!-- Close button that redirects to main products page -->
     <img
       src="./images/xSign.svg"
       alt=""
@@ -83,6 +93,7 @@
       <p id="congrats-text">Congrats!</p>
       <p id="placed-order">Your order is placed successfully!</p>
     </div>
+    <!-- Continue shopping button redirects to products page -->
     <button id="continue-shopping" onclick="listingRedirection()">
       <span>Continue shopping</span>
     </button>

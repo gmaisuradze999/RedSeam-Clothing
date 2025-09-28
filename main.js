@@ -1,12 +1,12 @@
-let products = [];
-let cart = [];
-const API_URL = "https://api.redseam.redberryinternship.ge/api";
-let registrationLoading = false;
-let logInLoading = false;
+let products = []; // Array to store product data fetched from API
+let cart = []; // Array to store shopping cart items
+const API_URL = "https://api.redseam.redberryinternship.ge/api"; // Base URL for API endpoints
+let registrationLoading = false; // Flag to track if registration API call is in progress
+let logInLoading = false; // Flag to track if login API call is in progress
 
 // Loading any page function
-
 async function loadingPage(page) {
+  // Fetch HTML content for the requested page
   fetch(page + ".html")
     .then((res) => {
       if (!res.ok) {
@@ -18,6 +18,7 @@ async function loadingPage(page) {
       let app = document.getElementById("app");
       app.innerHTML = html;
 
+      // Shopping cart sidebar HTML template
       const cardContainer = `
         <div class="card-container">
           <div class="vertical-shopping-container">
@@ -57,6 +58,7 @@ async function loadingPage(page) {
 
       app.innerHTML += cardContainer;
 
+      // If loading checkout page, render cart products and totals
       if (page == "checkoutPage") {
         renderCheckoutCartProducts();
         const subTotal_2 = document.querySelector(
@@ -66,6 +68,7 @@ async function loadingPage(page) {
       }
     })
     .catch((err) => {
+      // Display error message if page loading fails
       let app = document.getElementById("app");
       app.innerHTML = `
         <h1>
@@ -75,9 +78,10 @@ async function loadingPage(page) {
     });
 }
 
+// Fetch current user's cart from API
 async function getCart() {
   try {
-    // ავიღოთ ტოკენი localStorage-იდან
+    // Get authentication token from localStorage
     const token = localStorage.getItem("token");
 
     const response = await fetch(`${API_URL}/cart`, {
@@ -101,6 +105,7 @@ async function getCart() {
   }
 }
 
+// Update quantity of a product in the cart
 async function updateCartProductQuantity(productId, quantity) {
   try {
     const token = localStorage.getItem("token");
@@ -123,6 +128,7 @@ async function updateCartProductQuantity(productId, quantity) {
 
     const data = await response.json();
 
+    // Update totals display based on current page
     if (location.hash === "#/checkoutPage") {
       const subTotal_2 = document.querySelector(
         "#app .checkout-container .bottom .right .info-container .shopping-cart-container .totals"
@@ -142,11 +148,12 @@ async function updateCartProductQuantity(productId, quantity) {
   }
 }
 
+// Delete a product from the cart
 async function productDelete(productId, color, size) {
   try {
     const token = localStorage.getItem("token");
 
-    // query params შექმნა
+    // Build query parameters for color and size
     const queryParams = new URLSearchParams();
     if (color) queryParams.append("color", color);
     if (size) queryParams.append("size", size);
@@ -168,6 +175,7 @@ async function productDelete(productId, color, size) {
       throw new Error("Failed to delete product from cart");
     }
 
+    // Update totals display based on current page
     if (location.hash === "#/checkoutPage") {
       const subTotal_2 = document.querySelector(
         "#app .checkout-container .bottom .right .info-container .shopping-cart-container .totals"
@@ -187,32 +195,33 @@ async function productDelete(productId, color, size) {
   }
 }
 
-// ეს ფუნქცია გამოიყენება ელემენტის წაშლისთვის კალათიდან
+// Remove product from shopping cart UI and API
 async function removingProductFromShoppingCart(
   element,
   productId,
   color,
   size
 ) {
-  const deletedProduct = await productDelete(productId, color, size); // ვაგზავნით api - სთან წაშლის მოთხოვნას
+  const deletedProduct = await productDelete(productId, color, size); // Send delete request to API
   if (deletedProduct) {
     const numberOfProductIndicator = document.querySelector(
       "#app .card-container .vertical-shopping-container .top span .number"
-    ); // აქ მოგვაქვს კალათაში საერთო პროდუქტების რაოდენობის რიცხვი
+    ); // Get cart item count element
 
     if (numberOfProductIndicator) {
       numberOfProductIndicator.innerHTML =
-        parseInt(numberOfProductIndicator.innerHTML) - 1; // სანამ ელემენტი წაიშლება საერთო რაოდენობას ვიზუალურად ვაკლებთ 1
+        parseInt(numberOfProductIndicator.innerHTML) - 1; // Decrement count visually
       if (numberOfProductIndicator.innerHTML == 0) {
-        // თუ პროდუქტები განულდა, ვხურავთ ქართის ბარათს.
+        // Close cart sidebar if no items left
         controlCardContainer();
       }
     }
 
-    element.remove(); // ვიზუალურად იშლება ელემენტი კალათიდან
+    element.remove(); // Remove product element from UI
   }
 }
 
+// Increase or decrease product quantity in cart
 async function reduceOrAdd(element, value, productId) {
   let quantityChanger = element.querySelector("input");
 
@@ -227,6 +236,7 @@ async function reduceOrAdd(element, value, productId) {
   let updatedProductInfo = await updateCartProductQuantity(productId, quantity);
 
   if (updatedProductInfo) {
+    // Update totals display based on current page
     if (location.hash === "#/checkoutPage") {
       const subTotal_2 = document.querySelector(
         "#app .checkout-container .bottom .right .info-container .shopping-cart-container .totals"
@@ -241,13 +251,13 @@ async function reduceOrAdd(element, value, productId) {
 
     quantityChanger.value = quantity;
 
-    // ვიპოვოთ პროდუქტის wrapper
+    // Find product wrapper element
     const productWrapper = element.closest(".chosen-product");
 
-    // ავიღოთ ერთეულის ფასი data-price-დან
+    // Get unit price from data attribute
     const unitPrice = parseFloat(productWrapper.dataset.price);
 
-    // განვაახლოთ ფასის span
+    // Update price display
     const priceElement = productWrapper.querySelector(
       "#price-of-chosen-product"
     );
@@ -257,6 +267,7 @@ async function reduceOrAdd(element, value, productId) {
   }
 }
 
+// Calculate and display cart totals (subtotal, delivery, total)
 async function renderCardProductTotals(subTotal) {
   cart = await getCart();
 
@@ -282,6 +293,7 @@ async function renderCardProductTotals(subTotal) {
     `;
 }
 
+// Render cart products in the specified container
 function renderCardProducts(element, cart) {
   element.innerHTML = ``;
   cart.forEach((e) => {
@@ -329,6 +341,7 @@ function renderCardProducts(element, cart) {
   });
 }
 
+// Render cart products on checkout page
 async function renderCheckoutCartProducts() {
   cart = await getCart();
 
@@ -342,6 +355,7 @@ async function renderCheckoutCartProducts() {
   }
 }
 
+// Control visibility of shopping cart sidebar and update content
 async function controlCardContainer() {
   let cardContainer = document.querySelector("#app .card-container");
 
@@ -375,6 +389,7 @@ async function controlCardContainer() {
       startShoppingButton.style.display = "none";
 
       renderCardProducts(chosenProducts, cart);
+      // Update totals based on current page
       if (location.hash === "#/checkoutPage") {
         const subTotal_2 = document.querySelector(
           "#app .checkout-container .bottom .right .info-container .shopping-cart-container .totals"
@@ -400,7 +415,6 @@ async function controlCardContainer() {
 }
 
 // Indicating which page must be loaded first when a user enters the website
-
 async function router() {
   const hash = location.hash.replace("#/", "") || "products";
   let page = hash.split("/")[0];
@@ -410,7 +424,7 @@ async function router() {
 
   await loadingPage(page);
 
-  // --- Products გვერდი ---
+  // --- Products page ---
   if (hash === "products") {
     const params = new URLSearchParams(window.location.search);
     const priceFrom = params.get("price_from");
@@ -435,7 +449,7 @@ async function router() {
 
     renderPagination();
 
-    // --- Product detail გვერდი ---
+    // --- Product detail page ---
   } else if (hash.startsWith("product/")) {
     const productId = hash.split("/")[1];
     if (productId) {
@@ -445,24 +459,22 @@ async function router() {
 }
 
 // This is for the orange '*' that cannot be seperate color whilst also being part of the input's placeholder
-
 function fakePlaceholderDisplay(element, event) {
   const fakePlaceholder =
     element.parentElement.querySelector(".fake-placeholder");
 
-  // თუ კლავიატურიდან წაშლის ღილაკები (Backspace, Delete) ან value ცარიელია
+  // If backspace/delete keys are pressed and input becomes empty
   if (
     (event.key === "Backspace" || event.key === "Delete") &&
     element.value.length == 1
   ) {
-    fakePlaceholder.style.display = "block"; // აჩვენებს placeholder-ს
+    fakePlaceholder.style.display = "block"; // Show placeholder
   } else if (event.key != "Backspace" && event.key != "Delete") {
-    fakePlaceholder.style.display = "none"; // დამალვა, თუ არის ტექსტი
+    fakePlaceholder.style.display = "none"; // Hide placeholder if text exists
   }
 }
 
 // This is for the customised eye symbol for the password type input tag
-
 function fakeEyeDisplay(element) {
   const passwordInput = element.parentElement.querySelector(".password");
 
@@ -474,7 +486,6 @@ function fakeEyeDisplay(element) {
 }
 
 // This function is used to upload the profile picture
-
 function profilePictureSelector(element) {
   const file = element.files[0]; // მხოლოდ პირველი (და ერთადერთი) ფაილი
   const profilePicture = document.querySelector("#profile-picture");
@@ -489,16 +500,14 @@ function profilePictureSelector(element) {
 }
 
 // This function is used to remove the profile picture
-
 function profilePictureRemoval(element) {
   const profilePicture = document.getElementById("profile-picture");
   const fileInput = document.getElementById("file-input");
-  fileInput.value = ""; // input-ის გასუფთავება
+  fileInput.value = ""; // Clear input
   profilePicture.style.backgroundImage = "url('./images/camera.svg')";
 }
 
 // This function is used by the $color_7 text at the end of log in/registrtion page to switch to and from each other
-
 function switchLogInRegistration(value) {
   const logIn = document.querySelector(
     "html body main .authorization .right #log-in"
@@ -516,7 +525,6 @@ function switchLogInRegistration(value) {
 }
 
 // This function is a supplementary function to registration(), and is used to data to the registration()
-
 async function register(email, username, password, file) {
   const formData = new FormData();
   formData.append("username", username);
@@ -525,15 +533,15 @@ async function register(email, username, password, file) {
   formData.append("password_confirmation", password);
 
   if (file) {
-    formData.append("avatar", file); // თუ ფაილი სერვერზე ამ key-თაა საჭირო
+    formData.append("avatar", file); // If server expects file with 'avatar' key
   }
 
   const response = await fetch(`${API_URL}/register`, {
     method: "POST",
     headers: {
       Accept: "application/json",
-      // Content-Type არ უნდა ჩავწეროთ ხელით,
-      // FormData თვითონ აგენერირებს სწორ boundary-ს
+      // Don't set Content-Type manually for FormData
+      // FormData will set correct boundary automatically
     },
     body: formData,
   });
@@ -548,7 +556,6 @@ async function register(email, username, password, file) {
 }
 
 // Function that allows a person to register
-
 async function registration() {
   const fileInput = document.getElementById("file-input");
   const profilePicture = document.getElementById("profile-picture");
@@ -647,7 +654,6 @@ async function registration() {
 }
 
 // This function is a supplementary function to auth(), and is used to data to the auth()
-
 async function logIn(email, password) {
   const response = await fetch(`${API_URL}/login`, {
     method: "POST",
@@ -667,13 +673,11 @@ async function logIn(email, password) {
     throw new Error(data.message || "Login failed");
   }
 
-  // აქ შეიძლება დაგიბრუნოს access token
-  // მაგ: data.token ან data.access_token
+  // May return access token (e.g., data.token or data.access_token)
   return data;
 }
 
 // Function that allows a person to log in
-
 async function auth() {
   const emailUsernameInput = document.querySelector(
     "html body main .authorization .right #log-in .input-container .email-username-container .email-or-username"
@@ -742,7 +746,6 @@ async function auth() {
 }
 
 // This function changes the header's right after logging in the website
-
 function initUserInfo() {
   const user = JSON.parse(localStorage.getItem("user"));
   const token = localStorage.getItem("token");
@@ -769,7 +772,6 @@ function initUserInfo() {
 }
 
 // This function is used to get products
-
 async function getProducts({ page = 1, priceFrom, priceTo, sort } = {}) {
   const queryParams = new URLSearchParams();
 
@@ -799,6 +801,7 @@ async function getProducts({ page = 1, priceFrom, priceTo, sort } = {}) {
   return data;
 }
 
+// Fetch single product details by ID
 async function getProduct(id) {
   try {
     const response = await fetch(`${API_URL}/products/${id}`, {
@@ -815,30 +818,30 @@ async function getProduct(id) {
       throw new Error(data.message || "Failed to fetch product");
     }
 
-    return data; // აქ გაქვს კონკრეტული პროდუქტის ინფორმაცია
+    return data; // Returns specific product information
   } catch (error) {
     console.error("Error fetching product:", error.message);
     throw error;
   }
 }
 
-// ამ ფუნქციაში არის ლოგიკა, როცა ფოტო იცვლება ფერიც შესაბამისი დგება, როცა ფერი იცვლება ფოტო შესაბამისი დგება.
+// Handles image and color selection synchronization on product page
 function pictureChanger(element, type) {
   const displayedPicture = document.getElementById("displayed-picture");
 
   if (type === "img") {
-    // img → მისი მშობელი .pickable-picture
+    // img → its parent .pickable-picture
     const pictureDiv = element.parentElement;
     const parent = pictureDiv.parentElement;
     const children = Array.from(parent.querySelectorAll(".pickable-picture"));
     const index = children.indexOf(pictureDiv);
 
-    // სურათის დაყენება
+    // Set image
     if (displayedPicture) {
       displayedPicture.style.backgroundImage = element.style.backgroundImage;
     }
 
-    // შესაბამისი ფერის border-ის დაყენება
+    // Set corresponding color border
     const colorBorders = document.querySelectorAll(
       "#information-box .pickable-colors > div"
     );
@@ -852,11 +855,11 @@ function pictureChanger(element, type) {
     const children = Array.from(parent.children);
     const index = children.indexOf(borderDiv);
 
-    // ფერის border-ის დაყენება
+    // Set color border
     children.forEach((c) => c.classList.remove("border"));
     borderDiv.classList.add("border");
 
-    // შესაბამისი სურათის დაყენება
+    // Set corresponding image
     const pictures = document.querySelectorAll(
       "#pickable-pictures .pickable-picture .img"
     );
@@ -867,6 +870,7 @@ function pictureChanger(element, type) {
   }
 }
 
+// Load and display product details page
 async function forwardToProductPage(id) {
   if (!id) return;
 
@@ -900,7 +904,7 @@ async function forwardToProductPage(id) {
 
     const productInfo = await getProduct(id);
 
-    // --- აქ არის გამოსავალი: ჯერ ვასუფთავებთ ---
+    // Clear existing content
     pickablePictures.innerHTML = "";
     pickableColors.innerHTML = "";
     pickableSizes.innerHTML = "";
@@ -1019,10 +1023,9 @@ async function forwardToProductPage(id) {
 }
 
 // This functions formats the product's divs
-
 function initProductsList() {
   const productsContainer = document.querySelector("html body main .products");
-  if (!productsContainer) return; // stop if container is missing
+  if (!productsContainer) return; // Stop if container is missing
 
   productsContainer.innerHTML = ``;
 
@@ -1042,7 +1045,6 @@ function initProductsList() {
 }
 
 // Filters the products in terms of a price
-
 async function priceFilter(action, element) {
   const priceFilter = document.getElementById("price-filter");
   const priceFromEl = document.getElementById("price-from");
@@ -1051,32 +1053,32 @@ async function priceFilter(action, element) {
   const priceFrom = Number(priceFromEl.value);
   const priceTo = Number(priceToEl.value);
 
-  // ამოვიღოთ ლინკიდან არსებული sort
+  // Get existing sort from URL
   const params = new URLSearchParams(window.location.search);
-  const currentSort = params.get("sort") || "price"; // default "price"
+  const currentSort = params.get("sort") || "price"; // Default "price"
 
   if (!isNaN(priceFrom) && !isNaN(priceTo)) {
     if (action === "add") {
-      // sort-იც გადაეცემა
+      // Sort is also passed
       await loadFilteredProducts(1, priceFrom, priceTo, currentSort);
 
       await chosenFilters(`Price: ${priceFrom}-${priceTo}`, `filter`);
       priceFilter.style.display = "none";
 
-      // ლინკში filter-ის შენახვა
+      // Save filter in URL
       params.set("price_from", priceFrom);
       params.set("price_to", priceTo);
-      // sort უცვლელი რჩება თუ უკვე იყო
+      // Sort remains unchanged if already exists
       window.history.replaceState({}, "", `?${params.toString()}`);
     } else if (action === "remove") {
-      // sort-იც გადაეცემა
+      // Sort is also passed
       await loadFilteredProducts(1, undefined, undefined, currentSort);
 
       if (element) {
         element.parentElement.remove();
       }
 
-      // URL-დან წავშალოთ ფასის ფილტრი, მაგრამ sort არ შევეხოთ
+      // Remove price filter from URL but keep sort
       params.delete("price_from");
       params.delete("price_to");
       window.history.replaceState({}, "", `?${params.toString()}`);
@@ -1088,13 +1090,14 @@ async function priceFilter(action, element) {
   // changePage(1)
 }
 
+// Handle product sorting
 async function priceSort(value, action, element) {
   const params = new URLSearchParams(window.location.search);
   const sortingFilter = document.getElementById("sorting-filter");
 
   if (action === "add") {
     if (value) {
-      // თუ ლინკში არსებობს price_from და price_to → ამოვიღოთ
+      // If URL has price_from and price_to → extract them
       const priceFrom = params.get("price_from")
         ? Number(params.get("price_from"))
         : undefined;
@@ -1102,15 +1105,15 @@ async function priceSort(value, action, element) {
         ? Number(params.get("price_to"))
         : undefined;
 
-      // მოვუხმოთ loadFilteredProducts
+      // Call loadFilteredProducts
       await loadFilteredProducts(
-        undefined, // page default
-        priceFrom, // თუ არაა, default გამოიყენება
+        undefined, // Page default
+        priceFrom, // If not exists, default will be used
         priceTo,
-        value // sort
+        value // Sort
       );
 
-      // ლინკში ჩავწეროთ sort
+      // Save sort in URL
       params.set("sort", value);
       window.history.replaceState({}, "", `?${params.toString()}`);
 
@@ -1123,20 +1126,19 @@ async function priceSort(value, action, element) {
       element.parentElement.remove();
     }
 
-    // ლინკიდან წავშალოთ sort
+    // Remove sort from URL
     params.delete("sort");
     window.history.replaceState({}, "", `?${params.toString()}`);
 
-    // თავიდან გავუშვათ default sort-ით
+    // Reload with default sort
     await loadFilteredProducts();
   }
 }
 
 // This function inputs an elemnets inside a container to be seen as a chosen filter and also removes them
-
 async function chosenFilters(value, action) {
   let chosenFiltersContainer = document.getElementById("chosen-filters");
-  if (!chosenFiltersContainer) return; // prevent error
+  if (!chosenFiltersContainer) return; // Prevent error
   let chosenFilterDivs =
     chosenFiltersContainer.querySelectorAll(".chosen-filter");
 
@@ -1178,7 +1180,6 @@ async function chosenFilters(value, action) {
 }
 
 // Used to recieve products from API and to showcase them as well
-
 async function loadFilteredProducts(
   page = 1,
   from = 0,
@@ -1194,15 +1195,12 @@ async function loadFilteredProducts(
     });
 
     initProductsList();
-    // changePage(1);
-    // renderPagination();
   } catch (error) {
     console.error("Error:", error.message);
   }
 }
 
 // This function is a supplementary function to pagination() and is used to change pages visa arrow right and left symbols
-
 function arrowPagination(value) {
   let activePage = document.querySelector(
     "html body main .pagination-container .pagination .active-page"
@@ -1248,7 +1246,6 @@ function arrowPagination(value) {
 }
 
 // This function is used to determine what kind of page we are in
-
 function changePage(page) {
   const pages = document.querySelectorAll(
     "html body main .pagination-container .pagination span"
@@ -1259,15 +1256,15 @@ function changePage(page) {
   const page_5 = document.querySelector(
     "html body main .pagination-container .pagination .page:nth-child(6)"
   );
-  const url = new URL(window.location); // ამჟამინდელი მისამართი
+  const url = new URL(window.location); // Current address
   const params = url.searchParams;
   const priceFrom = params.get("price_from");
   const priceTo = params.get("price_to");
-  const sort = params.get("sort") || "price"; // default sort
+  const sort = params.get("sort") || "price"; // Default sort
 
-  params.set("page", page); // page query-ს ჩასმა/შეცვლა
+  params.set("page", page); // Set/update page query
 
-  // მისამართის განახლება (reload-ის გარეშე)
+  // Update address without reload
   window.history.pushState({}, "", url);
 
   if (priceFrom && priceTo) {
@@ -1278,7 +1275,6 @@ function changePage(page) {
 }
 
 // This is a secondary function to the pagination() used alongside it to render the pages icons at the bottom of the website
-
 function renderPagination() {
   let productIndicator = document.getElementById("productsIndicator");
   let paginationContainer = document.querySelector(
@@ -1287,7 +1283,7 @@ function renderPagination() {
 
   if (!productIndicator || !paginationContainer) return;
 
-  // ამოვიღოთ page query param
+  // Extract page query param
   const params = new URLSearchParams(window.location.search);
   let currentPage = parseInt(params.get("page")) || 1;
 
@@ -1325,13 +1321,13 @@ function renderPagination() {
     img_2.onclick = () => {
       arrowPagination("next");
     };
-    paginationContainer.appendChild(img_1); // პირველი მიმთითებელი
+    paginationContainer.appendChild(img_1); // First arrow
     for (let i = 0; i < products.meta.last_page; i++) {
       let span = document.createElement("span");
       span.classList.add("page");
       span.innerHTML = `${i + 1}`;
 
-      // თუ ეს გვერდი ემთხვევა URL-ში არსებულ page-ს → active-page
+      // If this page matches URL page → active-page
       if (i + 1 === currentPage) {
         span.classList.add("active-page");
       }
@@ -1341,12 +1337,11 @@ function renderPagination() {
       };
       paginationContainer.appendChild(span);
     }
-    paginationContainer.appendChild(img_2); // მეორე მიმთითებელი
+    paginationContainer.appendChild(img_2); // Second arrow
   }
 }
 
 // Main pagaination function
-
 function pagination(element) {
   const pages = document.querySelectorAll(
     "html body main .pagination-container .pagination span"
@@ -1395,14 +1390,14 @@ function pagination(element) {
 }
 
 // This function's sole purpose is to redirect the webuser into the main page
-
 function listingRedirection() {
   window.location.href = "index.html";
 }
 
+// Add product to cart via API
 async function addProductToCart(productId, quantity = 1, color, size) {
   try {
-    // ავიღოთ ტოკენი localStorage-იდან
+    // Get token from localStorage
     const token = localStorage.getItem("token");
 
     const response = await fetch(`${API_URL}/cart/products/${productId}`, {
@@ -1410,7 +1405,7 @@ async function addProductToCart(productId, quantity = 1, color, size) {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`, // აქ ემატება ტოკენი
+        Authorization: `Bearer ${token}`, // Token is added here
       },
       body: JSON.stringify({
         quantity: quantity,
@@ -1434,20 +1429,22 @@ async function addProductToCart(productId, quantity = 1, color, size) {
   }
 }
 
+// Extract product ID from URL hash
 function getProductIdFromQueryParams() {
-  const hash = window.location.hash; // "#/product/12"
-  const path = hash.replace("#", ""); // "/product/12"
-  const parts = path.split("/"); // ["", "product", "12"]
+  const hash = window.location.hash;
+  const path = hash.replace("#", "");
+  const parts = path.split("/");
 
-  // სტრინგის ამოღება
-  const idString = parts[2]; // "12"
+  // Extract string
+  const idString = parts[2];
 
-  // რიცხვად გადაყვანა
-  const productId = parseInt(idString, 10); // 12 (number)
+  // Convert to number
+  const productId = parseInt(idString, 10);
 
   return productId;
 }
 
+// Add product to cart from product detail page
 async function addProductToCartInfoRedirection() {
   const colorIndicator = document.querySelector(
     "#information-box .color-indicator span:nth-child(2)"
@@ -1468,6 +1465,7 @@ async function addProductToCartInfoRedirection() {
   }
 }
 
+// Process checkout with user data
 async function checkoutCart(userData) {
   const errorText = document.getElementById("error-text");
   const token = localStorage.getItem("token");
@@ -1481,11 +1479,11 @@ async function checkoutCart(userData) {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
-    body: JSON.stringify(userData), // 👈 აქ ვაგზავნით მონაცემებს
+    body: JSON.stringify(userData), // Sending data here
   });
 
   if (!response.ok) {
-    const errorData = await response.json(); // ნახე რატომ დააბრუნა 422
+    const errorData = await response.json();
     errorText.innerHTML = `
     * Error: ${errorData.message}
     `;
@@ -1504,6 +1502,7 @@ async function checkoutCart(userData) {
   return data;
 }
 
+// Validate and process payment
 async function pay() {
   const nameInput = document.getElementById("name-input");
   const surnameInput = document.getElementById("surname-input");
@@ -1551,7 +1550,7 @@ async function pay() {
     zipCodeInput.style.border = "1px solid #e1dfe1";
   }
 
-  // ... შენი ვალიდაციები რჩება იგივე ...
+  // ... your validations remain the same ...
 
   const userData = {
     name: nameInput.value,
@@ -1565,11 +1564,10 @@ async function pay() {
 }
 
 // This is the main function of the website
-
 async function main() {
   window.addEventListener("hashchange", router);
 
-  // --- პირველი ჩატვირთვა ---
+  // Initial load
 
   document.addEventListener("DOMContentLoaded", () => {
     const init = async () => {
@@ -1601,16 +1599,16 @@ async function main() {
       });
     };
 
-    init(); // აქ უკვე რეალურად გაეშვება ყველაფერი
+    init(); // This will actually run everything
   });
 
   const params = new URLSearchParams(window.location.search);
 
   const priceFrom = params.get("price_from");
   const priceTo = params.get("price_to");
-  const sort = params.get("sort") || "price"; // default sort
+  const sort = params.get("sort") || "price"; // Default sort
 
-  // აქ ვიღებთ გვერდს სწორად
+  // Get page correctly
   let page = parseInt(params.get("page")) || 1;
   if (page < 1) page = 1;
 
@@ -1628,7 +1626,7 @@ async function main() {
     const pf = document.getElementById("price-filter");
     if (pf) pf.style.display = "none";
 
-    // ინპუტებში ჩასმა
+    // Set inputs
     const pfInput = document.getElementById("price-from");
     const ptInput = document.getElementById("price-to");
     if (pfInput) pfInput.value = priceFrom;
@@ -1672,7 +1670,7 @@ async function main() {
       e.target.closest("#priceFilter") ||
       e.target.closest("#sortingFilter")
     ) {
-      // თუ დაკლიკებულია #myElement ან მისი შიგნით, იგნორირება
+      // If clicked on #myElement or inside it, ignore
       return;
     }
 

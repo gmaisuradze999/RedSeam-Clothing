@@ -1,8 +1,5 @@
-@import "../src/animation.scss";
 @import "../src/colors.scss";
-// @import "../src/fonts.scss";
 @import url("https://fonts.cdnfonts.com/css/poppins");
-@import "../src/media.scss";
 @import "../src/mixins.scss";
 
 * {
@@ -48,11 +45,8 @@ html {
       }
       .right {
         #before-log-in {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          border: none;
-          outline: none;
+          @include dF-jcSB-aiC;
+          @include bN-oN;
           background: none;
           img {
             padding: 2px 0px;
@@ -70,9 +64,7 @@ html {
           cursor: pointer;
         }
         #after-log-in {
-          display: none;
-          justify-content: space-between;
-          align-items: center;
+          @include dN-jcC-aiC;
           #cart-symbol {
             padding: 2.25px 0px;
             padding-left: 1.5px;
@@ -83,12 +75,11 @@ html {
             cursor: pointer;
           }
           .profile-picture-after-log-in {
+            @include bpC-brNR;
             padding: 16px;
             border: 1px solid $color_4;
             border-radius: 50%;
             background-image: url("./images/cameraIcon.svg");
-            background-position: center;
-            background-repeat: no-repeat;
           }
           .profile-picture-after-log-in:hover {
             cursor: pointer;
@@ -107,17 +98,13 @@ html {
     }
     main {
       .indicators {
+        @include dF-jcSB-aiC-mA;
         width: 89.583%;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin: auto;
         margin-top: 72px;
         margin-bottom: 6px;
         .left,
         .right {
-          display: flex;
-          align-items: center;
+          @include dF-aiC;
           img,
           span {
             user-select: none;
@@ -131,9 +118,7 @@ html {
         }
         .right {
           .product-number-indicator {
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            @include dF-jcC-aiC;
             margin: 3px 0px;
             span {
               font-size: 12px;
@@ -148,9 +133,8 @@ html {
             cursor: none;
           }
           #filtering {
+            @include dF-aiC;
             position: relative;
-            display: flex;
-            align-items: center;
             .filter-icon {
               margin: 4.5px 3.75px;
             }
@@ -164,8 +148,7 @@ html {
               position: absolute;
               top: 32px;
               right: 16px;
-              display: none;
-              flex-direction: column;
+              @include dN-fdC;
               padding: 16px;
               border: 1px solid $color_4;
               border-radius: 8px;
@@ -186,21 +169,15 @@ html {
                   display: flex;
                   input {
                     outline: none;
-                    // height: 42px;
                     padding: 10.5px 12px;
                     border: 1px solid $color_4;
                     border-radius: 8px;
                   }
-                  /* Chrome, Safari, Edge, Opera */
                   input::-webkit-outer-spin-button,
                   input::-webkit-inner-spin-button {
                     -webkit-appearance: none;
                     margin: 0;
                   }
-                  /* Firefox */
-                  // input[type="number"] {
-                  //   -moz-appearance: textfield;
-                  // }
                   input::placeholder {
                     color: $color_6;
                     font-size: 14px;
@@ -227,16 +204,13 @@ html {
                 }
               }
               .apply {
-                display: flex;
-                justify-content: end;
-                align-items: center;
+                @include dF-jcE-aiC;
                 #apply-button {
+                  @include bN-oN;
                   width: 34.4%;
                   padding: 10px 20px;
                   background-color: $color_7;
-                  border: none;
                   border-radius: 10px;
-                  outline: none;
                   .apply-button-text {
                     color: $color_1;
                     font-size: 14px;
@@ -253,9 +227,8 @@ html {
             }
           }
           #sorting {
+            @include dF-aiC;
             position: relative;
-            display: flex;
-            align-items: center;
             .sorting-indicator {
               margin: 2px 0px;
               margin-right: 4px;
@@ -268,12 +241,11 @@ html {
               margin-bottom: 8.25px;
             }
             #sorting-filter {
+              @include dN-fdC;
               position: absolute;
               top: 34px;
               right: -5px;
               width: 223px;
-              display: none;
-              flex-direction: column;
               padding: 16px;
               border: 1px solid $color_4;
               border-radius: 8px;
@@ -303,14 +275,11 @@ html {
         }
       }
       #chosen-filters {
+        @include dF-aiC-mA;
         width: 89.583%;
-        display: flex;
-        align-items: center;
-        margin: auto;
         margin-top: 13px;
         .chosen-filter {
-          display: flex;
-          align-items: center;
+          @include dF-aiC;
           padding: 8px 0px;
           padding-left: 16px;
           padding-right: 10px;
@@ -344,14 +313,11 @@ html {
         margin: auto;
         margin-top: 26px;
         .product {
-          display: flex;
-          flex-direction: column;
+          @include dF-fdC;
           .top {
+            @include bpC-brNR-bsC;
             border-radius: 10px;
             padding: 274.5px 206px;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-size: cover;
           }
           .bottom {
             p {
@@ -371,24 +337,13 @@ html {
         }
       }
       .pagination-container {
-        // border: 0.1rem solid green;
-
+        @include dF-jcC-aiC-mA;
         width: 89.583%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        margin: auto;
         margin-top: 90px;
         margin-bottom: 216px;
         .pagination {
-          // border: 0.1rem solid blue;
-
-          // width: fit-content;
-          display: flex;
-          align-items: center;
+          @include dF-aiC;
           img {
-            // border: 0.1rem solid red;
-
             padding: 10px;
           }
           #arrow-left {
@@ -398,12 +353,9 @@ html {
             margin-left: 8px;
           }
           span {
-            // padding: 16px;
+            @include dF-jcC-aiC;
             width: 32px;
             height: 32px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
             border: 1px solid $color_3;
             color: $color_8;
             font-size: 14px;
@@ -430,23 +382,17 @@ html {
         display: flex;
         user-select: none;
         .left {
+          @include bpC-brNR-bsC;
           width: 49.375%;
           padding: 500px 0px;
           background-image: url("./images/modelsWalking.svg");
-          background-position: center;
-          background-repeat: no-repeat;
-          background-size: cover;
         }
         .right {
           width: 50.625%;
           display: flex;
           #log-in {
-            // border: 0.1rem solid green;
-
+            @include dF-fdC;
             width: 56.99588477366255%;
-            // width: 570px;
-            display: flex;
-            flex-direction: column;
             margin: auto;
             margin-top: 241px;
             margin-left: 173px;
@@ -461,13 +407,11 @@ html {
             .input-container {
               .email-username-container,
               .password-container {
-                // border: 0.1rem solid green;
                 position: relative;
                 .fake-placeholder {
                   position: absolute;
                   top: 6.5px;
                   color: $color_7;
-                  // border: 0.1rem solid green;
                 }
                 input {
                   width: 100%;
@@ -480,7 +424,6 @@ html {
                     color: $color_6;
                     font-size: 14px;
                     font-weight: 400;
-                    // border: 0.1rem solid blue;
                   }
                 }
               }
@@ -520,13 +463,12 @@ html {
               }
             }
             .log-in-button {
+              @include bN-oN;
               width: 100%;
               height: 41px;
               padding: 10px 20px;
               margin-top: 46px;
               margin-bottom: 24px;
-              outline: none;
-              border: none;
               border-radius: 10px;
               background-color: $color_7;
               .log-in-button-text {
@@ -539,10 +481,8 @@ html {
               cursor: pointer;
             }
             .redirection {
+              @include dF-jcC-aiC;
               width: 100%;
-              display: flex;
-              justify-content: center;
-              align-items: center;
               span {
                 font-size: 14px;
               }
@@ -561,9 +501,8 @@ html {
             }
           }
           #registration {
+            @include dN-fdC;
             width: 56.99588477366255%;
-            display: none;
-            flex-direction: column;
             margin-top: 152px;
             margin-left: 173px;
             margin-right: 245px;
@@ -576,16 +515,13 @@ html {
               margin-top: 48px;
               margin-bottom: 46px;
               .file-input-wrapper {
+                @include dF-aiC;
                 position: relative;
-                display: flex;
-                align-items: center;
                 #profile-picture {
+                  @include bpC-brNR-bsC;
                   border-radius: 50%;
                   padding: 50px;
                   background-image: url("./images/camera.svg");
-                  background-position: center;
-                  background-repeat: no-repeat;
-                  background-size: cover;
                 }
                 #file-input {
                   opacity: 0;
@@ -608,21 +544,18 @@ html {
               }
             }
             .input-container {
-              display: flex;
-              flex-direction: column;
+              @include dF-fdC;
               .username-input-container,
               .email-input-container,
               .password-input-container,
               .confirm-password-input-container {
+                @include dF-aiC;
                 position: relative;
                 width: 100%;
-                display: flex;
-                align-items: center;
                 .fake-placeholder {
                   position: absolute;
                   top: 6.5px;
                   color: $color_7;
-                  // border: 0.1rem solid green;
                 }
                 input {
                   width: 100%;
@@ -636,7 +569,6 @@ html {
                     color: $color_6;
                     font-size: 14px;
                     font-weight: 400;
-                    // border: 0.1rem solid blue;
                   }
                 }
               }
@@ -695,13 +627,12 @@ html {
               }
             }
             .registration-button {
+              @include bN-oN;
               width: 100%;
               height: 41px;
               padding: 10px 20px;
               margin-top: 46px;
               margin-bottom: 24px;
-              outline: none;
-              border: none;
               border-radius: 10px;
               background-color: $color_7;
               .registration-button-text {
@@ -714,10 +645,8 @@ html {
               cursor: pointer;
             }
             .rerouting {
+              @include dF-jcC-aiC;
               width: 100%;
-              display: flex;
-              justify-content: center;
-              align-items: center;
               span {
                 font-size: 14px;
               }
@@ -734,18 +663,12 @@ html {
                 cursor: pointer;
               }
             }
-            // margin: auto;
-            // margin-top: 241px;
-            // margin-left: 173px;
-            // margin-right: 245px;
-            // margin-bottom: 408px;
           }
         }
       }
       .product-page {
+        @include dF-fdC;
         width: 89.583%;
-        display: flex;
-        flex-direction: column;
         margin: auto;
         margin-top: 30px;
         .top {
@@ -763,15 +686,11 @@ html {
         .bottom {
           display: flex;
           .left {
-            // width: 49.30250903259175%;
-            // width: 47.90715500336745%;
             display: flex;
             #pickable-pictures {
               .img {
+                @include bpC-brNR-bsC;
                 width: 121px;
-                background-position: center;
-                background-repeat: no-repeat;
-                background-size: cover;
                 padding: 80.665px 0px;
               }
               .pickable-picture:hover {
@@ -779,11 +698,9 @@ html {
               }
             }
             #displayed-picture {
+              @include bpC-brNR-bsC;
               width: 703px;
               margin-left: 24px;
-              background-position: center;
-              background-repeat: no-repeat;
-              background-size: cover;
               padding: 468.5px 0px;
             }
           }
@@ -791,14 +708,11 @@ html {
             width: 50.69749096740825%;
             position: relative;
             #information-box {
+              @include dF-fdC;
               position: absolute;
               top: 0px;
               right: 0px;
               width: 80.73394495412844%;
-              display: flex;
-              flex-direction: column;
-              // margin-left: 168px;
-              // margin-bottom: 30px;
               .product-name {
                 span {
                   color: $color_5;
@@ -823,14 +737,12 @@ html {
                 }
               }
               .pickable-colors {
+                @include dF-aiC;
                 width: fit-content;
-                display: flex;
-                align-items: center;
                 margin-top: 16px;
                 margin-bottom: 48px;
                 div {
-                  display: flex;
-                  align-items: center;
+                  @include dF-aiC;
                   margin-left: 13px;
                   border-radius: 50%;
                   .pickable-color {
@@ -856,8 +768,7 @@ html {
                 }
               }
               .pickable-sizes {
-                display: flex;
-                align-items: center;
+                @include dF-aiC;
                 margin-top: 16px;
                 margin-bottom: 48px;
                 .pickable-size {
@@ -898,7 +809,7 @@ html {
                 margin-top: 16px;
                 margin-bottom: 56px;
                 #number-of-product {
-                  padding: 9px 40px 9px 16px; // left padding for number, right padding for arrow
+                  padding: 9px 40px 9px 16px;
                   border: 1px solid $color_4;
                   border-radius: 10px;
                   background-color: $color_1;
@@ -911,20 +822,17 @@ html {
                   appearance: none;
                   background-image: url("./images/dropdownIcon.svg");
                   background-repeat: no-repeat;
-                  background-position: calc(100% - 16px) center; // arrow stays neatly at right
+                  background-position: calc(100% - 16px) center;
                   background-size: 14px;
                   font-size: 16px;
                   font-weight: 400;
                 }
               }
               #add-to-cart {
-                outline: none;
-                border: none;
+                @include bN-oN;
+                @include dF-jcC-aiC;
                 border-radius: 10px;
                 background-color: $color_7;
-                display: flex;
-                justify-content: center;
-                align-items: center;
                 padding: 16px 0px;
                 #white-cart {
                   padding: 3px 0px;
@@ -945,9 +853,7 @@ html {
                 margin: 56px 0px;
               }
               .details-container {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
+                @include dF-jcSB-aiC;
                 .detail {
                   span {
                     color: $color_5;
@@ -957,8 +863,7 @@ html {
                 }
               }
               .brand-container {
-                display: flex;
-                flex-direction: column;
+                @include dF-fdC;
                 .span {
                   color: $color_5;
                   font-size: 16px;
@@ -974,12 +879,8 @@ html {
         }
       }
       .checkout-container {
+        @include dF-fdF-jcSB-aiC-mA;
         width: 89.583%;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        align-items: center;
-        margin: auto;
         margin-top: 72px;
         margin-bottom: 188px;
         user-select: none;
@@ -993,9 +894,8 @@ html {
           }
         }
         .bottom {
+          @include dF-jcSB;
           width: 100%;
-          display: flex;
-          justify-content: space-between;
           align-items: stretch;
           .left {
             width: 65.63953488372093%;
@@ -1019,10 +919,8 @@ html {
                 .fullname,
                 .email,
                 .address {
+                  @include dF-jcSB-aiC;
                   width: 100%;
-                  display: flex;
-                  justify-content: space-between;
-                  align-items: center;
                   input {
                     height: 42px;
                     padding: 0px 12px;
@@ -1069,26 +967,20 @@ html {
                   height: 340px;
                   overflow-y: auto;
                   .chosen-product {
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: center;
+                    @include dF-jcSB-aiC;
                     margin-top: 36px;
                     .left-c {
+                      @include bpC-brNR-bsC;
                       width: 21.73913043478261%;
                       padding: 67px 0px;
                       background-image: url("./images/Rectangle.svg");
-                      background-position: center;
-                      background-repeat: no-repeat;
-                      background-size: cover;
                       border: 1px solid $color_4;
                       border-radius: 10px;
                     }
                     .right-c {
                       width: 74.56521739130435%;
                       .name-price {
-                        display: flex;
-                        justify-content: space-between;
-                        align-items: center;
+                        @include dF-jcSB-aiC;
                         span {
                           color: $color_5;
                           font-weight: 500;
@@ -1109,16 +1001,12 @@ html {
                         margin: 8px 0px;
                       }
                       .increase-remove {
+                        @include dF-jcSB-aiC;
                         width: 100%;
-                        display: flex;
-                        justify-content: space-between;
-                        align-items: center;
                         margin-top: 13px;
                         .flactuation {
+                          @include dF-jcSB-aiC;
                           width: 20.40816326530612%;
-                          display: flex;
-                          justify-content: space-between;
-                          align-items: center;
                           padding: 4px 8px;
                           border: 1px solid $color_4;
                           border-radius: 22px;
@@ -1126,15 +1014,13 @@ html {
                             width: 22.85714285714286%;
                           }
                           #number-of-chosen-products {
+                            @include bN-oN;
                             width: 25.71428571428571%;
-                            border: none;
-                            outline: none;
                             color: $color_5;
                             font-size: 12px;
                             font-weight: 400;
                             text-align: center;
                           }
-                          /* Chrome, Safari, Edge, Opera */
                           #number-of-chosen-products::-webkit-inner-spin-button,
                           #number-of-chosen-products::-webkit-outer-spin-button {
                             -webkit-appearance: none;
@@ -1161,9 +1047,7 @@ html {
                   .suptotal,
                   .delivery,
                   .total {
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: center;
+                    @include dF-jcSB-aiC;
                   }
                   .suptotal,
                   .delivery {
@@ -1190,11 +1074,10 @@ html {
                 margin-bottom: 8px;
               }
               #checkout-button {
+                @include bN-oN;
                 width: 100%;
                 padding: 16px 0px;
-                border: none;
                 border-radius: 10px;
-                outline: none;
                 background-color: $color_7;
                 span {
                   color: $color_1;
@@ -1210,22 +1093,17 @@ html {
         }
       }
       #congratulations-container {
+        @include dN-jcC-aiC;
         position: fixed;
         top: 0;
         width: 100%;
         min-height: 100vh;
-        display: none;
-        justify-content: center;
-        align-items: center;
         background-color: rgba($color_5, 0.3);
         user-select: none;
         .congratulations-box {
+          @include dF-fdF-jcC-aiC-mA;
           position: relative;
           width: 45.625%;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
           background-color: $color_1;
           #deleteXSign {
             position: absolute;
@@ -1237,12 +1115,8 @@ html {
             cursor: pointer;
           }
           .c-container {
+            @include dF-fdF-jcC-aiC-mA;
             width: 30%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
             margin: 0px 322px;
             margin-top: 114px;
             margin-bottom: 74px;
@@ -1260,10 +1134,9 @@ html {
             }
           }
           #continue-shopping {
+            @include bN-oN;
             width: 24.42922374%;
             height: 41px;
-            outline: none;
-            border: none;
             background-color: $color_7;
             border-radius: 10px;
             margin-bottom: 145px;
@@ -1278,22 +1151,12 @@ html {
           }
         }
       }
-
-
-
-
-
-
-
-
-
       .card-container {
+        @include dN-jcE;
         position: fixed;
         top: 0;
         width: 100%;
         min-height: 100vh;
-        display: none;
-        justify-content: end;
         background-color: rgba($color_5, 0.3);
         .vertical-shopping-container {
           width: 28.125%;
@@ -1306,9 +1169,7 @@ html {
             cursor: pointer;
           }
           .top {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            @include dF-jcSB-aiC;
             span {
               color: $color_5;
               font-size: 20px;
@@ -1317,9 +1178,8 @@ html {
           }
           .bottom {
             .shopping-cart-container {
+              @include dF-fdC;
               width: 100%;
-              display: flex;
-              flex-direction: column;
               margin-top: 63px;
               .chosen-products {
                 height: 595px;
@@ -1328,25 +1188,19 @@ html {
                 -ms-overflow-style: none;
                 margin-bottom: 48px;
                 .chosen-product {
-                  display: flex;
-                  justify-content: space-between;
-                  align-items: center;
+                  @include dF-jcSB-aiC;
                   margin-top: 36px;
                   .left-c {
+                    @include bpC-brNR-bsC;
                     width: 21.73913043478261%;
                     padding: 67px 0px;
-                    background-position: center;
-                    background-repeat: no-repeat;
-                    background-size: cover;
                     border: 1px solid $color_4;
                     border-radius: 10px;
                   }
                   .right-c {
                     width: 74.56521739130435%;
                     .name-price {
-                      display: flex;
-                      justify-content: space-between;
-                      align-items: center;
+                      @include dF-jcSB-aiC;
                       span {
                         color: $color_5;
                         font-weight: 500;
@@ -1367,16 +1221,12 @@ html {
                       margin: 8px 0px;
                     }
                     .increase-remove {
+                      @include dF-jcSB-aiC;
                       width: 100%;
-                      display: flex;
-                      justify-content: space-between;
-                      align-items: center;
                       margin-top: 13px;
                       .flactuation {
+                        @include dF-jcSB-aiC;
                         width: 20.40816326530612%;
-                        display: flex;
-                        justify-content: space-between;
-                        align-items: center;
                         padding: 4px 8px;
                         border: 1px solid $color_4;
                         border-radius: 22px;
@@ -1384,15 +1234,13 @@ html {
                           width: 22.85714285714286%;
                         }
                         #number-of-chosen-products {
+                          @include bN-oN;
                           width: 25.71428571428571%;
-                          border: none;
-                          outline: none;
                           color: $color_5;
                           font-size: 12px;
                           font-weight: 400;
                           text-align: center;
                         }
-                        /* Chrome, Safari, Edge, Opera */
                         #number-of-chosen-products::-webkit-inner-spin-button,
                         #number-of-chosen-products::-webkit-outer-spin-button {
                           -webkit-appearance: none;
@@ -1415,17 +1263,14 @@ html {
                 }
               }
               .chosen-products::-webkit-scrollbar {
-                display: none; /* Chrome, Safari */
+                display: none;
               }
               .totals {
-                // margin-top: 331px;
                 margin-bottom: 102px;
                 .suptotal,
                 .delivery,
                 .total {
-                  display: flex;
-                  justify-content: space-between;
-                  align-items: center;
+                  @include dF-jcSB-aiC;
                 }
                 .suptotal,
                 .delivery {
@@ -1448,11 +1293,10 @@ html {
               }
             }
             #checkout-redirection-button {
+              @include bN-oN;
               width: 100%;
               padding: 16px 0px;
-              border: none;
               border-radius: 10px;
-              outline: none;
               background-color: $color_7;
               span {
                 color: $color_1;
@@ -1461,17 +1305,13 @@ html {
               }
             }
             .empty-cart-container {
+              @include dF-fdF-jcC-aiC-mA;
               width: 100%;
-              display: none;
-              flex-direction: column;
-              justify-content: center;
-              align-items: center;
               margin-top: 151px;
               user-select: none;
               .ooops-container {
+                @include dF-fdC;
                 width: 100%;
-                display: flex;
-                flex-direction: column;
                 align-items: center;
                 .ooops-text {
                   color: $color_5;
@@ -1488,12 +1328,11 @@ html {
               }
             }
             .start-shopping-button {
+              @include bN-oN;
               width: 39.629%;
               padding: 10px 0px;
               margin-top: 56px;
-              border: none;
               border-radius: 10px;
-              outline: none;
               background-color: $color_7;
               span {
                 color: $color_1;

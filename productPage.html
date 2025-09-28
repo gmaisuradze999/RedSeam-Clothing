@@ -1,36 +1,50 @@
+<!-- Individual product detail page -->
 <div class="product-page">
   <div class="top">
+    <!-- Breadcrumb navigation back to products listing -->
     <span id="listing" onclick="listingRedirection()"> Listing</span>
     <span> /</span>
     <span>Product</span>
   </div>
   <div class="bottom">
+    <!-- Left side: Product images gallery -->
     <div class="left">
+      <!-- Container for selectable thumbnail images populated by forwardToProductPage() -->
       <div id="pickable-pictures"></div>
+      <!-- Main displayed image that changes based on color/thumbnail selection -->
       <div id="displayed-picture"></div>
     </div>
+    <!-- Right side: Product information and options -->
     <div class="right">
       <div id="information-box">
+        <!-- Product name populated from API data -->
         <div class="product-name">
           <span></span>
         </div>
+        <!-- Product price populated from API data -->
         <div class="product-price">
           <span></span>
         </div>
+        <!-- Current selected color indicator -->
         <div class="color-indicator">
           <span>Color: </span>
           <span></span>
         </div>
+        <!-- Color selection options populated by forwardToProductPage() -->
         <div class="pickable-colors"></div>
+        <!-- Current selected size indicator -->
         <div class="size-indicator">
           <span>Size: </span>
           <span></span>
         </div>
+        <!-- Size selection buttons populated by forwardToProductPage() -->
         <div class="pickable-sizes"></div>
         <span id="quantity-indicator"> Quantity </span>
+        <!-- Quantity dropdown populated based on product stock -->
         <div class="number-of-product-container">
           <select name="number-of-product" id="number-of-product"></select>
         </div>
+        <!-- Add to cart button that collects all selected options and adds to cart -->
         <button id="add-to-cart" onclick="addProductToCartInfoRedirection()">
           <img src="./images/cartWhite.svg" alt="" id="white-cart" />
           <span id="add-to-cart-text"> Add to cart </span>
@@ -44,9 +58,11 @@
           <div class="detail">
             <span> Details </span>
           </div>
+          <!-- Brand logo image populated from API -->
           <div id="brand-img"></div>
         </div>
         <div class="brand-container">
+          <!-- Brand name and description populated from API -->
           <span id="brand-name"></span>
           <span id="brand-description"></span>
         </div>

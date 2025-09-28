@@ -13,6 +13,7 @@
   </head>
   <body>
     <header>
+      <!-- Main logo that redirects to products listing when clicked -->
       <div class="left" id="mainLogo">
         <img
           src="./images/redSeamClothingLogo.svg"
@@ -21,6 +22,7 @@
         <span> RedSeam Clothing </span>
       </div>
       <div class="right">
+        <!-- Login button - shown when user is not logged in -->
         <button id="before-log-in">
           <img
             src="./images/personSiluet.svg"
@@ -28,8 +30,11 @@
           />
           <span> Log In </span>
         </button>
+        <!-- User section - shown after successful login -->
         <div id="after-log-in">
+          <!-- Shopping cart icon that toggles cart sidebar visibility -->
           <img src="./images/cart.svg" alt="Cart" id="cart-symbol" onclick="controlCardContainer()"/>
+          <!-- User profile picture populated from localStorage after login -->
           <div class="profile-picture-after-log-in"></div>
           <img
             src="./images/dropdownIcon.svg"
@@ -39,9 +44,9 @@
         </div>
       </div>
     </header>
+    <!-- Main application container where all pages are dynamically loaded -->
     <main id="app">
     </main>
-    <!-- <footer></footer> -->
 
     <script src="main.js"></script>
   </body>

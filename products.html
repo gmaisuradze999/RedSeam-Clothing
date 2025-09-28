@@ -1,8 +1,10 @@
+<!-- Products listing page header with filters and sorting -->
 <div class="indicators">
   <div class="left">
     <span> Products </span>
   </div>
   <div class="right">
+    <!-- Product count indicator updated by renderPagination() -->
     <div class="product-number-indicator">
       <span id="productsIndicator"> Showing 1–10 of 100 results </span>
     </div>
@@ -11,6 +13,7 @@
       alt="Grey Vertical Line"
       class="grey-vertical-line"
     />
+    <!-- Price filter dropdown -->
     <div id="filtering">
       <img
         src="./images/filterIcon.svg"
@@ -18,9 +21,11 @@
         class="filter-icon"
       />
       <span class="filter"> Filter </span>
+      <!-- Price filter form that appears on click -->
       <div id="price-filter">
         <p>Select price</p>
         <div class="inputs">
+          <!-- Price range inputs with custom placeholder handling -->
           <div class="price-from-container">
             <input
               type="number"
@@ -42,6 +47,7 @@
             <span class="fake-placeholder"> * </span>
           </div>
         </div>
+        <!-- Apply button that triggers price filtering -->
         <div class="apply">
           <button id="apply-button" onclick="priceFilter('add', this)">
             <span class="apply-button-text"> Apply </span>
@@ -49,6 +55,7 @@
         </div>
       </div>
     </div>
+    <!-- Sorting dropdown -->
     <div id="sorting">
       <span class="sorting-indicator"> Sort by </span>
       <img
@@ -56,6 +63,7 @@
         alt="Dropdown Icon"
         class="dropdown-icon"
       />
+      <!-- Sorting options that trigger priceSort() function -->
       <div id="sorting-filter">
         <p>Sort by</p>
         <span onclick="priceSort('created_at', 'add', this)">
@@ -71,8 +79,11 @@
     </div>
   </div>
 </div>
+<!-- Container for active filter tags displayed by chosenFilters() -->
 <div id="chosen-filters"></div>
+<!-- Main products grid populated by initProductsList() -->
 <div class="products"></div>
+<!-- Pagination controls rendered by renderPagination() -->
 <div class="pagination-container">
   <div class="pagination"></div>
 </div>

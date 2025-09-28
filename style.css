@@ -71,7 +71,7 @@ html body header .right #before-log-in:hover {
 }
 html body header .right #after-log-in {
   display: none;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
 }
 html body header .right #after-log-in #cart-symbol {
@@ -84,12 +84,12 @@ html body header .right #after-log-in #cart-symbol:hover {
   cursor: pointer;
 }
 html body header .right #after-log-in .profile-picture-after-log-in {
+  background-position: center;
+  background-repeat: no-repeat;
   padding: 16px;
   border: 1px solid #e1dfe1;
   border-radius: 50%;
   background-image: url("./images/cameraIcon.svg");
-  background-position: center;
-  background-repeat: no-repeat;
 }
 html body header .right #after-log-in .profile-picture-after-log-in:hover {
   cursor: pointer;
@@ -104,11 +104,11 @@ html body header .right #after-log-in .dropdownIcon:hover {
   cursor: pointer;
 }
 html body main .indicators {
-  width: 89.583%;
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin: auto;
+  width: 89.583%;
   margin-top: 72px;
   margin-bottom: 6px;
 }
@@ -145,9 +145,9 @@ html body main .indicators .right .grey-vertical-line:hover {
   cursor: none;
 }
 html body main .indicators .right #filtering {
-  position: relative;
   display: flex;
   align-items: center;
+  position: relative;
 }
 html body main .indicators .right #filtering .filter-icon {
   margin: 4.5px 3.75px;
@@ -184,8 +184,6 @@ html body main .indicators .right #filtering #price-filter .inputs .price-to-con
   position: relative;
   width: 50%;
   display: flex;
-  /* Chrome, Safari, Edge, Opera */
-  /* Firefox */
 }
 html body main .indicators .right #filtering #price-filter .inputs .price-from-container input,
 html body main .indicators .right #filtering #price-filter .inputs .price-to-container input {
@@ -230,12 +228,12 @@ html body main .indicators .right #filtering #price-filter .apply {
   align-items: center;
 }
 html body main .indicators .right #filtering #price-filter .apply #apply-button {
+  border: none;
+  outline: none;
   width: 34.4%;
   padding: 10px 20px;
   background-color: #ff4000;
-  border: none;
   border-radius: 10px;
-  outline: none;
 }
 html body main .indicators .right #filtering #price-filter .apply #apply-button .apply-button-text {
   color: white;
@@ -249,9 +247,9 @@ html body main .indicators .right #filtering #price-filter:hover {
   cursor: auto;
 }
 html body main .indicators .right #sorting {
-  position: relative;
   display: flex;
   align-items: center;
+  position: relative;
 }
 html body main .indicators .right #sorting .sorting-indicator {
   margin: 2px 0px;
@@ -265,12 +263,12 @@ html body main .indicators .right #sorting .dropdown-icon {
   margin-bottom: 8.25px;
 }
 html body main .indicators .right #sorting #sorting-filter {
+  display: none;
+  flex-direction: column;
   position: absolute;
   top: 34px;
   right: -5px;
   width: 223px;
-  display: none;
-  flex-direction: column;
   padding: 16px;
   border: 1px solid #e1dfe1;
   border-radius: 8px;
@@ -297,10 +295,10 @@ html body main .indicators .right #sorting:hover {
   cursor: pointer;
 }
 html body main #chosen-filters {
-  width: 89.583%;
   display: flex;
   align-items: center;
   margin: auto;
+  width: 89.583%;
   margin-top: 13px;
 }
 html body main #chosen-filters .chosen-filter {
@@ -343,11 +341,11 @@ html body main .products .product {
   flex-direction: column;
 }
 html body main .products .product .top {
-  border-radius: 10px;
-  padding: 274.5px 206px;
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
+  border-radius: 10px;
+  padding: 274.5px 206px;
 }
 html body main .products .product .bottom p {
   font-weight: 500;
@@ -363,11 +361,11 @@ html body main .products .product:hover {
   cursor: pointer;
 }
 html body main .pagination-container {
-  width: 89.583%;
   display: flex;
   justify-content: center;
   align-items: center;
   margin: auto;
+  width: 89.583%;
   margin-top: 90px;
   margin-bottom: 216px;
 }
@@ -385,11 +383,11 @@ html body main .pagination-container .pagination #arrow-right {
   margin-left: 8px;
 }
 html body main .pagination-container .pagination span {
-  width: 32px;
-  height: 32px;
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 32px;
+  height: 32px;
   border: 1px solid #f8f6f7;
   color: #7a8086;
   font-size: 14px;
@@ -415,21 +413,21 @@ html body main .authorization {
   user-select: none;
 }
 html body main .authorization .left {
-  width: 49.375%;
-  padding: 500px 0px;
-  background-image: url("./images/modelsWalking.svg");
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
+  width: 49.375%;
+  padding: 500px 0px;
+  background-image: url("./images/modelsWalking.svg");
 }
 html body main .authorization .right {
   width: 50.625%;
   display: flex;
 }
 html body main .authorization .right #log-in {
-  width: 56.9958847737%;
   display: flex;
   flex-direction: column;
+  width: 56.9958847737%;
   margin: auto;
   margin-top: 241px;
   margin-left: 173px;
@@ -500,13 +498,13 @@ html body main .authorization .right #log-in .error-message p {
   color: #ff4000;
 }
 html body main .authorization .right #log-in .log-in-button {
+  border: none;
+  outline: none;
   width: 100%;
   height: 41px;
   padding: 10px 20px;
   margin-top: 46px;
   margin-bottom: 24px;
-  outline: none;
-  border: none;
   border-radius: 10px;
   background-color: #ff4000;
 }
@@ -519,10 +517,10 @@ html body main .authorization .right #log-in .log-in-button:hover {
   cursor: pointer;
 }
 html body main .authorization .right #log-in .redirection {
-  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 100%;
 }
 html body main .authorization .right #log-in .redirection span {
   font-size: 14px;
@@ -540,9 +538,9 @@ html body main .authorization .right #log-in .redirection .registration-url {
   cursor: pointer;
 }
 html body main .authorization .right #registration {
-  width: 56.9958847737%;
   display: none;
   flex-direction: column;
+  width: 56.9958847737%;
   margin-top: 152px;
   margin-left: 173px;
   margin-right: 245px;
@@ -557,17 +555,17 @@ html body main .authorization .right #registration .picture-container {
   margin-bottom: 46px;
 }
 html body main .authorization .right #registration .picture-container .file-input-wrapper {
-  position: relative;
   display: flex;
   align-items: center;
+  position: relative;
 }
 html body main .authorization .right #registration .picture-container .file-input-wrapper #profile-picture {
-  border-radius: 50%;
-  padding: 50px;
-  background-image: url("./images/camera.svg");
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
+  border-radius: 50%;
+  padding: 50px;
+  background-image: url("./images/camera.svg");
 }
 html body main .authorization .right #registration .picture-container .file-input-wrapper #file-input {
   opacity: 0;
@@ -595,10 +593,10 @@ html body main .authorization .right #registration .input-container .username-in
 html body main .authorization .right #registration .input-container .email-input-container,
 html body main .authorization .right #registration .input-container .password-input-container,
 html body main .authorization .right #registration .input-container .confirm-password-input-container {
-  position: relative;
-  width: 100%;
   display: flex;
   align-items: center;
+  position: relative;
+  width: 100%;
 }
 html body main .authorization .right #registration .input-container .username-input-container .fake-placeholder,
 html body main .authorization .right #registration .input-container .email-input-container .fake-placeholder,
@@ -674,13 +672,13 @@ html body main .authorization .right #registration .error-message p {
   color: #ff4000;
 }
 html body main .authorization .right #registration .registration-button {
+  border: none;
+  outline: none;
   width: 100%;
   height: 41px;
   padding: 10px 20px;
   margin-top: 46px;
   margin-bottom: 24px;
-  outline: none;
-  border: none;
   border-radius: 10px;
   background-color: #ff4000;
 }
@@ -693,10 +691,10 @@ html body main .authorization .right #registration .registration-button:hover {
   cursor: pointer;
 }
 html body main .authorization .right #registration .rerouting {
-  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 100%;
 }
 html body main .authorization .right #registration .rerouting span {
   font-size: 14px;
@@ -714,9 +712,9 @@ html body main .authorization .right #registration .rerouting .log-in-url {
   cursor: pointer;
 }
 html body main .product-page {
-  width: 89.583%;
   display: flex;
   flex-direction: column;
+  width: 89.583%;
   margin: auto;
   margin-top: 30px;
 }
@@ -739,21 +737,21 @@ html body main .product-page .bottom .left {
   display: flex;
 }
 html body main .product-page .bottom .left #pickable-pictures .img {
-  width: 121px;
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
+  width: 121px;
   padding: 80.665px 0px;
 }
 html body main .product-page .bottom .left #pickable-pictures .pickable-picture:hover {
   cursor: pointer;
 }
 html body main .product-page .bottom .left #displayed-picture {
-  width: 703px;
-  margin-left: 24px;
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
+  width: 703px;
+  margin-left: 24px;
   padding: 468.5px 0px;
 }
 html body main .product-page .bottom .right {
@@ -761,12 +759,12 @@ html body main .product-page .bottom .right {
   position: relative;
 }
 html body main .product-page .bottom .right #information-box {
+  display: flex;
+  flex-direction: column;
   position: absolute;
   top: 0px;
   right: 0px;
   width: 80.7339449541%;
-  display: flex;
-  flex-direction: column;
 }
 html body main .product-page .bottom .right #information-box .product-name span {
   color: #10151f;
@@ -788,9 +786,9 @@ html body main .product-page .bottom .right #information-box .color-indicator sp
   font-weight: 400;
 }
 html body main .product-page .bottom .right #information-box .pickable-colors {
-  width: fit-content;
   display: flex;
   align-items: center;
+  width: fit-content;
   margin-top: 16px;
   margin-bottom: 48px;
 }
@@ -881,13 +879,13 @@ html body main .product-page .bottom .right #information-box .number-of-product-
   font-weight: 400;
 }
 html body main .product-page .bottom .right #information-box #add-to-cart {
-  outline: none;
   border: none;
-  border-radius: 10px;
-  background-color: #ff4000;
+  outline: none;
   display: flex;
   justify-content: center;
   align-items: center;
+  border-radius: 10px;
+  background-color: #ff4000;
   padding: 16px 0px;
 }
 html body main .product-page .bottom .right #information-box #add-to-cart #white-cart {
@@ -931,12 +929,12 @@ html body main .product-page .bottom .right #information-box .brand-container #b
   margin-bottom: 19px;
 }
 html body main .checkout-container {
-  width: 89.583%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
   margin: auto;
+  width: 89.583%;
   margin-top: 72px;
   margin-bottom: 188px;
   user-select: none;
@@ -951,9 +949,9 @@ html body main .checkout-container .top span {
   font-weight: 600;
 }
 html body main .checkout-container .bottom {
-  width: 100%;
   display: flex;
   justify-content: space-between;
+  width: 100%;
   align-items: stretch;
 }
 html body main .checkout-container .bottom .left {
@@ -981,10 +979,10 @@ html body main .checkout-container .bottom .left .form-bottom form {
 html body main .checkout-container .bottom .left .form-bottom form .fullname,
 html body main .checkout-container .bottom .left .form-bottom form .email,
 html body main .checkout-container .bottom .left .form-bottom form .address {
-  width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  width: 100%;
 }
 html body main .checkout-container .bottom .left .form-bottom form .fullname input,
 html body main .checkout-container .bottom .left .form-bottom form .email input,
@@ -1040,12 +1038,12 @@ html body main .checkout-container .bottom .right .info-container .shopping-cart
   margin-top: 36px;
 }
 html body main .checkout-container .bottom .right .info-container .shopping-cart-container .chosen-products .chosen-product .left-c {
-  width: 21.7391304348%;
-  padding: 67px 0px;
-  background-image: url("./images/Rectangle.svg");
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
+  width: 21.7391304348%;
+  padding: 67px 0px;
+  background-image: url("./images/Rectangle.svg");
   border: 1px solid #e1dfe1;
   border-radius: 10px;
 }
@@ -1076,29 +1074,28 @@ html body main .checkout-container .bottom .right .info-container .shopping-cart
   margin: 8px 0px;
 }
 html body main .checkout-container .bottom .right .info-container .shopping-cart-container .chosen-products .chosen-product .right-c .increase-remove {
-  width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  width: 100%;
   margin-top: 13px;
 }
 html body main .checkout-container .bottom .right .info-container .shopping-cart-container .chosen-products .chosen-product .right-c .increase-remove .flactuation {
-  width: 20.4081632653%;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  width: 20.4081632653%;
   padding: 4px 8px;
   border: 1px solid #e1dfe1;
   border-radius: 22px;
-  /* Chrome, Safari, Edge, Opera */
 }
 html body main .checkout-container .bottom .right .info-container .shopping-cart-container .chosen-products .chosen-product .right-c .increase-remove .flactuation #minus-sign {
   width: 22.8571428571%;
 }
 html body main .checkout-container .bottom .right .info-container .shopping-cart-container .chosen-products .chosen-product .right-c .increase-remove .flactuation #number-of-chosen-products {
-  width: 25.7142857143%;
   border: none;
   outline: none;
+  width: 25.7142857143%;
   color: #10151f;
   font-size: 12px;
   font-weight: 400;
@@ -1149,11 +1146,11 @@ html body main .checkout-container .bottom .right .info-container #error-text {
   margin-bottom: 8px;
 }
 html body main .checkout-container .bottom .right .info-container #checkout-button {
+  border: none;
+  outline: none;
   width: 100%;
   padding: 16px 0px;
-  border: none;
   border-radius: 10px;
-  outline: none;
   background-color: #ff4000;
 }
 html body main .checkout-container .bottom .right .info-container #checkout-button span {
@@ -1165,23 +1162,24 @@ html body main .checkout-container .bottom .right .info-container #checkout-butt
   cursor: pointer;
 }
 html body main #congratulations-container {
+  display: none;
+  justify-content: center;
+  align-items: center;
   position: fixed;
   top: 0;
   width: 100%;
   min-height: 100vh;
-  display: none;
-  justify-content: center;
-  align-items: center;
   background-color: rgba(16, 21, 31, 0.3);
   user-select: none;
 }
 html body main #congratulations-container .congratulations-box {
-  position: relative;
-  width: 45.625%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin: auto;
+  position: relative;
+  width: 45.625%;
   background-color: white;
 }
 html body main #congratulations-container .congratulations-box #deleteXSign {
@@ -1194,12 +1192,12 @@ html body main #congratulations-container .congratulations-box #deleteXSign:hove
   cursor: pointer;
 }
 html body main #congratulations-container .congratulations-box .c-container {
-  width: 30%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  text-align: center;
+  margin: auto;
+  width: 30%;
   margin: 0px 322px;
   margin-top: 114px;
   margin-bottom: 74px;
@@ -1217,10 +1215,10 @@ html body main #congratulations-container .congratulations-box .c-container #pla
   font-weight: 400;
 }
 html body main #congratulations-container .congratulations-box #continue-shopping {
+  border: none;
+  outline: none;
   width: 24.42922374%;
   height: 41px;
-  outline: none;
-  border: none;
   background-color: #ff4000;
   border-radius: 10px;
   margin-bottom: 145px;
@@ -1234,12 +1232,12 @@ html body main #congratulations-container .congratulations-box #continue-shoppin
   cursor: pointer;
 }
 html body main .card-container {
+  display: none;
+  justify-content: end;
   position: fixed;
   top: 0;
   width: 100%;
   min-height: 100vh;
-  display: none;
-  justify-content: end;
   background-color: rgba(16, 21, 31, 0.3);
 }
 html body main .card-container .vertical-shopping-container {
@@ -1264,9 +1262,9 @@ html body main .card-container .vertical-shopping-container .top span {
   font-weight: 500;
 }
 html body main .card-container .vertical-shopping-container .bottom .shopping-cart-container {
-  width: 100%;
   display: flex;
   flex-direction: column;
+  width: 100%;
   margin-top: 63px;
 }
 html body main .card-container .vertical-shopping-container .bottom .shopping-cart-container .chosen-products {
@@ -1283,11 +1281,11 @@ html body main .card-container .vertical-shopping-container .bottom .shopping-ca
   margin-top: 36px;
 }
 html body main .card-container .vertical-shopping-container .bottom .shopping-cart-container .chosen-products .chosen-product .left-c {
-  width: 21.7391304348%;
-  padding: 67px 0px;
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
+  width: 21.7391304348%;
+  padding: 67px 0px;
   border: 1px solid #e1dfe1;
   border-radius: 10px;
 }
@@ -1318,29 +1316,28 @@ html body main .card-container .vertical-shopping-container .bottom .shopping-ca
   margin: 8px 0px;
 }
 html body main .card-container .vertical-shopping-container .bottom .shopping-cart-container .chosen-products .chosen-product .right-c .increase-remove {
-  width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  width: 100%;
   margin-top: 13px;
 }
 html body main .card-container .vertical-shopping-container .bottom .shopping-cart-container .chosen-products .chosen-product .right-c .increase-remove .flactuation {
-  width: 20.4081632653%;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  width: 20.4081632653%;
   padding: 4px 8px;
   border: 1px solid #e1dfe1;
   border-radius: 22px;
-  /* Chrome, Safari, Edge, Opera */
 }
 html body main .card-container .vertical-shopping-container .bottom .shopping-cart-container .chosen-products .chosen-product .right-c .increase-remove .flactuation #minus-sign {
   width: 22.8571428571%;
 }
 html body main .card-container .vertical-shopping-container .bottom .shopping-cart-container .chosen-products .chosen-product .right-c .increase-remove .flactuation #number-of-chosen-products {
-  width: 25.7142857143%;
   border: none;
   outline: none;
+  width: 25.7142857143%;
   color: #10151f;
   font-size: 12px;
   font-weight: 400;
@@ -1363,7 +1360,7 @@ html body main .card-container .vertical-shopping-container .bottom .shopping-ca
   margin-top: 0px;
 }
 html body main .card-container .vertical-shopping-container .bottom .shopping-cart-container .chosen-products::-webkit-scrollbar {
-  display: none; /* Chrome, Safari */
+  display: none;
 }
 html body main .card-container .vertical-shopping-container .bottom .shopping-cart-container .totals {
   margin-bottom: 102px;
@@ -1390,11 +1387,11 @@ html body main .card-container .vertical-shopping-container .bottom .shopping-ca
   font-weight: 500;
 }
 html body main .card-container .vertical-shopping-container .bottom #checkout-redirection-button {
+  border: none;
+  outline: none;
   width: 100%;
   padding: 16px 0px;
-  border: none;
   border-radius: 10px;
-  outline: none;
   background-color: #ff4000;
 }
 html body main .card-container .vertical-shopping-container .bottom #checkout-redirection-button span {
@@ -1403,18 +1400,19 @@ html body main .card-container .vertical-shopping-container .bottom #checkout-re
   font-weight: 500;
 }
 html body main .card-container .vertical-shopping-container .bottom .empty-cart-container {
-  width: 100%;
-  display: none;
+  display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin: auto;
+  width: 100%;
   margin-top: 151px;
   user-select: none;
 }
 html body main .card-container .vertical-shopping-container .bottom .empty-cart-container .ooops-container {
-  width: 100%;
   display: flex;
   flex-direction: column;
+  width: 100%;
   align-items: center;
 }
 html body main .card-container .vertical-shopping-container .bottom .empty-cart-container .ooops-container .ooops-text {
@@ -1430,12 +1428,12 @@ html body main .card-container .vertical-shopping-container .bottom .empty-cart-
   font-weight: 400;
 }
 html body main .card-container .vertical-shopping-container .bottom .start-shopping-button {
+  border: none;
+  outline: none;
   width: 39.629%;
   padding: 10px 0px;
   margin-top: 56px;
-  border: none;
   border-radius: 10px;
-  outline: none;
   background-color: #ff4000;
 }
 html body main .card-container .vertical-shopping-container .bottom .start-shopping-button span {

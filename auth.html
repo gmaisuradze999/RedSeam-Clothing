@@ -1,9 +1,12 @@
+<!-- Authentication page container -->
 <div class="authorization">
   <div class="left"></div>
   <div class="right">
+    <!-- Login form - initially visible -->
     <form id="log-in">
       <span class="log-in-header"> Log in </span>
       <div class="input-container">
+        <!-- Email/username input with custom placeholder handling -->
         <div class="email-username-container">
           <span class="fake-placeholder"> * </span>
           <input
@@ -14,6 +17,7 @@
             onkeydown="fakePlaceholderDisplay(this, event)"
           />
         </div>
+        <!-- Password input with show/hide functionality -->
         <div class="password-container">
           <span class="fake-placeholder"> * </span>
           <input
@@ -31,26 +35,35 @@
           />
         </div>
       </div>
+      <!-- Error message display for login validation -->
       <div class="error-message"></div>
+      <!-- Login button that triggers auth() function -->
       <button type="button" class="log-in-button" onclick="auth()">
         <span class="log-in-button-text"> Log in </span>
       </button>
+      <!-- Registration link that switches to registration form -->
       <div class="redirection">
         <span class="not-member"> Not a member? </span>
         <span class="registration-url" onclick="switchLogInRegistration('Registration')"> Register </span>
       </div>
     </form>
+    <!-- Registration form - initially hidden -->
     <form id="registration">
       <span class="registration-header"> Registration </span>
+      <!-- Profile picture upload section -->
       <div class="picture-container">
         <div class="file-input-wrapper">
+          <!-- Profile picture preview container -->
           <div id="profile-picture"></div>
+          <!-- Hidden file input for image upload -->
           <input type="file" id="file-input" name="file-input" onchange="profilePictureSelector(this)" hidden>
           <label for="file-input" class="upload-new-image">Upload new</label>
+          <!-- Remove image button -->
           <span class="remove-image" id="file-name" onclick="profilePictureRemoval(this)">Remove</span>
         </div>
       </div>
       <div class="input-container">
+        <!-- Username input -->
         <div class="username-input-container">
           <span class="fake-placeholder"> * </span>
           <input
@@ -62,6 +75,7 @@
             onkeydown="fakePlaceholderDisplay(this, event)"
           />
         </div>
+        <!-- Email input -->
         <div class="email-input-container">
           <span class="fake-placeholder"> * </span>
           <input
@@ -73,6 +87,7 @@
             onkeydown="fakePlaceholderDisplay(this, event)"
           />
         </div>
+        <!-- Password input with show/hide functionality -->
         <div class="password-input-container">
           <span class="fake-placeholder"> * </span>
           <input
@@ -90,6 +105,7 @@
             onclick="fakeEyeDisplay(this)"
           />
         </div>
+        <!-- Password confirmation input -->
         <div class="confirm-password-input-container">
           <span class="fake-placeholder"> * </span>
           <input
@@ -108,10 +124,13 @@
           />
         </div>
       </div>
+      <!-- Error message display for registration validation -->
       <div class="error-message"></div>
+      <!-- Registration button that triggers registration() function -->
       <button type="button" class="registration-button" onclick="registration()">
         <span class="registration-button-text"> Register </span>
       </button>
+      <!-- Login link that switches back to login form -->
       <div class="rerouting">
         <span class="already-member"> Already member? </span>
         <span class="log-in-url" onclick="switchLogInRegistration('Log in')"> Log in </span>
